@@ -1,0 +1,27 @@
+	----Oberpunkt : Muss-/Wunsch-/Abgrenzungs-kriterien
+
+		Înhalt: 
+
+
+
+	----Oberpunkt : Usecasediagramm
+
+		Înhalt: 
+
+
+
+	----Oberpunkt : Usecase beschreibungen
+
+		Înhalt: 
+
+
+
+	----Oberpunkt : Beschreibung der Mini-Spiele
+
+		Înhalt: 
+
+
+
+		___________________________________________________
+
+		Fremdwörter :
