@@ -1,15 +1,56 @@
-		Oberpunkt : Anwendungsbereich
+	----Oberpunkt : Anwendungsbereich
 
 		Înhalt: 
 
-		Oberpunkt : Anwendergruppen
+		Unser Anwendungsbereich ist das B.I.B, unsere Applikation wird unter anderen am Tag der offenen Tür eingesetzt um dort den Interresenten das B.I.B und das Umfeld des B.I.B's näher zu bringen auf eine Spielerische Art und Weise.
+
+
+
+	----Oberpunkt : Anwendergruppen
 
 		Înhalt: 
 
-		Oberpunkt : Basismaschine
+		Unsere Anwendergruppe sind B.I.B Schüler und interessierte Menschen, welche sich am B.I.B bewerben wollen und den Tag der offenen Tür besuchen. 
+
+
+
+	----Oberpunkt : Basismaschine
 
 		Înhalt: 
 
-		Oberpunkt : Mengengerüst
+		----Android Handy :
+
+			Android Version : 2.3.1 oder Höher
+
+		----iOS Handy :
+
+			iOs Version : 5.0
+
+		----Grundvorrausetzungen :
+
+			Internetzugriff
+
+			eine Kamera
+
+			GPS-Sensor#
+
+		----Optimale Systemvoraussetzungen :
+
+			CPU-Geschwindigkeit: Quad-Core 1,9 GHz
+
+			Arbeitsspeicher: 1 GB
+
+			Betriebssystem: Android | iOS
+
+
+
+	----Oberpunkt : Mengengerüst
 
 		Înhalt: 
+
+
+		Der Speicherverbrauch wird einige Megabyte nicht überschreiten. Es wird davon ausgegangen, dass  circa __s Megabyte an Speicher benötigt wird. Daten wie zum Beispiel Highscore Werte werden auf dem Handy nicht lokal gespeichert sondern werden wenn nötig abgerufen.
+
+		___________________________________________________
+
+		Fremdwörter :
