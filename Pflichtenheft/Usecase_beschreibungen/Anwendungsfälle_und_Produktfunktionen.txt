@@ -2,11 +2,17 @@
 
 		Înhalt: 
 
+		----Muss
+
+		----Kann
+
+		----Abgrenzung
+
 
 
 	----Oberpunkt : Usecasediagramm
 
-		Înhalt: 
+		Înhalt: 	
 
 
 
