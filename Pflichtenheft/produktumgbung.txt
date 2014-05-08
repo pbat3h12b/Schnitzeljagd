@@ -2,7 +2,7 @@
 
 		Înhalt: 
 
-		Unser Anwendungsbereich ist das B.I.B, unsere Applikation wird unter anderen am Tag der offenen Tür eingesetzt um dort den Interresenten das B.I.B und das Umfeld des B.I.B's näher zu bringen auf eine Spielerische Art und Weise.
+		Unser Anwendungsbereich ist das B.I.B und seine Umgebung, unsere Applikation wird unter anderen am Tag der offenen Tür eingesetzt um dort den Interresenten das B.I.B und das Umfeld des B.I.B's näher zu bringen auf eine Spielerische Art und Weise. Der Spieler soll durch das Spiel die Umgebung um das B.I.B untersuchen und kennen lernen.
 
 
 
@@ -10,7 +10,7 @@
 
 		Înhalt: 
 
-		Unsere Anwendergruppe sind B.I.B Schüler und interessierte Menschen, welche sich am B.I.B bewerben wollen und den Tag der offenen Tür besuchen. 
+		Unsere Hauptanwendergruppe sind interessierte Jungen, welche sich gerne am B.I.B bewerben wollen, und alle B.I.B Schüler. Desweiteren richten wir uns an alle Besucher der Tag der offnen Tür. 
 
 
 
@@ -32,11 +32,11 @@
 
 			eine Kamera
 
-			GPS-Sensor#
+			GPS-Sensor
 
 		----Optimale Systemvoraussetzungen :
 
-			CPU-Geschwindigkeit: Quad-Core 1,9 GHz
+			CPU-Geschwindigkeit: Dual-Core ???
 
 			Arbeitsspeicher: 1 GB
 
@@ -49,7 +49,9 @@
 		Înhalt: 
 
 
-		Der Speicherverbrauch wird einige Megabyte nicht überschreiten. Es wird davon ausgegangen, dass  circa __s Megabyte an Speicher benötigt wird. Daten wie zum Beispiel Highscore Werte werden auf dem Handy nicht lokal gespeichert sondern werden wenn nötig abgerufen.
+		Der Speicherverbrauch wird einige Megabyte nicht überschreiten. Es wird davon ausgegangen, dass  circa __ Megabyte an Speicher benötigt wird. Daten wie zum Beispiel Highscore Werte werden auf dem Handy nicht lokal gespeichert sondern werden wenn nötig abgerufen.
+
+		----Umfrage an unsere Klasse.
 
 		___________________________________________________
 
