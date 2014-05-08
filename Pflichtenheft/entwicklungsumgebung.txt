@@ -1,0 +1,43 @@
+
+Entwicklungsumgebung
+
+Unser System läßt sich in drei Teile aufteilen.
+
+Der erste Teil ist für die persitente Speicherung
+und Synchronisierung von Spieldaten zwischen allen
+Client sowie der Webseite zuständig. Dafür kommt ein
+LAMP Server zum Einsatz. Dieser Server bietet eine 
+Rest-API an. Über die API können Clients ihren eigenen
+Spielstand verfügbar machen und den andere Client 
+einsehen.
+
+Hierzu werden folgenede Komponenten benötigt:
+-LAMP server
+-phpmyAdmin
+-cherrypy
+
+
+
+Der zweite Teil ist eine Webseite zur darstellung
+von Statistiken. Die Webseite kann die Rest-API zur 
+Abfrage von Statisticken nutzen.
+
+Hierzu werden folgenede Komponenten benötigt:
+-LAMP server
+-Web Browser
+
+
+
+Der dritte Teil ist der Client auf den Handys.
+Die funktion des Clients ist in anderen Teilen des
+Pflichtenheftes näher spezifiziert.
+
+
+Hierzu werden folgende Komponenten benötigt:
+-Unity// Mono Developer C#
+-QR-Code Libary
+-Photoshop
+
+
+
+
