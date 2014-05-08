@@ -1,3 +1,5 @@
+/*André Münstermann*/
+
 CREATE TABLE User(
 nickname char(30),
 passwort char(30),
@@ -45,5 +47,6 @@ CREATE TABLE PosLog(
 	PRIMARY KEY(nick,datum)
 );
 
+/*Andre Münstermamn*/
 
 
