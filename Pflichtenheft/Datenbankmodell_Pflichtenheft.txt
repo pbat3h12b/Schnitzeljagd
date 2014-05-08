@@ -1,6 +1,6 @@
-Die relationale Datenbank beinhaltet die Tabellen User, Score, Minispiel, PosLog, Logbuchund Cache.
-Die Tabelle User ist das Zentrum der Datenbank. Für jedes Minispiel wird ein eintrag in die Tabelle Minispiel
-gemacht. Zwischen Minispiel und User besteht eine n zu m Beziehung und muss über eine Extra Tabelle Score 
+Die relationale Datenbank beinhaltet die Tabellen User, Score, Minispiel, PosLog, Logbuch und Cache.
+Die Tabelle User ist das Zentrum der Datenbank. Für jedes Minispiel wird ein Eintrag in die Tabelle Minispiel
+gemacht. Zwischen Minispiel und User besteht eine N zu M Beziehung und muss über eine Extratabelle Score 
 aufgelöst werden. In Score können die Punkte gespeichert werden.
-In der Tabelle Cache werden werden alle wichtigen Daten zu einem Cache gespeichert, wie z.B. den Ort.
-Zwischen Cache und User besteht eine n zu m Beziehung und muss daher über die Tabelle Logbuch aufgelöst werden.
+In der Tabelle Cache werden werden alle wichtigen Daten zu einem Cache gespeichert, wie z.B. der Ort.
+Zwischen Cache und User besteht eine N zu M Beziehung und muss daher über die Tabelle Logbuch aufgelöst werden.
