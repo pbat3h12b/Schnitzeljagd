@@ -1,9 +1,19 @@
 1 b.i.b. Eingang
+Der erste Cash befindet im Eingangsbereich des b.i.b. International College Paderborn. Dort befindet sich ein großer Qr-Code. 
 
 2 Zukunftsmeile
+Auf der Mitte der Zukunftsmeile befindet sich der nächste Qr-Code.
 
 3 Heinz Nixdorf Forum
+Der nächste Cach befindet sich am Eingang des Heinz Nixdorf Forums.
 
 4 Wohnheim
+Anschließend wird der Spieler zum Wohnheim des b.i.b. International Colleges geführt.
 
-5 b.i.b. Serverraum
+5 Fluss
+Sobald der Spieler das Rätsel am Wohnheim gelöst hat geht es weiter zum nahen Fluss. Hier findet das letzte Rätsel statt.
+
+6 b.i.b. Serverraum
+Des Finale des Spiels, ist vor dem Serverraum des b.i.b. International Colleges.
+
+Insgesamt sind die Caches so platziert, dass der Spieler einge gute Übersicht über das Gelände verschaffen kann.

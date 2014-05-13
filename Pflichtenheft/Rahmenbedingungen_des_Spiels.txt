@@ -13,10 +13,13 @@ Um diese Distanzierungsmöglichkeit auch zu gewährleisten, benutzen wir den Cel
 Desweiteren wird der Protagonist nicht im Spiel dargestellt, wodurch das Spiel beide Geschlechter anspricht.
 
 
-Der Spieleinstieg erfolgt durch das Aktivieren des Supercomputers Quantum. Er bildet den Antagonisten zum Spieler. Da er über kein emotionales denken verfügt, ist er berechnent und sucht eine logische Grundlage für Begründungen.
+Der Spieleinstieg erfolgt durch das Aktivieren des Supercomputers Quantum. Er bildet den Antagonisten zum Spieler. Da er über kein emotionales denken verfügt, ist er berechnent und sucht eine logische Grundlage für Begründungen. Seine Aufgabe ist es mit Hilfe einer Maschine die Atmosphäre zu reparieren.
 
+Zum einen Bekommt der Spieler Caches, welcher er mit Hilfe der Karte finden muss.
+Zum anderen gibt es an jedem Cach ein Rätsel, welches gelöst werden muss um den nächsten Cach freizuschalten. Das Lösen der Rätsel ist somit Kernelement für den Spielfortschritt. Falls der Spieler Hilfe braucht, den Qr-Code zu finden kann er Quantum (später auch den kleinen Helfer) um Tipps bitten.
 
-
+Ziel des Spiels ist es alle Rätsel zu lösen und alle Minispiele freizuschalten. Rätsel und Minispiele können später nochmal gespielt werden.
+Da es bei den Minispielen, darum geht so viele Punkte wie möglich zu erspielen, ist so für Langzeitmotivaton gesorgt.
 
 
 
