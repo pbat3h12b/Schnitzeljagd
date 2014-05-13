@@ -1,0 +1,51 @@
+Pflichtenheft
+Vorprojekt
+Klasse: PBA3H12B
+
+Zeitraum:
+Betreuende Dozentin: Frau Kehl
+
+
+Inhaltsverzeichnis  | Fehlt
+
+Abbildungsverzeichnis | Fehlt
+
+Zweck und Tragweite | ist da
+
+Produktumgebung | ist da
+- Anwendungsbereiche | ist da
+- Anwendergruppen | ist da
+- Basismaschine | ist da
+- Mengengerüst | ist da
+
+Spieldesign  | ist da
+- Spielidee | ist da
+- Spielablauf | ist da
+- Spielelemente | ist da
+
+Anwendungsfälle der Produktfunktionen | unvollständig
+- Auflistung der Anwendungsfälle | Fehlt
+	- Musskriterien | Fehlt
+	- Wunschkriterien | Fehlt
+	- Abgrenzungskriterien | Fehlt
+- Use-Case Diagramm | ist da
+- Use-Case Beschreibungen | ist da
+- Aktivitätsdigramme | ist da
+- Beschreibung Mini-Spiele | ist da
+
+Technische Anforderungen oder Produktleistung | Fehlt
+
+Datenbankmodell oder Produktdaten  | ist da
+
+Qualitätsanforderungen | ist da
+
+Benutzerschnittstelle | ist da
+- Darstellung | ist da
+- GUIs | ist da
+- Physische Eingabe | Fehlt
+
+Entwicklungsumgebung | ist da
+
+Literaturverzeichnis | Fehlt
+
+Glossar | Fehlt
