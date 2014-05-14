@@ -1,0 +1,24 @@
+Spielbeschreibung HNF
+Spielidee: Die Spielidee ist ein an Space Invaders orientiertes Spiel, dass als Zusatz im Laufe des Hauptspiels integriert wird.
+
+Spielablauf: Das Spiel wird von dem Helfer zur Verfügung gestellt, den man beim Heinz-Nixdorf Museum findet.
+Der Spieler hat die Aufgabe sein Raumschiff durch Angriffswellen von Gegnern zu führen und diese zu dabei zu zerstören.
+Er bekommt Punkte für jeden zerstörten Gegner die in einer Highscore Liste festgehalten werden. Das Spiel endet wenn der Spieler alle Leben verbraucht hat.
+
+Spielbeschreibung: 
+In dem Spiel schaut die Kamera von oben auf die Spielfigur herab und bewegt sich zusammen mit der Spielfigur nach vorne. 
+Die Spielfigur befindet sich am unteren Bildschirmrand und kann nach rechts und links schwenken. Sie hat einen unbegrenzten Munitionsvorrat. Die Gegner kommen von dem oberen Rand des Bildschirms. Sie bewegen sich langsam auf die Spielfigur zu und schießen dabei geradeaus wobei der Spieler den Geschossen ausweichen muss um die Gegner seinerseits zu zerstören.
+Dabei gibt es Gegnerklassen die unterschiedlich viele Punkte geben, je nachdem wie stark sie sind.
+Die Spielfigur des Spielers wird nach einem Treffer/einer Kollision mit einem Gegner zerstört, allerdings hat sie eine bestimmte Anzahl von Leben. In dem Fall einer Zerstörung des Spielers erscheint er wieder in der Mitte des unteren Bildschirmrandes mit einem Angriffsschutz von 2 Sekunden in denen er Zeit hat sich zu  orientieren.
+
+Spielelemente:
+- Raumschiff
+- Gegner (Alien-Raumschiffe)
+- Highscore
+- Schusspartikel
+
+Um den nächsten Cache zu erhalten muss man einen Frage-Antwort Dialog mit dem Helfer durchgehen, der einem erst nicht gewillt ist den Standort zu verraten. Dabei kann man auch falsche Dialogpfade auswählen. In dem Fall muss man das Spiel von Vorne anfangen.
+
+Glossar:
+Cache
+Highscore
