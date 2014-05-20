@@ -1,0 +1,15 @@
+Serverraum Spiel / Bosskampf
+Muss
+	Der Anwender hat eine Schaltfläche.
+	Der Anwender bekommt Anweisungen was er tun muss auf dem oberen Bildschirmteil.
+	Der Anwender hat eine Zeitbegrenzung für alle Anweisungen.
+	Das Spiel hat mehrere Level.
+
+Kann
+	Der Anwender hat Soundeffekte.
+	Die Schaltfläche zerfällt nach einiger Zeit um das Spiel zu erschweren.
+
+Abgrezungskriterien
+
+Technische Anforderungen
+	Das Spiel sollte nicht unnötig viel Speicher verbrauchen.
