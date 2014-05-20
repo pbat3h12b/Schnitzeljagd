@@ -1,0 +1,8 @@
+Datenbank und RestAPI
+Muss
+	Das entwickelte Datenbankmodell abbilden.
+	Die für die Website benötigten Daten bereit stellen.
+	Die für die App benötigten Daten bereit stellen.
+Kann
+	Benutzerauthentifizierung
+
