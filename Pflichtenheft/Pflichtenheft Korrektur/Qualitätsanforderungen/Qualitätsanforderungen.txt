@@ -1,2 +1,2 @@
-5.	Qualitätsanforderungen
-Die Benutzbarkeit und Zuverlässigkeit des Service ist besonders wichtig. Die Nutzer müssen schnell und intuitiv verstehen wie der Service zu bedienen ist. Die Effizienz sehr wichtig, da wir dem Benutzer kein Produkt anbieten wollen, welches zu groß zum runterladen ist.
+﻿5.	Qualitätsanforderungen
+Die Benutzbarkeit und Zuverlässigkeit des Service ist besonders wichtig. Die Nutzer müssen schnell und intuitiv verstehen wie der Service zu bedienen ist. Die Effizienz ist sehr wichtig, da wir dem Benutzer kein Produkt anbieten wollen, welches zu groß zum Runterladen ist.
