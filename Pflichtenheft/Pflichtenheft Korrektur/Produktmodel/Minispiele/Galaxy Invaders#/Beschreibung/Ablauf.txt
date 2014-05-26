@@ -1,0 +1,1 @@
+Das Spiel wird von dem Helfer zur Verfügung gestellt, den man beim Heinz-Nixdorf Museum findet. Der Spieler hat die Aufgabe sein Raumschiff durch Angriffswellen von Gegnern zu führen und diese dabei zu zerstören. Er bekommt Punkte für jeden zerstörten Gegner, die in einer Highscore Liste festgehalten werden. Das Spiel endet, wenn der Spieler alle Leben verbraucht hat.

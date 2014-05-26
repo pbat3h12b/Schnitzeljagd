@@ -1,0 +1,48 @@
+GUI
+
+Muss
+	Der Anwender hat eine texturierte GUI.
+	Der Anwender hat texturierte Spielgegenstände.
+	Die GUI hat Designrichtlinien.
+	Helfer,Quantum und Karte müssen gestaltet werden.
+
+Kann
+	Die Texturieren haben den Cel Shading Grafikstil.
+	Der Anwender hat Animationen im Spiel.
+
+Abgrezungskriterien
+	
+Technische Anforderungen
+	Alle Bilder müssen als PNG gespeichert werden.
+	Alle Bilder sollten nicht unnötig groß skaliert sein.
+	
+
+Story
+
+Muss
+	Der Anwender hat eine Geschichte in die er eingeführt wird.
+	Der Anwender hat eine Geschichte die ihm erzählt wird.
+	Der Anwender hat Dialoge die ihm dargestellt werden.
+
+Kann
+
+	Der Anwender hat Musik im Hintergrund.
+
+
+
+HNF Spiel / Galaxy Invaders
+
+Muss
+	Der Anwender hat eine bewegbare Spielfigur.
+	Der Anwender hat 3 verschiedene Gegner.
+	Der Anwender hat einen Highscore, der gespeichert wird.
+	Der Anwender kann ein Projektil auf Gegner schießen.
+
+Kann
+	Der Anwender hat Soundeffekte.
+	Der Anwender hat Animationen im Spiel.
+
+Abgrezungskriterien
+
+Technische Anforderungen
+	Das Spiel sollte nicht unnötig viel Speicher verbrauchen.

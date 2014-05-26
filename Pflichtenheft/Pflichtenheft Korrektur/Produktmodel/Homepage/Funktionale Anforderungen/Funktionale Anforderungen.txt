@@ -1,0 +1,15 @@
+4.3.3 Funktionale Anforderungen
+4.3.3.1 Muss-Kriterien
+•	/IS101/ Als Spieler möchte ich das Spiel von der Internetseite herunterladen.
+•	/IS102/ Spieler möchte ich auf der Internetseite auf allgemeine Informationen zum Spiel zugreifen können. 
+•	/IS103/ Als Spieler möchte ich auf der Internetseite allgemeine Informationen zum Team abrufen können. 
+•	/IS104/ Als Spieler möchte ich auf der Internetseite auf allgemeine Statistiken zugreifen können.
+•	/IS105/ Als Spieler möchte ich auf Statistiken einzelner Spieler zugreifen können. 
+4.3.3.2 Kann-Kriterien
+•	/IS106/ Als Spieler möchte ich Gästebucheinträge auf der Seite hinzufügen und abrufen können.
+•	/IS107/ Als Spieler möchte ich eine Livemap der Spieler einsehen.
+4.3.3.3 Abgrenzungs-Kriterien
+4.3.4 Nicht-Funktionale Anforderungen
+•	/ISPL101/ Die Internetseite soll ein Responsive Webdesign erhalten.
+•	/ISPL101/ Das Menü soll ein Dropdown Menü sein. 
+•	/ISPL101/ Auf einem Smartphone soll ein Accordion Menü dargestellt werden. 

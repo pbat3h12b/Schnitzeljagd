@@ -1,0 +1,3 @@
+4.1.5 Nicht-Funktionale Anforderungen
+4.1.5.1 Abdeckung des Handymarktes
+Dadurch, dass wir uns auf Android und iOS beziehen, decken wir hier bei schon 93,8% aller Nutzer ab, hierbei nimmt Android 78,9% ein und iOS 14,9%. Da wir aber nicht alle Versionen der Betriebssysteme abdecken können haben wir die meist benutzten gewählt. Durch das wählen von Android 2.3.1 oder höher decken wir ganze 99% alle Benutzer ab, bei iOs und Version 5.0 oder höher sind dies 96% oder sogar etwas mehr. Somit belaufen wir uns auf eine 92,41% Abdeckung auf dem Handy Markt.

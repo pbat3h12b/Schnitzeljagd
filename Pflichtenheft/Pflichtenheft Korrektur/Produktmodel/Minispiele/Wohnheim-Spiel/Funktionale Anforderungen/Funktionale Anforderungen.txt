@@ -1,0 +1,10 @@
+4.2.5.3 Funktionale Anforderungen
+4.2.5.3.1 Muss-Kriterien
+•	W101/Als Spieler möchte ich die Spielfigur über vier Pfeiltasten steuern können.
+•	W102/Als Spieler möchte ich eine Zeitleiste zur Kontrolle der Zeit haben.
+•	W103/Als Spieler möchte ich unterschiedliche Labyrinthe als Herausforderung erhalten.
+•	W104/Als Spieler möchte ich den gegangenen Weg rot gekennzeichnet haben.
+4.2.5.3.2 Kann-Kriterien
+•	W105/Als Spieler möchte ich Hindernisse haben, welche das Spiel schwieriger machen.
+•	W106/Als Spieler möchte ich Hilfsmittel haben, welche mir helfen, Hindernisse zu überwinden.
+4.3.5.3.3 Abgrenzungs-Kriterien

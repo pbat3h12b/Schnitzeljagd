@@ -1,0 +1,1 @@
+Das Spiel ist inspiriert von dem Smartphone Spiel „Space Team“. Hierbei muss der Spieler den Anweisungen auf dem oberen Teil des Bildschirms folgen und sie auf der unteren Seite des Bildschirms ausführen. Der Boss (Super Computer) muss davon abgehalten werden sich voll aufzuladen.

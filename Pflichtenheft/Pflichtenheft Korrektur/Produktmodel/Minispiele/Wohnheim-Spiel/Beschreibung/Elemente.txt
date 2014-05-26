@@ -1,0 +1,8 @@
+•	Zeitleiste: Die Zeitleiste ist am oberen Bildschirmrand und zeigt die verbleibende Zeit.
+•	Pfeiltasten: Rechtsunten sind die Pfeiltasten, welche zur Steuerung benötigt werden.
+•	Zeitbegrenzer: Die Zeitbegrenzer werden wie die Hindernisse zufällig im Labyrinth verstreut, sammelt der Spieler einen Zeitbegrenzer ein, so wird ihm Zeit abgezogen.
+•	Start: Der Start befindet sich im linken Bereich, von hier aus fängt der Spieler an.
+•	Ziel: Das Ziel befindet sich im rechten Bereich, hier muss der Spieler in der vorgegebenen Zeit hinkommen.
+•	Hindernisse und Hilfsmittel: Manchmal sind Steine oder Hecken im Weg, welche man durch Hilfsmittel, die man im Labyrinth findet, entfernen kann.
+o	Steine: Die Steine versperren den Weg und können nur durch die Mini-Bombe zerstört werden.
+o	Hecken: Die Hecke versperrt den Weg und können nur durch die Heckenschere zerstört werden.

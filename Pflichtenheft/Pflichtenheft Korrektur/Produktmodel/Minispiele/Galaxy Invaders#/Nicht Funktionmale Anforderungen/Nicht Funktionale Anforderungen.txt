@@ -1,0 +1,2 @@
+4.2.3.4 Nicht Funktionale Anforderungen
+•	/GI07/ Das Spiel sollte nicht unnötig viel Speicher verbrauchen.

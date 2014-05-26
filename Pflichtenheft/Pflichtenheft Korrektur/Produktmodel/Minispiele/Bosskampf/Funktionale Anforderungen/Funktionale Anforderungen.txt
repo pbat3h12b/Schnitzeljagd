@@ -1,0 +1,9 @@
+4.2.2.3 Funktionale Anforderungen
+4.2.2.3.1 Muss-Kriterien
+•	/BK101/ Als Spieler möchte ich Anweisungen erhalten.
+•	/BK102/ Als Spieler möchte ich eine Zeitbegrenzung für alle Anweisungen haben.
+•	/BK103/ Als Spieler möchte ich mehrere Level spielen können.
+4.2.2.3.2 Kann-Kriterien
+•	/BK104/ Als Spieler möchte ich Soundeffekte im Spiel haben.
+•	/BK105/ Als Spieler möchte ich das die Schaltfläche nach einiger Zeit zerfällt.
+4.2.2.3.3 Abgrenzungs-Kriterien
