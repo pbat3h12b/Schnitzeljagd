@@ -1,0 +1,10 @@
+4.2.3.3 Funktionale Anforderungen
+4.2.3.3.1 Muss-Kriterien
+•	/GI01/ Der Spieler möchte eine bewegbare Spielfigur.
+•	/GI02/ Der Spieler möchte 3 verschiedene Gegner.
+•	/GI03/ Der Spieler möchte einen Highscore, der gespeichert wird.
+•	/GI04/ Der Spieler möchte ein Projektil auf Gegner schießen
+4.2.3.3.2 Kann-Kriterien
+•	/GI05/ Der Spieler möchte Soundeffekte.
+•	/GI06/ Der Spieler möchte Animationen im Spiel.
+4.2.3.3.3 Abgrenzungs-Kriterien
