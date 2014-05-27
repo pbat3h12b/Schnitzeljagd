@@ -12,9 +12,9 @@ Sämtliche Felder sind für die Benutzung von mobilen Touch-Geräten entworfen u
 4.1.6.1 Der Login Bereich
 
 
-Username\Textfeld:  Hierwird der Benutzername eingegeben.
+Username\Textfeld:  Hier wird der Benutzername eingegeben.
 Passwort\Textfeld: Hier gibt der Anwender sein Passwort ein.
-Login\Button: Wenn man sich mit vorhandenen Username und dazugehörigem Passwort anmeldet gelangt man in das Hauptmenü.
+Login\Button: Wenn man sich mit vorhandenem Username und dazugehörigem Passwort anmeldet gelangt man in das Hauptmenü.
 Noch keinen Account? Hier Registrieren\Link:  Von hier aus gelangt man ins „Registrieren“ Fenster.
 
 

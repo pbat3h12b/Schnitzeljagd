@@ -8,7 +8,7 @@
 •	PF 105 Als Spieler möchte ich die Karte einsehen können
 •	PF 106 Als Spieler möchte ich Caches freischalten können
 •	PF 107 Als Spieler möchte ich einen Logbuch Eintrag erstellen können
-•	PF 108 Als Spieler möchte ich Rätsel machen können
+•	PF 108 Als Spieler möchte ich Rätsel lösen können
 4.1.3.2 Kann-Kriterien
 4.1.3.2.1 Datenbank
 •	TF 101 Der Benutzer authentifiziert
