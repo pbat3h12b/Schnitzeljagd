@@ -5,6 +5,7 @@ Unser Anwendungsbereich ist das b.i.b. und seine Umgebung, unsere Applikation wi
 3.2 Anwendergruppe
 
 Unsere Hauptanwendergruppe sind alle männlichen Erstsemester-Studenten, da der Spiel vom Style eher die männliche Studenten ansprechen und am b.i.b. die meisten Studenten männlich sind, welche neu am b.i.b sind und sich dort noch nicht so gut auskennen. Dennoch kann das Spiel von alle Studenten gespielt werden.
+
 3.4 Basismaschine
 Android Handy :
 •	Android Version : ab Version 2.3.1
