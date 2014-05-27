@@ -1,13 +1,16 @@
 3.	Produktumgebung
 3.1 Anwendungsbereiche
-Unser Anwendungsbereich ist das b.i.b und seine Umgebung, unsere Applikation wird unter anderen am Anfang des ersten Semesters der neuen Studenten eingesetzt, um dort den neuen Erst Semester-Studenten des b.i.b und das Umfeld näher zu bringen auf eine Spielerische Art und Weise. Der Spieler soll durch das Spiel diese Umgebung untersuchen und kennen lernen.
+
+Unser Anwendungsbereich ist das b.i.b. und seine Umgebung, unsere Applikation wird unter anderem am Anfang des ersten Semesters der neuen Studenten eingesetzt, um dort den neuen Erstsemester-Studenten des b.i.b. und das Umfeld, auf eine Spielerische Art und Weise, näher zu bringen. Der Spieler soll durch das Spiel diese Umgebung untersuchen und kennen lernen.
 3.2 Anwendergruppe
-Unsere Hauptanwendergruppe sind alle Erst Semester-Studenten, welche neu am b.i.b sind und sich dort noch nicht so gut auskennen.
+
+Unsere Hauptanwendergruppe sind alle männlichen Erstsemester-Studenten, da der Spiel vom Style eher die männliche Studenten ansprechen und am b.i.b. die meisten Studenten männlich sind, welche neu am b.i.b sind und sich dort noch nicht so gut auskennen. Dennoch kann das Spiel von alle Studenten gespielt werden.
+
 3.4 Basismaschine
 Android Handy :
-•	Android Version : 2.3.1 oder Höher
+•	Android Version : ab Version 2.3.1
 iOS Handy :
-•	iOs Version : 5.0
+•	iOs Version : ab Version 5.0
 Grundvorrausetzungen :
 •	Internetzugriff
 •	eine Kamera
@@ -27,4 +30,4 @@ Server:
 •	20GB Festplatte
 
 3.5 Mengengerüst
-Der Speicherverbrauch wird einige Megabyte nicht überschreiten. Es wird davon ausgegangen, dass  circa 100 Megabyte an Speicher benötigt wird. Daten wie zum Beispiel Highscore Werte werden auf dem Handy nicht lokal gespeichert, sondern werden wenn nötig abgerufen. Alle Benutzer Daten für 10 Jahre gespeichert.
+Der Speicherverbrauch wird einige Megabyte nicht überschreiten. Es wird davon ausgegangen, dass  circa 100 Megabyte an Speicher benötigt wird. Daten, wie zum Beispiel Highscore Werte, werden auf dem Handy nicht lokal gespeichert, sondern werden, wenn nötig, abgerufen. Alle Benutzer Daten werden für 10 Jahre gespeichert.
