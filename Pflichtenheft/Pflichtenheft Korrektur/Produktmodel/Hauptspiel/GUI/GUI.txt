@@ -1,0 +1,106 @@
+4.1.6 GUI
+Sämtliche Felder sind für die Benutzung von mobilen Touch-Geräten entworfen und implementiert, sodass der Spieler mit einem Klick (mit dem Finger) darauf zugreifen kann.
+
+
+
+
+
+
+
+
+
+4.1.6.1 Der Login Bereich
+
+
+Username\Textfeld:  Hier wird der Benutzername eingegeben.
+Passwort\Textfeld: Hier gibt der Anwender sein Passwort ein.
+Login\Button: Wenn man sich mit vorhandenem Username und dazugehörigem Passwort anmeldet gelangt man in das Hauptmenü.
+Noch keinen Account? Hier Registrieren\Link:  Von hier aus gelangt man ins „Registrieren“ Fenster.
+
+
+
+4.1.6.2 Registrieren
+
+Username\Textfeld: Hier wird der Wunschbenutzername eingegeben.
+
+Email\Textfeld: Aus Sicherheitsgründen wird auch eine Email angegeben.
+
+Passwort/Passwort wdh. \Textfeld: Um seinen Account zu schützen gibt der Anwender ein Passwort ein. Dieses bestätigt er dann, durch erneute Eingabe des gleichen Passworts.
+
+Registrieren\Button: 	Sofern alle Angaben
+ordnungsgemäß gemacht wurden, wird der Account
+Angelegt. Ansonsten wird eine entsprechende Fehlermeldung ausgegeben.
+
+
+
+
+
+
+
+ 
+
+4.1.6.3 Das Hauptmenü
+
+
+
+
+
+
+
+
+
+Karte anzeigen\Button: Von hier aus gelangt der Spieler zu der Live Map .
+Alle Spiele anzeigen\Button: Von hier aus gelangt man zu den Freigeschalteten Minispielen.
+
+
+
+4.1.6.4 Das Spielmenü
+
+
+
+
+
+High score\Label:  Hier werden die Freigeschalteten Spiele mit zugehörigem High Score angezeigt.
+
+Bild\Button: Sobald auf das Bild von einem Spiel geklickt wird, wird es gestartet.
+[Die Bilder werden durch die Spiele ersetzt]
+Falls der Spieler ins Hauptmenü zurück will, muss er dies durch Drücken der Zurück-Taste bestätigen. Für IOS-Geräte gibt es einen Zurück-Button.
+
+4.1.6.5 Die Karte
+
+
+
+
+
+
+
+
+
+Die Live Map zeigt die Aktuelle Position vom Spieler und dem nächsten Spieler.
+Quantum\Button: Der Quantum gibt einem eine Hilfestellung zu den jeweiligen Caches.
+QR-Code Scannen\Button:  Von hier aus gelangt man zum QR-Code Scanner .
+Helfer\Button:  Der Helfer wird später freigeschaltet.  Er bietet zusätzliche Hilfe zu den Minispielen.
+
+4.1.6.6 QR-Code Scanner
+
+
+
+
+
+
+
+
+Scannen\Button: Startet den QR-Code Scan.
+Man muss die Kamera auf den QR-Code richten.
+
+
+4.1.6.7 Logbuch
+
+
+
+
+
+
+
+Die Logbuch Nachricht wird nach einem erfolgreichen Scan angezeigt.
+Anschließend kann die Logbuchnachricht gesendet werden.

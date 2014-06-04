@@ -1,0 +1,4 @@
+4.3.4 Nicht-Funktionale Anforderungen
+•	/ISPL101/ Die Internetseite soll ein Responsive Webdesign erhalten.
+•	/ISPL101/ Das Menü soll ein Dropdown Menü sein. 
+•	/ISPL101/ Auf einem Smartphone soll ein Accordion Menü dargestellt werden. 

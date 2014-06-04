@@ -1,0 +1,10 @@
+6.1 Minispiele
+Die geschriebenen Klassen lassen sich mittels Unit Tests testen. Ansonsten werden die Unityszenen per Built & Run getestet, so finden sich in Unity3d die meisten Fehler. Am Ende werden alle Kernelemente auf den Testmaschinen getestet, da automatische Tests auf einem Android Handy sind nicht möglich.
+
+6.2 Internetwebsite
+Für die Internetwebsite bietet sich Selenium als Testwerkzeug an. Es erleichtert das Testen von Webformularen, wodurch das Testen schneller, flexibler und verlässlicher wird. Selenium kann auch als Firefox-Addon installiert werden und ist kostenlos.
+
+6.3 Datenbank
+Die Datenbank kann lediglich Logikfehler beinhalten, so können zum Beispiel Redundanzen nicht mit einem automatischen Test gesichtet werden. Daher ist es wichtiger die Clienteingaben zu überprüfen. Dies kann per Unit Tests innerhalb der Unityklassen, welche für die Clienteingaben zuständig sind, getestet werden.
+
+Die Testmaschinen für die Spielelemente, sind Handys, die von den Studierenden zur Verfügung gestellt werden.

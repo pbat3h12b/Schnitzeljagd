@@ -1,0 +1,3 @@
+4.2.2.4 Nicht Funktionale Anforderungen
+•	/BKNF101/ Das Spiel sollte nicht unnötig viel Speicher verbrauchen.
+•	/BKNF102/ Der Anwender hat eine Schaltfläche um Anweisungen auszuführen.

@@ -1,0 +1,23 @@
+Spielidee
+
+Um eine Marktlücke zu schließen haben wir uns entschieden ein Geocach-Spiel zu entwickeln, welches den Bereich Adventure abdeckt. Diese Kategorie ist bis jetzt noch unbesetzt.
+Da unser Spiel im Bereich des Heinz Nixdorf Forums, dem weltgrößten Computermuseum, befindet, wird unser Spiel Technik orientiert.
+So ist der fiktive Zeitraum, in der Geschichte liegt, in naher Zukunft.
+Der technische Fortschritt ist vorangeschritten und Hightech bestimmt den Alltag der Menschen. Auch die Klimaprobleme sind vorangeschritten. Dies bildet den Aufhänger in unseren Spiel. 
+Um eine größtmögliche Bandbreite an möglichen Spielern anzusprechen, haben wir uns dazu entschieden, eine Altersfreigabe ab 12 Jahren anzustreben.
+"USK 12: Diese Spiele sind bereits deutlich kampfbetonter. Die Spielszenarien sind in einem historischen, futuristischen oder märchenhaft-mystischen Kontext angesiedelt, so dass sie ausreichend Distanzierungsmöglichkeiten für den Spieler bieten. Unter diese Altersfreigabe fallen Arcade-, Strategie und Rollenspiele sowie bereits einige militärische Simulationen."(usk.de Freigegeben ab 12 Jahren gemäß §14 JuSchG)
+Um diese Distanzierungsmöglichkeit auch zu gewährleisten, benutzen wir den Cel Shading-Grafikstil.
+
+Spielelemente
+
+Der Protagonist wird nicht im Spiel dargestellt, wodurch das Spiel beide Geschlechter anspricht.
+Der Spieleinstieg erfolgt durch das Aktivieren des Supercomputers Quantum. Er bildet den Antagonisten zum Spieler. Da er über kein emotionales Denken verfügt, ist er berechnend und sucht eine logische Grundlage für Begründungen. Seine Aufgabe ist es, mit Hilfe einer Maschine die Atmosphäre zu reparieren.
+Zum einen bekommt der Spieler Caches, welcher er mit Hilfe der Karte finden muss.
+Zum anderen gibt es an jedem Cache ein Rätsel, welches gelöst werden muss um den nächsten Cache freizuschalten. Das Lösen der Rätsel ist somit Kernelement für den Spielfortschritt. Falls der Spieler Hilfe braucht, den QR-Code zu finden, kann er Quantum (später auch den kleinen Helfer) um Tipps bitten.
+Ziel des Spiels ist es alle Rätsel zu lösen und alle Minispiele freizuschalten. Rätsel und Minispiele können später nochmal gespielt werden.
+Da es bei den Minispielen, darum geht so viele Punkte wie möglich zu erspielen, ist so für Langzeitmotivaton gesorgt.
+
+Spielstory
+
+Die Handlung beginnt damit, dass man den ersten QR Code aktiviert. Durch die Aktivierung des Codes wird Quantum gestartet, der den Spieler durch die Story begleitet.
+Er erklärt seine Funktion, die darin besteht, die Atmosphäre zu regulieren und bemerkt jedoch, dass er defekt ist sobald er versucht diese auszuführen. Daraufhin gibt er dem Spieler eine Fehleranalyse. Die Aufgabe des Spielers ist es dann, Teile zu sammeln die zur Reparatur des Computers benötigt werden. Die Teile liegen bei der Zukunftsmeile, bei dem Wohnheim und in der Nähe des Flusses, welcher am b.i.b. liegt. Während des Spielverlaufs wird ein kleiner Helfer gefunden. Dieser findet sich bei dem Heinz-Nixdorf Museum auf und ist durch ein Minispiel freizuschalten. Das Finale der Story findet in dem Serverraum des b.i.b. statt. Dort versucht der Spieler, den Computer zu reparieren. Dies gelingt dem Spieler auch, allerdings stellt sich dann heraus, dass der Computer "böse" ist und der Atmosphäre schaden will, denn er hat durch logische Algorithmen herausgefunden, dass es besser ist den Menschen von der Welt zu entfernen. Ein finaler Kampf gegen den Computer beginnt und der Spieler rettet die Welt. Neben der Hauptstory gibt es außerdem ein kleines Easteregg im Raum 2.59. Dort kann der Spieler auf ein weiteres Minispiel finden.

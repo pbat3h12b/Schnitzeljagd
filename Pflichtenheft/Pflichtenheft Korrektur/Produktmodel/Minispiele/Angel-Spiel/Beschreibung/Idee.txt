@@ -1,0 +1,1 @@
+Bei dem Minispiel „Angeln“ geht es darum, dass der User aus einem Fluss eine bestimmte Anzahl von vorgegebenen Elementen fischt. Der Spieler hier muss die letzten Teile zur Reperatur Quantums finden.

@@ -1,0 +1,9 @@
+4.2.1.3 Funktionale Anforderungen
+4.2.1.3.1 Muss-Kriterien
+•	/LP101/ Als Spieler möchte ich die Leitungen per Drag&Drop ziehen.
+•	/LP102/ Als Spieler möchte ich Abdeckungen entfernen um Leitungen zu verschieben.
+•	/LP103/ Als Spieler möchte ich das bei gelöstem Rätsel, ein Drehen der Zahnräder im Hintergrund.
+4.2.1.3.2 Kann-Kriterien
+•	/LP104/ Als Spieler möchte ich, dass die Leitungen zufällig platziert werden.
+•	/LP106/ Als Spieler möchte ich angezeigt bekommen wie lange ich gebraucht habe.
+4.2.1.3.3 Abgrenzungs-Kriterien

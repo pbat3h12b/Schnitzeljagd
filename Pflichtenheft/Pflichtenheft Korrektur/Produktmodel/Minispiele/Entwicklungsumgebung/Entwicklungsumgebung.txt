@@ -1,0 +1,7 @@
+4.2.6 Entwicklungsumgebung
+•	Spielengine: Unity3d
+•	Entwicklungsumgebung: MonoDevelop
+•	proprietärer Texteditor: Sublime Text3
+•	Bildbearbeitung: Photoshop
+•	Bildbearbeitung: Gimp
+

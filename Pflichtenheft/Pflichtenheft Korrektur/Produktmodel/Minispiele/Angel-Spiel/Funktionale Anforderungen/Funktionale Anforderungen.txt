@@ -1,0 +1,12 @@
+4.2.4.3 Funktionale Anforderungen
+4.2.4.3.1 Muss-Kriterien
+•	/ASM101/ Als Spieler möchte ich die erforderlichen Elemente fischen können.
+•	/ASM102/ Als Spieler möchte ich die bereits gesammelten Teile sehen können.
+•	/ASM103/ Als Spieler möchte ich bei jedem Neustart des Spiels eine neue Konstellation der schwimmenden Elemente haben.
+•	/ASM104/ Als Spieler möchte ich Zugriff auf ein Pausenmenü haben.
+•	/ASM105/ Als Spieler möchte ich Zugriff auf die Liste der zu sammelnden Elemente haben.
+4.2.4.3.2 Kann-Kriterien
+•	/ASK101/ Als Spieler möchte ich Animationen der Oberfläche oder der Fische sehen können.
+•	/ASK102/ Als Spieler möchte ich etwas wie PowerUps fischen können, welche mir einen Zeitvorteil bringen.
+•	/ASK103/ Als Spieler möchte ich zwischen verschiedenen Schwierigkeiten wählen können.
+4.2.4.3.3 Abgrenzungs-Kriterien
