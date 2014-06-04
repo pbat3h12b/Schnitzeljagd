@@ -1,0 +1,23 @@
+User
+	nickname
+	password
+Score
+	score
+	playedAtPointInTime
+Minigame
+	id
+	name
+PositionLog
+	position
+	recordedAtPointInTime
+Logbook
+	puzzleSolved
+	message
+	foundAtPointInTime
+Cache
+	id
+	position
+	secret
+	nextCache
+	hint
+
