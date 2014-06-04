@@ -1,0 +1,22 @@
+texture2D PackTexture: http://docs.unity3d.com/ScriptReference/Texture2D.PackTextures.html
+Scaling / Resizing an Image (Texture2D): http://answers.unity3d.com/questions/556913/scaling-resizing-an-image-texture2d.html
+texture2D Resize: http://docs.unity3d.com/ScriptReference/Texture2D.Resize.html
+resize vs. Photoshop: http://forum.unity3d.com/threads/image-resizing-in-unity-vs-photoshop.18574/
+Multiple Texture import settings: http://answers.unity3d.com/questions/269893/multiple-texture-import-settings.html
+TextureScale Unity3d Wiki: http://wiki.unity3d.com/index.php/TextureScale
+RasterEdge .Net: http://www.rasteredge.com/dotnet-imaging/
+
+
+
+Auflösungen : 
+1366 x 768    16:9
+
+1280 x 800    16:10
+
+1024 x 768    4:3
+
+1920 x 1080   16:9
+
+1280 x 1024   5:4
+
+1440 x 900    16:10
