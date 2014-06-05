@@ -8,6 +8,8 @@ public class GameControll_LogIn : MonoBehaviour {
     private int screenHeight;
     private double scaleWidth;
     private double scaleHeight;
+    private string userName = "";
+    private string password = "";
 	// Use this for initialization
 	void Start () {
         screenHeight = Screen.height;
@@ -24,8 +26,8 @@ public class GameControll_LogIn : MonoBehaviour {
 
     void OnGUI()
     {
-        GUI.TextField(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) - (5 * scaleHeight)), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "UserName");
-        GUI.TextField(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight)), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "PassWord");
+        userName = GUI.TextField(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) - (5 * scaleHeight)), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), userName);
+        password = GUI.PasswordField(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight)), (float)(50 * scaleWidth), (float)(5 * scaleHeight)),password,'*');
 
         if (GUI.Button(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight) * 3), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "LogIn"))
         {
