@@ -1,13 +1,10 @@
-/*André Münstermann*/
-
 CREATE TABLE User(
-nickname char(30),
-passwort char(30),
-email char(50),
+	nickname char(30),
+	password TEXT,
 PRIMARY KEY(nickname)
 );
 
-CREATE TABLE Minispiel(
+CREATE TABLE Minigame(
 	id INT AUTO_INCREMENT,
 	name char(50),
 	PRIMARY KEY(id)
@@ -15,38 +12,34 @@ CREATE TABLE Minispiel(
 
 CREATE TABLE Score(
 	nickname char(30) REFERENCES User(nickname),
-	spielID INT REFERENCES Minispiel(id),
-	punkte INT,
-	datum DATETIME,
-	PRIMARY KEY(nickname,spielID)
+	gameId INT REFERENCES Minigame(id),
+	points INT,
+	playDate DATETIME, /* Muenstermann möchte das nicht playedAtPointInTime nennen.. komisch */
+	PRIMARY KEY(nickname,gameId)
 );
 
-CREATE TABLE Cache(
+CREATE TABLE Geocache(
 	id INT AUTO_INCREMENT,
-	ort char(50),
+	position TEXT,
 	secret char(50),
-	naechsterCache INT REFERENCES Cache(id),
+	nextCache INT REFERENCES Geocache(id),
 	hint char(50),
 	PRIMARY KEY(id)
 );
 
-CREATE TABLE Logbuch(
-	raetselGeloest BOOLEAN,
-	nachricht char(100),
-	fundDatum DATETIME,
-	cacheID INT REFERENCES Cache(id),
-	nick char(30) REFERENCES User(nickname),
-	PRIMARY KEY(cacheID,nick)
+CREATE TABLE Logbook(
+	puzzleSolved BOOLEAN,
+	message char(100),
+	foundDate DATETIME,
+	cacheId INT REFERENCES Geocache(id),
+	nickname char(30) REFERENCES User(nickname),
+	PRIMARY KEY(cacheId,nick)
 );
 
 
-CREATE TABLE PosLog(
-	nick char(30) REFERENCES User(nickname),
-	position char(60),
-	datum DATETIME,
-	PRIMARY KEY(nick,datum)
+CREATE TABLE PositionLog(
+	nickname char(30) REFERENCES User(nickname),
+	position TEXT,
+	recordedDate DATETIME,
+	PRIMARY KEY(nickname,recordedDate)
 );
-
-/*Andre Münstermamn*/
-
-
