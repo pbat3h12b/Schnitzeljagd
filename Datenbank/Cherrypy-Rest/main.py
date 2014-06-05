@@ -3,39 +3,40 @@ import os
 
 import cherrypy
 
-from apps.example.examplePageHandler import Example
+from apps.api.apiPageHandler import Api
 
 
 class Root():
 	def index(self):
-		return "You found the index"
+		return "You found the index. There is nothing here. Go, use the API."
 		#raise cherrypy.HTTPRedirect("/example/")
 
 
 if __name__ == '__main__':
-	ip = '127.0.0.1'
+#	ip = '127.0.0.1'
+	ip = '81.169.244.213'
 	port = 8080
-	static_root = os.path.abspath(os.path.join(os.path.dirname(__file__), 'static'))
+
+	db_host = 'localhost'
+	db_database = 'geo'
+	db_user = 'berry_pink'
+	db_password = 'mellow_yellow'
 
 	cherrypy.config.update({'server.socket_host': ip})
 	cherrypy.config.update({'server.socket_port': port})
-	cherrypy.config.update({'error_page.404': 'static/templates/404.html'})
 
 	index_controller = Root()
-	example_controller = Example(ip, port)
+	api_controller = Api(db_host, db_database, db_user, db_password)
 
 	d = cherrypy.dispatch.RoutesDispatcher()
 	d.connect(name='root',		action='index',		controller=index_controller,	route='/')
 
-	d.connect(name='example',	action='index',		controller=example_controller,	route='/example/')
-	d.connect(name='example',				controller=example_controller,	route='/example/:action/:attribute_1/:attribute_2')
+	d.connect(name='api',		action='register',	controller=api_controller,
+	route='/api/register')
 
 	config_dict = {
 		'/': {
-			'request.dispatch': d,
-			'tools.staticdir.on': True,
-			'tools.staticdir.root': static_root,
-			'tools.staticdir.dir': '.'
+			'request.dispatch': d
 		}
 	}
 
