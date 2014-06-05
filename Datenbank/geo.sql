@@ -33,7 +33,7 @@ CREATE TABLE Logbook(
 	foundDate DATETIME,
 	cacheId INT REFERENCES Geocache(id),
 	nickname char(30) REFERENCES User(nickname),
-	PRIMARY KEY(cacheId,nick)
+	PRIMARY KEY(cacheId,nickname)
 );
 
 
@@ -43,3 +43,5 @@ CREATE TABLE PositionLog(
 	recordedDate DATETIME,
 	PRIMARY KEY(nickname,recordedDate)
 );
+
+/* user user berry_pink mellow_yellow */

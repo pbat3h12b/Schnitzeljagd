@@ -1,20 +1,20 @@
-User
+User  Benutzer
 	nickname
 	password
-Score
+Score	Punkte
 	score
 	playedAtPointInTime
-Minigame
+Minigame	Minispiel
 	id
 	name
-PositionLog
+PositionLog	Standort
 	position
 	recordedAtPointInTime
-Logbook
+Logbook	Logbuch
 	puzzleSolved
 	message
 	foundAtPointInTime
-Cache
+Geocache	Geocache
 	id
 	position
 	secret
