@@ -50,6 +50,7 @@
      <Compile Include="Assets\LogIn\GameControll_LogIn.cs" />
      <Compile Include="Assets\MainMenue\GameControll_MainMenue.cs" />
      <Compile Include="Assets\Registration\GameControll_Registration.cs" />
+     <Compile Include="Assets\SpielUebersicht\SelectControl.cs" />
      <Compile Include="Assets\static\MiniGameInformation.cs" />
      <Compile Include="Assets\static\PlayerInformation.cs" />
   </ItemGroup>

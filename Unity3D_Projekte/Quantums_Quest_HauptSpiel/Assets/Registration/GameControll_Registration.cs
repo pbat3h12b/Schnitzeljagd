@@ -11,6 +11,7 @@ public class GameControll_Registration : MonoBehaviour {
     private string userName = "";
     private string password = "";
     private string passwordAgain = "";
+    private bool isIncorrect = false;
 	// Use this for initialization
 	void Start () {
         screenHeight = Screen.height;
@@ -37,8 +38,15 @@ public class GameControll_Registration : MonoBehaviour {
             {
                 Application.LoadLevel(0);
             }
+            else
+            {
+                isIncorrect = true;
+            }
         }
-
+        if (isIncorrect == true)
+        {
+            GUI.Label(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) - (5 * scaleHeight) * 4), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "Falsche Eingabe");
+        }
         if (GUI.Button(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight) * 5), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "Abbrechen"))
         {
             Application.LoadLevel(0);
