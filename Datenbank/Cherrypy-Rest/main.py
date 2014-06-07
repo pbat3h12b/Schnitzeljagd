@@ -13,9 +13,10 @@ class Root():
 
 
 if __name__ == '__main__':
-#	ip = '127.0.0.1'
-	ip = '81.169.244.213'
-	port = 8080
+	ip = '127.0.0.1'
+	port = 8000
+#	ip = '81.169.244.213'
+#	port = 8080
 
 	db_host = 'localhost'
 	db_database = 'geo'
