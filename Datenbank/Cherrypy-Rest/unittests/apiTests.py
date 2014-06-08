@@ -29,82 +29,80 @@ config = {
 	"new_user2s_password" : uuid.uuid4()	
 }
 
-class RegisterTests(unittest.TestCase):
-	def setUp(self):
-		self.register_url = config["api_url"] + "register"
+class BaseFunctions(object):
+	def login(self, payload, expected_error = None):
+		login_url = (config["api_url"] + "login")
+		response  = requests.post(login_url, data=payload)
+		log.info(response.text)
+		response_json = json.loads(response.text)
+		
+		if (expected_error):
+			self.assertFalse(response_json["success"])
+			self.assertEqual(response_json["error"], expected_error)
 
+		else:
+			self.assertTrue(response_json["success"])
+			self.assertIsInstance(response_json["session_secret"], unicode)
+
+	def register(self, payload, expected_error = None):
+		register_url=(config["api_url"] + "register")
+		response = requests.post(register_url, data=payload)
+		log.info(response.text)
+		response_json = json.loads(response.text)
+		
+		if (expected_error):
+			self.assertFalse(response_json["success"])
+			self.assertEqual(response_json["error"], expected_error)
+
+		else:
+			self.assertTrue(response_json["success"])
+
+
+class RegisterTests(unittest.TestCase, BaseFunctions):
 	def testUsernametaken(self):
 		payload = {	'username': config["existing_user"], 
 					'password': config["existing_users_password"] }
-		response = requests.post(self.register_url, data=payload)
-		response_json = json.loads(response.text)
-		
-		self.assertEqual(response_json["success"], False)
-		self.assertEqual(response_json["error"], "Username already taken.")
+
+		self.register(payload, "Username already taken.")
 
 	def testUsernameTooLong(self):
 		payload = {	'username': uuid.uuid4(), 
 					'password': uuid.uuid4() }
-		response = requests.post(self.register_url, data=payload)
-		response_json = json.loads(response.text)
 		
-		self.assertEqual(response_json["success"], False)
-		self.assertEqual(response_json["error"], "Username too long.")		
+		self.register(payload, "Username too long.")	
 
 	def testforwardRegister(self):
 		payload = {	'username': config["new_user2"], 
 					'password': config["new_user2s_password"] }
-		response = requests.post(self.register_url, data=payload)
-		response_json = json.loads(response.text)
-		
-		self.assertTrue(response_json["success"])
 
-class LoginTests(unittest.TestCase):
-	def setUp(self):
-		self.login_url = config["api_url"] + "login"
+		self.register(payload)
 
+
+class LoginTests(unittest.TestCase, BaseFunctions):
 	def testUserDoesNotExist(self):
 		payload = {	'username': "to_delete" + str(uuid.uuid4()), 
 					'password': uuid.uuid4() }
-		response = requests.post(self.login_url, data=payload)
-		response_json = json.loads(response.text)
-		
-		self.assertFalse(response_json["success"])
-		self.assertEqual(response_json["error"], "Username doesn't exist.")
 
+		self.login(payload, "Username doesn't exist.")
 
 	def testWrongPassword(self):
 		payload = {	'username': config["existing_user"], 
 					'password': "wrongpw" }
-		response = requests.post(self.login_url, data=payload)
-		log.info(response.text)
-		response_json = json.loads(response.text)
-		
-		self.assertEqual(response_json["success"], False)
-		self.assertEqual(response_json["error"], "Wrong Password.")
 
-	def login(self, payload):
-		response = requests.post(self.login_url, data=payload)
-		log.info(response.text)
-		response_json = json.loads(response.text)
-		
-		self.assertTrue(response_json["success"])
-		self.assertIsInstance(response_json["session_secret"], unicode)
+		self.login(payload, "Wrong Password.")
 
 	def testforwardLogin(self):
 		payload = {	'username': config["existing_user"], 
 					'password': config["existing_users_password"] }
+
 		self.login(payload)
 
 	def testforwardLoginWithFreshUser(self):
 		payload = {	'username': config["new_user"], 
 					'password': config["new_users_password"] }
 
-		response = requests.post(config["api_url"] + "register", data=payload)
-		log.info(response.text)
+		self.register(payload)
 		self.login(payload)
-
-
 
 
 if __name__ == '__main__':
