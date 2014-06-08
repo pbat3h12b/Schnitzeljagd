@@ -72,6 +72,12 @@ class Api(object):
 			message["success"] = False
 			message["error"]   = "Username already taken."
 			return (json.dumps(message))
+
+		if ( len(username) > 30):
+			log.warning("Could not register %s. Username too long." % (username))
+			message["success"] = False
+			message["error"]   = "Username too long."
+			return (json.dumps(message))
 		
 		password_salt = self.generateRandomString()
 		password_hash = hashlib.md5((password + password_salt).encode('utf-8')).hexdigest()
