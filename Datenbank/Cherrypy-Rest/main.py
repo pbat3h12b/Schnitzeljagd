@@ -32,8 +32,8 @@ if __name__ == '__main__':
 	d = cherrypy.dispatch.RoutesDispatcher()
 	d.connect(name='root',		action='index',		controller=index_controller,	route='/')
 
-	d.connect(name='api',		action='register',	controller=api_controller,
-	route='/api/register')
+	d.connect(name='api',		action='register',	controller=api_controller,	route='/api/register')
+	d.connect(name='api',		action='login',		controller=api_controller,	route='/api/login')	
 
 	config_dict = {
 		'/': {

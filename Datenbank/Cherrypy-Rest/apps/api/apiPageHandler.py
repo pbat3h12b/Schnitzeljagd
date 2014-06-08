@@ -21,7 +21,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 
-db_conn = None
+db_conn = MySQLDatabase(None)
 
 class Api(object):
 	def __init__(self, db_host, db_database, db_user, db_password):
@@ -32,10 +32,10 @@ class Api(object):
 
 		self.session = dict()
 
-		db_conn = MySQLDatabase(db_database,
-								host=db_host, 
-								user=db_user, 
-								passwd=db_password)
+		db_conn.init (db_database,
+					  host=db_host, 
+					  user=db_user, 
+					  passwd=db_password)
 		db_conn.connect()
 
 # {{{ Unexposed Methods
@@ -44,11 +44,10 @@ class Api(object):
 		return ''.join(random.choice(character_set) for c in range(length))
 
 	def checkUserExists(self, username):
-#		user = User.get(User.username == username)
-#		user = User.select().where(User.username == username)
-#		logging.debug( user )
-		if ( None not in [User.select().where(User.username == username)] ): return (True)
-		else: return (False)
+		if ( User.select().where(User.username == username).exists() ):
+			return (True)
+		else: 
+			return (False)
 
 	def checkToken(self, username, token):
 		if not ( self.session[username] ):
@@ -77,30 +76,39 @@ class Api(object):
 		password_salt = self.generateRandomString()
 		password_hash = hashlib.md5((password + password_salt).encode('utf-8')).hexdigest()
 
-		user = User.create(username = username,
-					passwordSalt = password_salt, 
-					passwordHash = password_hash)
-
+		user = User()
+		user.username = username
+		user.passwordSalt = password_salt
+		user.passwordHash = password_hash
+		user.save(force_insert=True)
+		
 		message["success"] = True
 		return (json.dumps(message))
 
 	def login(self, username, password):
-		if not ( checkUserExists(username) ):
-			return (False)
+		message = dict()		
+		if not ( self.checkUserExists(username) ):
+			message["success"] = False
+			message["error"]   = "Username doesn't exist."
+			return (json.dumps(message))
 
-		user = User.select().where(User.username == username)
+		user = User.select().where(User.username == username).get()
 		password_salt = user.passwordSalt
 		password_hash = hashlib.md5((password + password_salt).encode('utf-8')).hexdigest()
 
 		if ( user.passwordHash != password_hash ):
-			return (False)
+			message["success"] = False
+			message["error"]   = "Wrong Password."
+			return (json.dumps(message))
 
-		user_session = {command_counter: 0,
-						session_secret: generateRandomString()}
+		user_session = {"command_counter": 0,
+						"session_secret":  self.generateRandomString()}
 
 		self.session[username] = user_session
 
-		return self.session[username][session_secret]
+		message["success"]        = True
+		message["session_secret"] = self.session[username]["session_secret"]
+		return (json.dumps(message))
 
 # }}}
 

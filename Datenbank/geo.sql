@@ -47,10 +47,4 @@ CREATE TABLE positionLog(
 	PRIMARY KEY(positionLogId)
 );
 
-INSERT INTO user 
-VALUES ( "testUser", "ccb74d7c1422a9e5efcf8dbfd55fd4bc", "t%,g=6LDai/q_E1M*~YP" )
-
 /* user user berry_pink mellow_yellow */
-	username char(30),
-	passwordHash TEXT,
-	passwordSalt TEXT,
