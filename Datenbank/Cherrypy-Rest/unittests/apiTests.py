@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 config = {
-#    "api_url" : "http://btcwash.de:8080/api/"
+#    "api_url" : "http://btcwash.de:8080/api/",
 	"api_url" : "http://localhost:8000/api/",
 	"existing_user" : "testUser",
 	"existing_users_password" : "foobar",
@@ -55,10 +55,10 @@ class BaseFunctions(object):
 		return response_json
 
 
-	def login(self, payload, expected_error = None):
+	def login(self, payload, expected_error = None): # TODO: more asserts
 		login_url = (config["api_url"] + "login")
 		response_json = self.genericRestCall(login_url, payload, expected_error)
-		if not (response_json["success"]): return False
+		if not (response_json["success"]): return None
 
 		self.assertIsInstance(response_json["session_secret"], unicode)
 
@@ -92,15 +92,12 @@ class BaseFunctions(object):
 		token, session = self.token(session)
 		payload.update( {	'username': session["username"], 
 							'token': token } )
-		print("===")
-		print(payload)
-		print("===")
 
 		response_json = self.genericRestCall(pos_url, payload, expected_error)
 		if not (response_json["success"]): return None
 		else: return session
 
-class AuthenticatedTests(unittest.TestCase, BaseFunctions):
+class GeoTests(unittest.TestCase, BaseFunctions):
 	def testforwardUpdatePosition(self):
 		login_payload = {	'username': config["existing_user"], 
 							'password': config["existing_users_password"] }
@@ -110,7 +107,18 @@ class AuthenticatedTests(unittest.TestCase, BaseFunctions):
 
 		session = self.login(login_payload)
 		session = self.updatePosition(session, pos_payload)
-#		session = self.nop(session)			
+		session = self.nop(session)			
+
+	def testUpdatePositionNotEnoughAccurarcy(self):
+		login_payload = {	'username': config["existing_user"], 
+							'password': config["existing_users_password"] }
+
+ 		pos_payload   = {	'longitude' : "12.3456",
+							'latitude'  : "98.7654" }
+
+		session = self.login(login_payload)
+		session = self.updatePosition(session, pos_payload, "Wrong Format or Insufficient position accurarcy.")
+		self.assertIsNone(session)		
 
 class RegisterTests(unittest.TestCase, BaseFunctions):
 	def testUsernametaken(self):
@@ -137,13 +145,13 @@ class LoginTests(unittest.TestCase, BaseFunctions):
 		payload = {	'username': "to_delete" + str(uuid.uuid4()), 
 					'password': uuid.uuid4() }
 
-		self.login(payload, "Username doesn't exist.")
+		session = self.login(payload, "Username doesn't exist.")
 
 	def testWrongPassword(self):
 		payload = {	'username': config["existing_user"], 
 					'password': "wrongpw" }
 
-		self.login(payload, "Wrong Password.")
+		self.login(payload, "Wrong Password.")		
 
 	def testforwardLogin(self):
 		payload = {	'username': config["existing_user"], 
@@ -158,23 +166,18 @@ class LoginTests(unittest.TestCase, BaseFunctions):
 		self.register(payload)
 		self.login(payload)
 
-	def testforwardLoginTokenUsage(self):
-		payload = {	'username': config["existing_user"], 
-					'password': config["existing_users_password"] }
 
-		session = self.login(payload)
-		session = self.nop(session)
-		session = self.nop(session)		
-
-	def testLoginWrongTokenUsage(self):
+class TokenTests(unittest.TestCase, BaseFunctions):
+	def testWrongTokenUsage(self):
 		payload = {	'username': config["existing_user"], 
 					'password': config["existing_users_password"] }
 
 		session = self.login(payload)
 		session["session_secret"] = "Eris the younger"
 		session = self.nop(session, "Invalid Authentication Token.")
+		self.assertIsNone(session)
 
-	def testWrongTokenAndUserUsage(self):
+	def testNotLogedinUser(self):
 		session = { 'username': "doesntexist",
 					"command_counter" : -23,
 					"session_secret":  "notasecret"}
@@ -182,6 +185,14 @@ class LoginTests(unittest.TestCase, BaseFunctions):
 		session = self.nop(session, "Invalid Authentication Token.")
 		self.assertIsNone(session)
 
+	def testforwardTokenUsage(self):
+		payload = {	'username': config["existing_user"], 
+					'password': config["existing_users_password"] }
+
+		session = self.login(payload)
+		session = self.nop(session)
+		session = self.nop(session)
+		self.assertIsNotNone(session)
 
 
 if __name__ == '__main__':

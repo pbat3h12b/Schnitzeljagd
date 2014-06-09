@@ -8,6 +8,7 @@
 
 __author__ = "space"
 
+import re
 import uuid
 import hashlib
 import datetime
@@ -69,9 +70,11 @@ class Api(object):
 		session_secret          = self.session[username]["session_secret"]
 		session_command_counter = self.session[username]["command_counter"]
 		check_token = hashlib.md5((session_secret + str(session_command_counter)).encode('utf-8')).hexdigest()
-		self.session[username]["command_counter"] += 1
 
-		return (token == check_token)
+		if (token == check_token):
+			self.session[username]["command_counter"] += 1
+			return (True)
+		else: return (False)
 # }}}
 
 # {{{ No Authentication required
@@ -153,9 +156,14 @@ class Api(object):
 			message["error"]   = "Invalid Authentication Token."
 			return (json.dumps(message))
 
-		print(datetime.datetime.utcnow().strftime('%s'))
+		accuracy_re = r"^\d+[.]\d{6,}$"
+		if not ( re.match(accuracy_re, longitude) and
+				 re.match(accuracy_re, latitude) ):
+			message["success"] = False
+			message["error"]   = "Wrong Format or Insufficient position accurarcy."
+			return (json.dumps(message))
+
 		pos = PositionLog()
-		pos.positionLogId = int(uuid.uuid4()) 
 		pos.username      = username
 		pos.latitude      = float(latitude)
 		pos.longitude     = float(longitude)
@@ -166,14 +174,21 @@ class Api(object):
 		message["success"] = True
 		return (json.dumps(message))
 
+	def getPositionsMap(self):
+
+		message = dict()
+		if not (self.checkToken(username, token)):
+			message["success"] = False
+			message["error"]   = "Invalid Authentication Token."
+			return (json.dumps(message))
+
+		
+
+		message["success"] = True
+		return (json.dumps(message))
+
 
 #	def getAvailableMinigames(self, username, token):
-#		if not ( checkUserExists(username) ):
-#			return (False)
-#		if not ( self.checkToken(username, token) ):
-#			return (False)
-#
-#		user = User.select().where(User.username == username)
 #		#doesn't work with current db moddel
 # }}}
 
@@ -217,7 +232,7 @@ class Logbook(BaseModel):
 	username     = ForeignKeyField(User, related_name='logbookEntries')
 
 class PositionLog(BaseModel):
-	positionLogId = IntegerField(primary_key=True)
+	positionLogId = PrimaryKeyField #TODO
 	username      = ForeignKeyField(User, related_name='positions')
 	latitude      = FloatField() #TODO
 	longitude     = FloatField()
