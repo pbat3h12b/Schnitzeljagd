@@ -22,7 +22,8 @@ CREATE TABLE score(
 
 CREATE TABLE geocache(
 	geocacheId INT AUTO_INCREMENT,
-	position TEXT,
+	latitude FLOAT,
+	longitude FLOAT,
 	secret char(50),
 	nextCache INT REFERENCES Geocache(id),
 	hint char(50),
@@ -39,10 +40,11 @@ CREATE TABLE logbook(
 	PRIMARY KEY(logbookId)
 );
 
-CREATE TABLE positionLog(
+CREATE TABLE positionlog(
 	positionLogId INT AUTO_INCREMENT,
 	username char(30) REFERENCES User(username),
-	position TEXT,
+	latitude FLOAT,
+	longitude FLOAT,
 	recordedDate DATETIME,
 	PRIMARY KEY(positionLogId)
 );

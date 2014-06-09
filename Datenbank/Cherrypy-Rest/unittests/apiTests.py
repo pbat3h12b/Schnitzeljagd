@@ -38,7 +38,7 @@ class BaseFunctions(object):
 		token = hashlib.md5((session_secret + str(session_command_counter)).encode('utf-8')).hexdigest()
 		session["command_counter"] += 1
 
-		return (token)	
+		return (token, session)	
 
 	def genericRestCall(self, command_url, payload, expected_error = None):
 		response  = requests.post(command_url, data=payload)
@@ -78,13 +78,39 @@ class BaseFunctions(object):
 	def nop(self, session, expected_error = None):
 		nop_url=(config["api_url"] + "nop")
 
+		token, session = self.token(session)
 		payload = {	'username': session["username"], 
-					'token': self.token(session) }
+					'token': token }
 
 		response_json = self.genericRestCall(nop_url, payload, expected_error)
-		if not (response_json["success"]): return False
+		if not (response_json["success"]): return None
+		else: return session
 
+	def updatePosition(self, session, payload, expected_error = None):
+		pos_url=(config["api_url"] + "updatePosition")
 
+		token, session = self.token(session)
+		payload.update( {	'username': session["username"], 
+							'token': token } )
+		print("===")
+		print(payload)
+		print("===")
+
+		response_json = self.genericRestCall(pos_url, payload, expected_error)
+		if not (response_json["success"]): return None
+		else: return session
+
+class AuthenticatedTests(unittest.TestCase, BaseFunctions):
+	def testforwardUpdatePosition(self):
+		login_payload = {	'username': config["existing_user"], 
+							'password': config["existing_users_password"] }
+
+ 		pos_payload   = {	'longitude' : "12.345678",
+							'latitude'  : "98.765432" }
+
+		session = self.login(login_payload)
+		session = self.updatePosition(session, pos_payload)
+#		session = self.nop(session)			
 
 class RegisterTests(unittest.TestCase, BaseFunctions):
 	def testUsernametaken(self):
@@ -138,6 +164,7 @@ class LoginTests(unittest.TestCase, BaseFunctions):
 
 		session = self.login(payload)
 		session = self.nop(session)
+		session = self.nop(session)		
 
 	def testLoginWrongTokenUsage(self):
 		payload = {	'username': config["existing_user"], 
@@ -146,6 +173,15 @@ class LoginTests(unittest.TestCase, BaseFunctions):
 		session = self.login(payload)
 		session["session_secret"] = "Eris the younger"
 		session = self.nop(session, "Invalid Authentication Token.")
+
+	def testWrongTokenAndUserUsage(self):
+		session = { 'username': "doesntexist",
+					"command_counter" : -23,
+					"session_secret":  "notasecret"}
+
+		session = self.nop(session, "Invalid Authentication Token.")
+		self.assertIsNone(session)
+
 
 
 if __name__ == '__main__':

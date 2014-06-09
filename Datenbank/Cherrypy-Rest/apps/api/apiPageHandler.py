@@ -8,7 +8,9 @@
 
 __author__ = "space"
 
+import uuid
 import hashlib
+import datetime
 import md5
 import json
 import string
@@ -22,6 +24,15 @@ logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 
 db_conn = MySQLDatabase(None)
+
+def setup_db():
+	User.create_table()
+	Minigame.create_table()
+	Score.create_table()
+	Geocache.create_table()
+	Logbook.create_table()
+	PositionLog.create_table()	
+
 
 class Api(object):
 	def __init__(self, db_host, db_database, db_user, db_password):
@@ -38,6 +49,8 @@ class Api(object):
 					  passwd=db_password)
 		db_conn.connect()
 
+		#setup_db()
+
 # {{{ Unexposed Methods
 	def generateRandomString(self, length=20):
 		character_set = string.digits + string.letters + string.punctuation
@@ -50,14 +63,14 @@ class Api(object):
 			return (False)
 
 	def checkToken(self, username, token):
-		if not ( self.session[username] ):
+		if username not in self.session:
 			return (False)
 
-		self.session[username][command_counter] += 1
-		session_secret          = self.session[username][session_secret]
-		session_command_counter = self.session[username][command_counter]
-		check_token = hashlib.md5((session_secret + session_command_counter).encode('utf-8')).hexdigest()
-		
+		session_secret          = self.session[username]["session_secret"]
+		session_command_counter = self.session[username]["command_counter"]
+		check_token = hashlib.md5((session_secret + str(session_command_counter)).encode('utf-8')).hexdigest()
+		self.session[username]["command_counter"] += 1
+
 		return (token == check_token)
 # }}}
 
@@ -119,14 +132,49 @@ class Api(object):
 # }}}
 
 # {{{ Authentication required
-	def getAvailableMinigames(self, username, token):
-		if not ( checkUserExists(username) ):
-			return (False)
-		if not ( checkToken(username, token) ):
-			return (False)
+	def nop(self, username, token):
+		"""Diese Funktion demonstriert wie eine API Funktion mit Authentifizierung funktioniert.
+		   Sie zählt den Befehlszähler hoch und überprüft das token."""
 
-		user = User.select().where(User.username == username)
-		#doesn't work with current db moddel
+		message = dict()
+		if not (self.checkToken(username, token)):
+			message["success"] = False
+			message["error"]   = "Invalid Authentication Token."
+			return (json.dumps(message))
+		else:
+			message["success"] = True
+			return (json.dumps(message))
+
+	def updatePosition(self, username, token, longitude, latitude):
+
+		message = dict()
+		if not (self.checkToken(username, token)):
+			message["success"] = False
+			message["error"]   = "Invalid Authentication Token."
+			return (json.dumps(message))
+
+		print(datetime.datetime.utcnow().strftime('%s'))
+		pos = PositionLog()
+		pos.positionLogId = int(uuid.uuid4()) 
+		pos.username      = username
+		pos.latitude      = float(latitude)
+		pos.longitude     = float(longitude)
+		pos.recordedDate  = int(datetime.datetime.utcnow().strftime('%s'))
+		pos.save(force_insert=True)
+
+
+		message["success"] = True
+		return (json.dumps(message))
+
+
+#	def getAvailableMinigames(self, username, token):
+#		if not ( checkUserExists(username) ):
+#			return (False)
+#		if not ( self.checkToken(username, token) ):
+#			return (False)
+#
+#		user = User.select().where(User.username == username)
+#		#doesn't work with current db moddel
 # }}}
 
 # {{{ Database wrapper
@@ -150,11 +198,12 @@ class Score(BaseModel):
 	username = ForeignKeyField(User, related_name='games')
 	gameId   = ForeignKeyField(Minigame, related_name='scores')
 	points   = IntegerField()
-	playDate = DateTimeField()
+	playDate = IntegerField()
 
 class Geocache(BaseModel):
 	geochacheId = IntegerField(primary_key=True)
-	position    = TextField()
+	latitude    = FloatField() #TODO
+	longitude   = FloatField()
 	secret      = CharField()
 	nextCache   = ForeignKeyField('self', related_name='next')
 	hint        = CharField()
@@ -163,13 +212,14 @@ class Logbook(BaseModel):
 	logbookId    = IntegerField(primary_key=True)
 	puzzleSolved = BooleanField()
 	message      = CharField()
-	foundDate    = DateTimeField()
+	foundDate    = IntegerField()
 	cacheId      = ForeignKeyField(Geocache, related_name='findings')
 	username     = ForeignKeyField(User, related_name='logbookEntries')
 
 class PositionLog(BaseModel):
 	positionLogId = IntegerField(primary_key=True)
 	username      = ForeignKeyField(User, related_name='positions')
-	position      = TextField()
-	recordedDate  = DateTimeField()
+	latitude      = FloatField() #TODO
+	longitude     = FloatField()
+	recordedDate  = IntegerField()
 # }}}

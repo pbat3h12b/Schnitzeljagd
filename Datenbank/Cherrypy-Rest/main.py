@@ -35,6 +35,10 @@ if __name__ == '__main__':
 	d.connect(name='api',		action='register',	controller=api_controller,	route='/api/register')
 	d.connect(name='api',		action='login',		controller=api_controller,	route='/api/login')	
 
+	d.connect(name='api',		action='nop',					controller=api_controller,	route='/api/nop')
+	d.connect(name='api',		action='updatePosition',		controller=api_controller,	route='/api/updatePosition')
+
+	
 	config_dict = {
 		'/': {
 			'request.dispatch': d
