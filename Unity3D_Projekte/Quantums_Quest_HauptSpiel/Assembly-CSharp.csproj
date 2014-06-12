@@ -46,7 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\KameraMenue\QRCode.cs" />
      <Compile Include="Assets\KartenMenue\GameControll_KartenMenue.cs" />
+     <Compile Include="Assets\LogBuchEintrag\LogbuchEintrag.cs" />
      <Compile Include="Assets\LogIn\GameControll_LogIn.cs" />
      <Compile Include="Assets\MainMenue\GameControll_MainMenue.cs" />
      <Compile Include="Assets\Registration\GameControll_Registration.cs" />
