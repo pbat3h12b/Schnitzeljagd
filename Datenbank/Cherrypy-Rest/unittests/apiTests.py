@@ -9,6 +9,7 @@
 __author__ = "space"
 
 import unittest
+import random
 import hashlib
 import uuid
 import json
@@ -16,7 +17,7 @@ import requests
 import time
 
 import logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)#INFO)
 log = logging.getLogger(__name__)
 
 config = {
@@ -71,9 +72,10 @@ class BaseFunctions(object):
 	def register(self, payload, expected_error = None):
 		register_url = (config["api_url"] + "register")
 		response_json = self.genericRestCall(register_url, payload, expected_error)
-		if not (response_json["success"]): return False
-
-		return response_json	
+		if not (response_json["success"]): 
+			logging.warning(response_json["error"])
+			return False
+		else: return True	
 
 	def nop(self, session, expected_error = None):
 		nop_url=(config["api_url"] + "nop")
@@ -83,7 +85,9 @@ class BaseFunctions(object):
 					'token': token }
 
 		response_json = self.genericRestCall(nop_url, payload, expected_error)
-		if not (response_json["success"]): return None
+		if not (response_json["success"]): 
+			logging.warning(response_json["error"])
+			return None
 		else: return session
 
 	def updatePosition(self, session, payload, expected_error = None):
@@ -94,8 +98,19 @@ class BaseFunctions(object):
 							'token': token } )
 
 		response_json = self.genericRestCall(pos_url, payload, expected_error)
-		if not (response_json["success"]): return None
+		if not (response_json["success"]): 
+			logging.warning(response_json["error"])
+			return None
 		else: return session
+
+	def getPositionsMap(self, expected_error = None):
+		pos_url=(config["api_url"] + "getPositionsMap")
+
+		response_json = self.genericRestCall(pos_url, {}, expected_error)
+		if not (response_json["success"]): 
+			logging.warning(response_json["error"])
+			return None
+		else: return response_json	
 
 class GeoTests(unittest.TestCase, BaseFunctions):
 	def testforwardUpdatePosition(self):
@@ -118,7 +133,39 @@ class GeoTests(unittest.TestCase, BaseFunctions):
 
 		session = self.login(login_payload)
 		session = self.updatePosition(session, pos_payload, "Wrong Format or Insufficient position accurarcy.")
-		self.assertIsNone(session)		
+		self.assertIsNone(session)
+
+	def testfoarwardGetPositionsMap(self):
+		response_json = self.getPositionsMap()
+		self.assertIsNotNone(response_json)
+
+
+	def testfoarwardUpdateAndGetPositionsMap(self):
+		expected_map  = dict()
+		user_sessions = list()
+
+		for idx in xrange(5):
+			login_payload = {	'username': ("to_delete" + str(uuid.uuid4()))[0:30], 
+								'password': uuid.uuid4() }
+		
+			self.register(login_payload)
+			session = self.login(login_payload)	
+			user_sessions.append(session)
+
+		for i in xrange(len(user_sessions)*10):
+ 			pos_payload   = {	'longitude' : ("%d.%d" %  (random.randint(1, 99), random.randint(100000, 999999))),
+								'latitude'  : ("%d.%d" %  (random.randint(1, 99), random.randint(100000, 999999))) }
+
+			idx = random.randint(0, len(user_sessions)-1)
+			user_sessions[idx] = self.updatePosition(user_sessions[idx], pos_payload)
+			self.assertIsNotNone(user_sessions[idx])
+
+			expected_map[user_sessions[idx]["username"]] = [float(pos_payload["longitude"]), float(pos_payload["latitude"])]
+
+		response_json = self.getPositionsMap()
+		for key in expected_map:
+			self.assertEqual(expected_map[key], response_json["user_map"][key])
+
 
 class RegisterTests(unittest.TestCase, BaseFunctions):
 	def testUsernametaken(self):
@@ -199,6 +246,6 @@ if __name__ == '__main__':
     unittest.main()
 
 #	suite = unittest.TestSuite()
-#	suite.addTest(LoginTests("testforwardLoginWithFreshUser"))
+#	suite.addTest(GeoTests("testfoarwardUpdateAndGetPositionsMap"))
 #	runner = unittest.TextTestRunner()
 #	runner.run(suite)

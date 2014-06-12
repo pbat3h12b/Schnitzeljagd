@@ -164,7 +164,7 @@ class Api(object):
 			return (json.dumps(message))
 
 		pos = PositionLog()
-		pos.username      = username
+		pos.user          = username
 		pos.latitude      = float(latitude)
 		pos.longitude     = float(longitude)
 		pos.recordedDate  = int(datetime.datetime.utcnow().strftime('%s'))
@@ -177,14 +177,27 @@ class Api(object):
 	def getPositionsMap(self):
 
 		message = dict()
-		if not (self.checkToken(username, token)):
-			message["success"] = False
-			message["error"]   = "Invalid Authentication Token."
-			return (json.dumps(message))
 
-		
+		recently = (datetime.datetime.utcnow()-datetime.timedelta(minutes=5)).strftime('%s')
+		current_positions_select = """
+		SELECT p.id, p.latitude, p.longitude, p.recordedDate, p.user_id
+		FROM (
+			SELECT user_id, MAX(recordedDate) "recordedDate"
+			FROM positionlog
+			GROUP BY user_id) AS a, positionlog p
+		WHERE p.recordedDate = a.recordedDate
+		AND p.user_id = a.user_id
+		AND p.recordedDate > %s""" % (recently)
 
-		message["success"] = True
+
+		user_map = dict()
+		current_positions_query = PositionLog.raw(current_positions_select)
+		for pos in current_positions_query:
+			if pos.user.username in user_map: logging.debug("NEIN!")
+			user_map[pos.user.username] = (pos.longitude, pos.latitude)
+
+		message["user_map"] = user_map
+		message["success"]  = True
 		return (json.dumps(message))
 
 
@@ -217,8 +230,8 @@ class Score(BaseModel):
 
 class Geocache(BaseModel):
 	geochacheId = IntegerField(primary_key=True)
-	latitude    = FloatField() #TODO
-	longitude   = FloatField()
+	latitude    = DoubleField() #TODO
+	longitude   = DoubleField()
 	secret      = CharField()
 	nextCache   = ForeignKeyField('self', related_name='next')
 	hint        = CharField()
@@ -233,8 +246,11 @@ class Logbook(BaseModel):
 
 class PositionLog(BaseModel):
 	positionLogId = PrimaryKeyField #TODO
-	username      = ForeignKeyField(User, related_name='positions')
-	latitude      = FloatField() #TODO
-	longitude     = FloatField()
+	user          = ForeignKeyField(User, related_name='positions')
+	latitude      = DoubleField() #TODO
+	longitude     = DoubleField()
 	recordedDate  = IntegerField()
+
+
 # }}}
+
