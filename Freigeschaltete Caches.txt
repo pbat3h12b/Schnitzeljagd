@@ -9,4 +9,7 @@ meine Logbuch einträge
 
 
 
-getUserInfo
+getUserInfo ( Username )
+- alle caches + cach status
+- heighscores
+- logbuch einträge
