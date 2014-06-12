@@ -36,7 +36,10 @@ public class GameControll_Registration : MonoBehaviour {
         {
             if (password == passwordAgain && password != "")
             {
-                Application.LoadLevel(0);
+                if (GameObject.Find("GameController").GetComponent<beispiel_api>().newRegistrierung(userName, password, "beispielMail") == true)
+                {
+                    Application.LoadLevel(0);
+                }
             }
             else
             {

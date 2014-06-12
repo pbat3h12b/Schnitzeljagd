@@ -9,9 +9,9 @@ public class PlayerInformation : MonoBehaviour {
     private static bool[] caches = {false,false,false,false,false,false};
     private static string[] logBook = new string[5];
     private static string[] gameNames = { "Lookpick", "Galaxy Invaders", "Wohnheim Spiel", "Angel Spiel", "Endkapmf Spiel" };
-    private static bool[] games = new bool[5];
+    private static bool[] games = { false, false, false, false, false, false };
     private static int[] highscores = new int[5];
-    private static float timeSinceUpdate;
+    private static float timeSinceUpdate = 0;
 
 
 	// Use this for initialization
@@ -24,13 +24,20 @@ public class PlayerInformation : MonoBehaviour {
 
         longitude = Input.location.lastData.longitude;
         latitude = Input.location.lastData.latitude;
+        timeSinceUpdate += Time.deltaTime;
         updateGeoData();
 
 	}
 
-    void logIn(string name)
+    public string getUsername()
+    {
+        return userName;
+    }
+
+    public void logIn(string name)
     {
         userName = name;
+        getUserData();
     }
 
     void getUserData()
@@ -45,6 +52,7 @@ public class PlayerInformation : MonoBehaviour {
         if (timeSinceUpdate > 60)
         {
             GameObject.Find("GameController").GetComponent<beispiel_api>().updateGeoData(longitude, latitude);
+            timeSinceUpdate = 0;
         }
     }
 

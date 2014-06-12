@@ -24,7 +24,7 @@ public class GameControll_MainMenue : MonoBehaviour {
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight)), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "Karte Anzeigen"))
+        if (GUI.Button(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight)), (float)(50 * scaleWidth), (float)(5 * scaleHeight)),"Karte Anzeigen"))
         {
             Application.LoadLevel(4);
         }

@@ -31,8 +31,12 @@ public class GameControll_LogIn : MonoBehaviour {
 
         if (GUI.Button(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight) * 3), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "LogIn"))
         {
-            Screen.orientation = ScreenOrientation.Landscape;
-            Application.LoadLevel(1);
+            if (GameObject.Find("GameController").GetComponent<beispiel_api>().logIn(userName, password) == true)
+            {
+                GameObject.Find("GameController").GetComponent<PlayerInformation>().logIn(userName);
+                Screen.orientation = ScreenOrientation.Landscape;
+                Application.LoadLevel(1);
+            }
         }
 
         if (GUI.Button(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight) * 5), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "Registrieren"))
