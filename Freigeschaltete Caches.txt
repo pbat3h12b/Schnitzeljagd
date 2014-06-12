@@ -7,7 +7,7 @@ logbuch eintrag eintragen
 (alle logbuch einträge zu einem cach)
 meine Logbuch einträge
 
-
+Cach ID == Spiel ID
 
 getUserInfo ( Username )
 - alle caches + cach status

@@ -53,6 +53,7 @@
      <Compile Include="Assets\SpielUebersicht\SelectControl.cs" />
      <Compile Include="Assets\static\MiniGameInformation.cs" />
      <Compile Include="Assets\static\PlayerInformation.cs" />
+     <Compile Include="Assets\static\beispiel_api.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
