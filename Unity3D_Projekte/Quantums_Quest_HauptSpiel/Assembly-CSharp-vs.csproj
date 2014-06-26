@@ -53,7 +53,6 @@
      <Compile Include="Assets\MainMenue\GameControll_MainMenue.cs" />
      <Compile Include="Assets\Registration\GameControll_Registration.cs" />
      <Compile Include="Assets\SpielUebersicht\SelectControl.cs" />
-     <Compile Include="Assets\static\MiniGameInformation.cs" />
      <Compile Include="Assets\static\PlayerInformation.cs" />
      <Compile Include="Assets\static\beispiel_api.cs" />
   </ItemGroup>
