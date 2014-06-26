@@ -54,7 +54,11 @@
      <Compile Include="Assets\Registration\GameControll_Registration.cs" />
      <Compile Include="Assets\SpielUebersicht\SelectControl.cs" />
      <Compile Include="Assets\static\PlayerInformation.cs" />
+     <Compile Include="Assets\static\RESTCommunication.cs" />
      <Compile Include="Assets\static\beispiel_api.cs" />
+ <Reference Include="System.Web.Extensions">
+ <HintPath>Assets\DLLs\System.Web.Extensions.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
