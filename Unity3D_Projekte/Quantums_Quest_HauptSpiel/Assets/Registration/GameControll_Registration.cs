@@ -4,16 +4,26 @@ using System.Collections;
 public class GameControll_Registration : MonoBehaviour {
 
     [HideInInspector]
+	private GameObject gameController;
+
     private int screenWidth;
     private int screenHeight;
+
     private double scaleWidth;
     private double scaleHeight;
-    private string userName = "";
-    private string password = "";
-    private string passwordAgain = "";
+
+	private string inputUsername = "";
+	private string inputPassword = "";
+	private string inputPasswordRepetition = "";
+	private string buttonRegisterValue = "Registrieren";
+	private string buttonCancelValue = "Abbrechen";
+
     private bool isIncorrect = false;
-	// Use this for initialization
+
+	// Initialisieren
 	void Start () {
+		gameController = GameObject.Find("GameController");
+
         screenHeight = Screen.height;
         screenWidth = Screen.width;
 
@@ -21,22 +31,30 @@ public class GameControll_Registration : MonoBehaviour {
         scaleHeight = screenHeight / 100;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
+	// Oberfläche konstruieren
     void OnGUI()
     {
-        userName = GUI.TextField(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) - (5 * scaleHeight)*3), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), userName);
-        password = GUI.PasswordField(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) - (5 * scaleHeight)), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), password,'*');
-        passwordAgain = GUI.PasswordField(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight)), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), passwordAgain,'*');
+		inputUsername = GUI.TextField(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
+		                                  	   (float)((screenHeight / 3) - (5 * scaleHeight) * 3), 
+		                                       (float)(60 * scaleWidth), 
+		                                       (float)(8 * scaleHeight)), inputUsername);
+		inputPassword = GUI.PasswordField(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
+		                                    	   (float)((screenHeight / 3) - (5 * scaleHeight)), 
+		                                           (float)(60 * scaleWidth), 
+		                                           (float)(8 * scaleHeight)), inputPassword,'*');
+		inputPasswordRepetition = GUI.PasswordField(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
+		                                          			 (float)((screenHeight / 3) + (5 * scaleHeight)), 
+		                                                     (float)(60 * scaleWidth), 
+		                                                     (float)(8 * scaleHeight)), inputPasswordRepetition,'*');
 
-        if (GUI.Button(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight) * 3), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "Registrieren"))
+        if (GUI.Button(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
+		                        (float)((screenHeight / 3) + (5 * scaleHeight) * 3), 
+		                        (float)(60 * scaleWidth), 
+		                        (float)(8 * scaleHeight)), buttonRegisterValue))
         {
-            if (password == passwordAgain && password != "")
+			if (inputPassword == inputPasswordRepetition && inputPassword != "")
             {
-                if (GameObject.Find("GameController").GetComponent<beispiel_api>().newRegistrierung(userName, password, "beispielMail") == true)
+				if (gameController.GetComponent<beispiel_api>().newRegistrierung(inputUsername, inputPassword, "beispielMail") == true)
                 {
                     Application.LoadLevel(0);
                 }
@@ -46,11 +64,17 @@ public class GameControll_Registration : MonoBehaviour {
                 isIncorrect = true;
             }
         }
-        if (isIncorrect == true)
+        if (isIncorrect)
         {
-            GUI.Label(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) - (5 * scaleHeight) * 4), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "Falsche Eingabe");
+            GUI.Label(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
+			                   (float)((screenHeight / 3) - (5 * scaleHeight) * 4), 
+			                   (float)(60 * scaleWidth), 
+			                   (float)(8 * scaleHeight)), "Falsche Eingabe");
         }
-        if (GUI.Button(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) + (5 * scaleHeight) * 5), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "Abbrechen"))
+        if (GUI.Button(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
+		                        (float)((screenHeight / 3) + (5 * scaleHeight) * 5), 
+		                        (float)(60 * scaleWidth), 
+		                        (float)(8 * scaleHeight)), buttonCancelValue))
         {
             Application.LoadLevel(0);
         }
