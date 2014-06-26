@@ -26,7 +26,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
     {
         if (GUI.Button(new Rect((float)((screenWidth) - ((50 * scaleWidth))), (float)((screenHeight) - (5 * scaleHeight) * 2), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "QR-Code Scannen"))
         {
-            Application.LoadLevel(6);
+            Application.LoadLevel(5);
         }
     }
 }
