@@ -23,7 +23,7 @@ public class SelectControl : MonoBehaviour {
 
 	void OnGUI()
 	{
-		scrollPosition = GUI.BeginScrollView (new Rect(100,100,900,400), scrollPosition, new Rect(0,0,500,850));
+		scrollPosition = GUI.BeginScrollView(new Rect(100,100,Screen.width * 0.9f,400),scrollPosition,new Rect(0,0,500,850));
 
 		GUI.Box (new Rect (50, 50, 420, 120), "");
 		GUI.DrawTexture (new Rect (60, 60, 80, 100), texture1);

@@ -1,0 +1,15 @@
+Freigeschaltete Caches
++cach freischalten
+heighscore des spielers pro spiel
+update pos
+neuer score
+logbuch eintrag eintragen
+(alle logbuch einträge zu einem cach)
+meine Logbuch einträge
+
+Cach ID == Spiel ID
+
+getUserInfo ( Username )
+- alle caches + cach status
+- heighscores
+- logbuch einträge
