@@ -31,7 +31,7 @@ public class GameControll_MainMenue : MonoBehaviour {
 
         if (GUI.Button(new Rect((float)((screenWidth / 2) - ((50 * scaleWidth) / 2)), (float)((screenHeight / 2) - (5 * scaleHeight)), (float)(50 * scaleWidth), (float)(5 * scaleHeight)), "Spiele Anzeigen"))
         {
-            Application.LoadLevel(5);
+            Application.LoadLevel(3);
         }
     }
 }
