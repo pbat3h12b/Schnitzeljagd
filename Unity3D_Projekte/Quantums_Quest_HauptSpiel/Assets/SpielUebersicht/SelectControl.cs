@@ -27,8 +27,11 @@ public class SelectControl : MonoBehaviour {
 
 		GUI.Box (new Rect (50, 50, 420, 120), "");
 		GUI.DrawTexture (new Rect (60, 60, 80, 100), texture1);
-		GUI.Button (new Rect (360, 110, 100, 50), "Spielen");
-		GUI.Label (new Rect (160, 60, 100, 50), "Spielname");
+		if (GUI.Button (new Rect (360, 110, 100, 50), "Spielen")) 
+		{
+			Application.LoadLevel(7);
+		}
+		GUI.Label (new Rect (160, 60, 100, 50), "WohnheimSpiel");
 		GUI.Label (new Rect (160, 110, 100, 50), "Spielbar");
 
 		GUI.Box (new Rect (50, 200, 420, 120), "");
