@@ -12,7 +12,19 @@
 2 Umsetzung
 
 2.1 Login GUI & Datenüberprüfung
-2.2 Registrierem GUI & Datenüberprüfung
+
+Bei dem Login Menü haben wir uns erstmal um die grund Funktion gekümmert. Wie es dann genau auf dem Handy am Ende aussehen muss, müssen wir sowieso erstmal auf eine Vorlage der GUI Gruppe warten.
+Die Datenüberprüfung besteht darauß das auf der Client Seite erstmal geschaut wird ob der Benutzer überhaupt Benutzername und Passwort eingegeben hat.
+Danach wird eine Funktion in der Beispiel Api Klasse aufgerufen. Diese Prüft später in der richtigen Api Klasse ob es den Benutzer mit dem Passwort gibt. 
+Falls die Funktion eine Wahrheitsgemässe Eingabe bestätigt kommt man zum Hauptmenü.
+
+2.2 Registrieren GUI & Datenüberprüfung
+
+Auch bei der Registrierung ging es uns in erster Linie nicht um schönes aussehen. 
+Im Grunde war die Umsetzung hierbei genau gleich wie bei dem Login. Die Benutzer Eingaben werden erst auf vollständigkeit.
+Danach gibt es wieder eine Funktion welche Prüft ob die Daten vom Server angenommen werden können. Falls ja, wird der Account erstellt.
+
+
 2.3 Hauptmenü GUI
 2.4 Kartenmenü GUI
 2.5 Logbuch eintragen GUI
