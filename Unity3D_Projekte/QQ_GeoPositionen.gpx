@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx version="1.1" creator="http://www.geoplaner.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<wpt lat="51.73075" lon="8.73707">
+<ele>107</ele>
+<name>Cachebib-Eingang</name>
+</wpt>
+<wpt lat="51.73057" lon="8.73807">
+<ele>106.3</ele>
+<name>CacheZukunftsmeile</name>
+</wpt>
+<wpt lat="51.73147" lon="8.73618">
+<ele>107.4</ele>
+<name>CacheHNF</name>
+</wpt>
+<wpt lat="51.72956" lon="8.7374">
+<ele>107.4</ele>
+<name>CacheWohnheim</name>
+</wpt>
+<wpt lat="51.73064" lon="8.73554">
+<ele>107</ele>
+<name>CacheFluss</name>
+</wpt>
+<wpt lat="51.73106" lon="8.73635">
+<ele>107</ele>
+<name>CacheServerraum</name>
+</wpt>
+<wpt lat="51.72901" lon="8.73788">
+<ele>107.2</ele>
+<name>GrenzeSdOst</name>
+</wpt>
+<wpt lat="51.73087" lon="8.73991">
+<ele>109.4</ele>
+<name>GrenzeNordOst</name>
+</wpt>
+<wpt lat="51.73263" lon="8.73622">
+<ele>108</ele>
+<name>GrenzeNordWest</name>
+</wpt>
+<wpt lat="51.73091" lon="8.73424">
+<ele>106.5</ele>
+<name>GrenzeSdWest</name>
+</wpt>
+</gpx>
