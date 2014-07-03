@@ -6,8 +6,10 @@ Organisationsgruppe: O3 Qualitätsmanagement
 Spezialistengruppe:	S5 GUI/Story
 
 Wochen Arbeitsbericht:
-- Anfang der Story Dialoge schreiben => 1 1/2h
+- Anfang der Story Dialoge schreiben => 1h
 - Beteiligte Personen: Florens Grabau
+- Erlaubnis für anbringen der QR-Codes einholen => 1h
+- Beteiligte Personen: Florens Grabau, Fabian Hitziger
 - GUI/Story Dokumentation verfassen => 4h
 - Beteiligte Personen: Florens Grabau
 
