@@ -59,7 +59,9 @@ class BaseFunctions(object):
 	def login(self, payload, expected_error = None): # TODO: more asserts
 		login_url = (config["api_url"] + "login")
 		response_json = self.genericRestCall(login_url, payload, expected_error)
-		if not (response_json["success"]): return None
+		if not (response_json["success"]): 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
 
 		self.assertIsInstance(response_json["session_secret"], unicode)
 
@@ -73,7 +75,7 @@ class BaseFunctions(object):
 		register_url = (config["api_url"] + "register")
 		response_json = self.genericRestCall(register_url, payload, expected_error)
 		if not (response_json["success"]): 
-			logging.warning(response_json["error"])
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
 			return False
 		else: return True	
 
@@ -86,7 +88,7 @@ class BaseFunctions(object):
 
 		response_json = self.genericRestCall(nop_url, payload, expected_error)
 		if not (response_json["success"]): 
-			logging.warning(response_json["error"])
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
 			return None
 		else: return session
 
@@ -98,8 +100,8 @@ class BaseFunctions(object):
 							'token': token } )
 
 		response_json = self.genericRestCall(pos_url, payload, expected_error)
-		if not (response_json["success"]): 
-			logging.warning(response_json["error"])
+		if not (response_json["success"]):																	 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
 			return None
 		else: return session
 
@@ -108,7 +110,7 @@ class BaseFunctions(object):
 
 		response_json = self.genericRestCall(pos_url, {}, expected_error)
 		if not (response_json["success"]): 
-			logging.warning(response_json["error"])
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
 			return None
 		else: return response_json	
 

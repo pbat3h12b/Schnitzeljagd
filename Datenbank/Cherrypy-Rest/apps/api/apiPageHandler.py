@@ -100,8 +100,8 @@ class Api(object):
 
 		user = User()
 		user.username = username
-		user.passwordSalt = password_salt
-		user.passwordHash = password_hash
+		user.password_salt = password_salt
+		user.password_hash = password_hash
 		user.save(force_insert=True)
 		
 		message["success"] = True
@@ -115,10 +115,10 @@ class Api(object):
 			return (json.dumps(message))
 
 		user = User.select().where(User.username == username).get()
-		password_salt = user.passwordSalt
+		password_salt = user.password_salt
 		password_hash = hashlib.md5((password + password_salt).encode('utf-8')).hexdigest()
 
-		if ( user.passwordHash != password_hash ):
+		if ( user.password_hash != password_hash ):
 			message["success"] = False
 			message["error"]   = "Wrong Password."
 			return (json.dumps(message))
@@ -131,6 +131,62 @@ class Api(object):
 		message["success"]        = True
 		message["session_secret"] = self.session[username]["session_secret"]
 		return (json.dumps(message))
+
+	def getPositionsMap(self):
+
+		message = dict()
+
+		recently = (datetime.datetime.utcnow()-datetime.timedelta(minutes=5)).strftime('%s')
+		current_positions_select = """
+		SELECT p.id, p.latitude, p.longitude, p.recorded_date, p.user_id
+		FROM (
+			SELECT user_id, MAX(recorded_date) "recorded_date"
+			FROM positionlog
+			GROUP BY user_id) AS a, positionlog p
+		WHERE p.recorded_date = a.recorded_date
+		AND p.user_id = a.user_id
+		AND p.recorded_date > %s""" % (recently)
+
+		user_map = dict()
+		current_positions_query = PositionLog.raw(current_positions_select)
+		for pos in current_positions_query:
+			if pos.user.username in user_map: logging.debug("NEIN!")
+			user_map[pos.user.username] = (pos.longitude, pos.latitude)
+
+		message["user_map"] = user_map
+		message["success"]  = True
+		return (json.dumps(message))
+
+#message =
+#{
+#	success: True
+#	user_map: {
+#		"bernd": (längen, breiten)
+#		"eva": (längen, breiten)
+#		"eris": (längen, breiten)
+#	}
+#}
+
+#message["user_map"]["bernd"]
+#=> (43.234534, 23.423662)
+
+#foreach username in user_map:
+#	user_map[username]
+
+
+
+#	def cachesAndUser(self, username):
+#		message = dict()
+#		if not ( self.checkUserExists(username) ):
+#			message["success"] = False
+#			message["error"]   = "Username doesn't exist."
+#			return (json.dumps(message))
+#
+#		user = User.get(User.username == username)
+#		user.logbookEntries.order_by(logbookEntries.recorded_date.desc()):
+
+
+
 
 # }}}
 
@@ -149,6 +205,10 @@ class Api(object):
 			return (json.dumps(message))
 
 	def updatePosition(self, username, token, longitude, latitude):
+
+		log.warning("===")
+		log.warning(username)
+		log.warning("===")
 
 		message = dict()
 		if not (self.checkToken(username, token)):
@@ -174,33 +234,6 @@ class Api(object):
 		message["success"] = True
 		return (json.dumps(message))
 
-	def getPositionsMap(self):
-
-		message = dict()
-
-		recently = (datetime.datetime.utcnow()-datetime.timedelta(minutes=5)).strftime('%s')
-		current_positions_select = """
-		SELECT p.id, p.latitude, p.longitude, p.recordedDate, p.user_id
-		FROM (
-			SELECT user_id, MAX(recordedDate) "recordedDate"
-			FROM positionlog
-			GROUP BY user_id) AS a, positionlog p
-		WHERE p.recordedDate = a.recordedDate
-		AND p.user_id = a.user_id
-		AND p.recordedDate > %s""" % (recently)
-
-
-		user_map = dict()
-		current_positions_query = PositionLog.raw(current_positions_select)
-		for pos in current_positions_query:
-			if pos.user.username in user_map: logging.debug("NEIN!")
-			user_map[pos.user.username] = (pos.longitude, pos.latitude)
-
-		message["user_map"] = user_map
-		message["success"]  = True
-		return (json.dumps(message))
-
-
 #	def getAvailableMinigames(self, username, token):
 #		#doesn't work with current db moddel
 # }}}
@@ -213,43 +246,43 @@ class BaseModel(peewee.Model):
 		database = db_conn
 
 class User(BaseModel):
-	username     = CharField(primary_key=True)
-	passwordHash = TextField()
-	passwordSalt = TextField()
+	username      = CharField(primary_key=True)
+	password_hash = TextField()
+	password_salt = TextField()
 
 class Minigame(BaseModel):
-	minigameId   = IntegerField(primary_key=True)
+	minigame_id = PrimaryKeyField
 	name = CharField()
 
 class Score(BaseModel):
-	scoreId  = IntegerField(primary_key=True)
-	username = ForeignKeyField(User, related_name='games')
-	gameId   = ForeignKeyField(Minigame, related_name='scores')
-	points   = IntegerField()
-	playDate = IntegerField()
+	score_id  = PrimaryKeyField
+	user      = ForeignKeyField(User, related_name='played_rounds')
+	game_id   = ForeignKeyField(Minigame, related_name='scores')
+	points    = IntegerField()
+	play_date = IntegerField()
 
 class Geocache(BaseModel):
-	geochacheId = IntegerField(primary_key=True)
-	latitude    = DoubleField() #TODO
-	longitude   = DoubleField()
-	secret      = CharField()
-	nextCache   = ForeignKeyField('self', related_name='next')
-	hint        = CharField()
+	geochache_id = PrimaryKeyField
+	latitude     = DoubleField()
+	longitude    = DoubleField()
+	secret       = CharField()
+	next_cache   = ForeignKeyField('self', related_name='next')
+	hint         = CharField()
 
 class Logbook(BaseModel):
-	logbookId    = IntegerField(primary_key=True)
-	puzzleSolved = BooleanField()
-	message      = CharField()
-	foundDate    = IntegerField()
-	cacheId      = ForeignKeyField(Geocache, related_name='findings')
-	username     = ForeignKeyField(User, related_name='logbookEntries')
+	logbook_id    = PrimaryKeyField
+	puzzle_solved = BooleanField()
+	message       = CharField()
+	found_date    = IntegerField()
+	cache         = ForeignKeyField(Geocache, related_name='findings')
+	user          = ForeignKeyField(User, related_name='logbookEntries')
 
 class PositionLog(BaseModel):
-	positionLogId = PrimaryKeyField #TODO
-	user          = ForeignKeyField(User, related_name='positions')
-	latitude      = DoubleField() #TODO
-	longitude     = DoubleField()
-	recordedDate  = IntegerField()
+	position_log_id = PrimaryKeyField
+	user            = ForeignKeyField(User, related_name='positions')
+	latitude        = DoubleField()
+	longitude       = DoubleField()
+	recorded_date   = IntegerField()
 
 
 # }}}
