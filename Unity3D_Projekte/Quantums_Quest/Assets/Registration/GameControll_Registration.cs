@@ -54,7 +54,7 @@ public class GameControll_Registration : MonoBehaviour {
         {
 			if (inputPassword == inputPasswordRepetition && inputPassword != "")
             {
-				if (gameController.GetComponent<beispiel_api>().newRegistrierung(inputUsername, inputPassword, "beispielMail") == true)
+				if (gameController.GetComponent<RESTCommunication>().RegisterNewUser(inputUsername,inputPassword) == true )
                 {
                     Application.LoadLevel(0);
                 }

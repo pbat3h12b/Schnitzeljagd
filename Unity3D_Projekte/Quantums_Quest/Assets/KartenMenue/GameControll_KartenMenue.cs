@@ -6,7 +6,9 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	[HideInInspector]
 	public Texture2D imageMap;
 	public Texture2D imageCurrentUser;
-	
+
+	private float timeSinceChance = 0;
+
 	private GameObject gameController;
 	
 	private int screenWidth;
@@ -27,6 +29,8 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	
 	private float userLatitude = 51.72901f;
 	private float userLongitude = 8.73424f;
+	private float userLatitudePosition = 0;
+	private float userLongitudePosition = 0;
 	
 	private float timeBetweenUpdates = 5;
 	private float timeSinceLastUpdate = 0;
@@ -51,7 +55,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 		mapScaleHeight = (float)(50 * scaleHeight);
 		mapScaleWidth = mapScaleHeight;
 		mapPositionX = (float)(50 * scaleWidth) - (mapScaleWidth / 2);
-		mapPositionY = (float)(50 * scaleHeight) - (mapScaleHeight / 2);
+		mapPositionY = (float)(30 * scaleHeight) - (mapScaleHeight / 2);
 	}
 	
 	/*
@@ -59,7 +63,12 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	 */
 	void Update()
 	{
-		
+		timeSinceChance += Time.deltaTime;
+
+		if (timeSinceChance > 30) {
+			Application.LoadLevel(5);
+				}
+
 	}
 	
 	/*
@@ -68,16 +77,30 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	void OnGUI()
 	{
 		GUI.DrawTexture (new Rect(mapPositionX, mapPositionY, mapScaleWidth, mapScaleHeight), imageMap);
-		
-		if (timeSinceLastUpdate >= timeBetweenUpdates && CheckGeoStatus())
+		GUI.Label (new Rect(mapPositionX, mapPositionY - 50, mapScaleWidth, mapScaleHeight), errorMessage);
+
+		if (timeSinceLastUpdate <= 0 && CheckGeoStatus())
 		{
+			Input.location.Start ();
+
 			userLatitude = Input.location.lastData.latitude;
-			float userLatitudePosition = GetLatitudePosition(userLatitude);
+			userLatitudePosition = GetLatitudePosition(userLatitude);
 			userLongitude = Input.location.lastData.longitude;
-			float userLongitudePosition = GetLatitudePosition(userLongitude);
-			
-			GUI.DrawTexture (new Rect(userLongitudePosition, userLatitudePosition, mapScaleWidth / 20, mapScaleHeight / 20), imageCurrentUser);
+			userLongitudePosition = GetLatitudePosition(userLongitude);
+
+			timeSinceLastUpdate = timeBetweenUpdates;
+
+			Input.location.Stop ();
 		}
+		else
+		{
+			timeSinceLastUpdate -= Time.deltaTime;
+		}
+		
+		GUI.DrawTexture (new Rect(userLongitudePosition, 
+		                          userLatitudePosition, 
+		                          mapScaleWidth / 20, 
+		                          mapScaleHeight / 20), imageCurrentUser);
 		
 		if (GUI.Button(new Rect((float)((screenWidth) - ((50 * scaleWidth))), 
 		                        (float)((screenHeight) - (5 * scaleHeight) * 2), 
@@ -127,6 +150,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 		float latitudePosition = mapPositionY + (mapScaleWidth * 
 		                                         ((mapMinLatitude - latitute) * 100) / 
 		                                         (mapMinLatitude - mapMaxLatitude) / 100);
+		latitudePosition = Mathf.Clamp (latitudePosition, mapPositionX, mapPositionX + mapScaleWidth);
 		return latitudePosition;
 	}
 	
@@ -138,6 +162,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 		float longitudePosition = mapPositionX + (mapScaleHeight * 
 		                                          ((mapMinLongitude - longitude) * 100) / 
 		                                          (mapMinLongitude - mapMaxLongitude) / 100);
+		longitudePosition = Mathf.Clamp (longitudePosition, mapPositionY, mapPositionY + mapScaleHeight);
 		return longitudePosition;
 	}
 }

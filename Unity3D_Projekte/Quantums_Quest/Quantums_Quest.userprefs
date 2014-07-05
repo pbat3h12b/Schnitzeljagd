@@ -1,8 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MainMenue\GameControll_MainMenue.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\static\PlayerInformation.cs">
     <Files>
-      <File FileName="Assets\MainMenue\GameControll_MainMenue.cs" Line="38" Column="1" />
+      <File FileName="Assets\static\RESTCommunication.cs" Line="1" Column="1" />
+      <File FileName="Assets\static\RESTCommunication.cs" Line="70" Column="1" />
+      <File FileName="Assets\KartenMenue\GameControll_KartenMenue.cs" Line="1" Column="1" />
+      <File FileName="Assets\LogIn\GameControll_LogIn.cs" Line="1" Column="1" />
+      <File FileName="Assets\static\PlayerInformation.cs" Line="53" Column="33" />
+      <File FileName="Assets\MainMenue\GameControll_MainMenue.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

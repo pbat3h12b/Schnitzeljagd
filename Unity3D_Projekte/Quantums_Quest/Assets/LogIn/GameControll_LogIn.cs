@@ -48,7 +48,7 @@ public class GameControll_LogIn : MonoBehaviour {
 		                        (float)(60 * scaleWidth), 
 		                        (float)(8 * scaleHeight)), buttonLoginValue))
         {
-			if (gameController.GetComponent<beispiel_api>().logIn(inputUsername, inputPassword) == true)
+			if (gameController.GetComponent<RESTCommunication>().LoginUser(inputUsername,inputPassword) == true )
             {
 				gameController.GetComponent<PlayerInformation>().logIn(inputUsername);
                 Screen.orientation = ScreenOrientation.Landscape;

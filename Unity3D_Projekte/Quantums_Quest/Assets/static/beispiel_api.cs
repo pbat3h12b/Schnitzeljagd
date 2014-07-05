@@ -15,7 +15,7 @@ public class beispiel_api : MonoBehaviour {
 
     public bool logIn(string Username, string Password)
     {
-        if (Username == "Niclas" && Password == "123")
+        if (Username == "ni" && Password == "123")
         {
             return true;
         }

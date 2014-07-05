@@ -57,7 +57,15 @@
      <Compile Include="Assets\WohnheimSpiel\goalScript.cs" />
      <Compile Include="Assets\WohnheimSpiel\playerMovement.cs" />
      <Compile Include="Assets\static\PlayerInformation.cs" />
+     <Compile Include="Assets\static\RESTCommunication.cs" />
      <Compile Include="Assets\static\beispiel_api.cs" />
+ <Reference Include="ICSharpCode.SharpZipLib">
+ <HintPath>Assets\PlugIns\ICSharpCode.SharpZipLib.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{5A316CDB-E813-6A0D-8ABF-A25B89AE38E5}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
