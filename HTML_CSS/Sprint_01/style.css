@@ -1,0 +1,321 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/* <General Settings> Erstellt von Martin Dirkmorfeld*/																 	
+	/*Design*/
+	body
+	{
+		background-color: #3D9AD1;
+		font-size: 100%;
+	}
+	a
+	{
+		text-decoration: none;
+	}
+	/*Functionality*/
+
+	body
+	{
+		padding: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	/*<Zero Margin>*/
+	h1, body
+	{
+		margin: 0;
+	}
+	/*</Zero Margin>*/
+	.wrapper
+	{
+		width: 80%;
+		margin: 0 auto;
+	}
+/*</General Settings>*/
+
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Header> Erstellt von Martin Dirkmorfeld*/
+	/*Design*/
+	header#mainHeader
+	{
+		background-image: url(./images/banner.png);     										   /* der Hauptbanner */
+	}
+	#mainHeader img
+	{
+		opacity: 0.7;
+	}
+	#mainHeader h1
+	{
+		font-size: 50px;
+		color: white;
+		text-align: center;
+		border-bottom: 1px dashed orange;
+	}
+	/*Functionality*/
+	header#mainHeader
+	{
+		width: 100%;
+		background-size: 100% auto;
+		padding: 5% 0;
+	}
+	#mainHeader img
+	{
+		position: absolute;
+		left:15%;
+		top: 5%;
+		width: 10%;
+		height:auto;
+	}
+
+/*</Header>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Navigation> Erstellt von Martin Dirkmorfeld und Lukas Ebbers*/
+
+/*Design*/
+	#naviBackground
+	{
+		background-color: #0969A2;
+		border-bottom: black 2px solid;
+		border-top: black 1px solid;
+	}
+    nav ul,nav ul li
+	{
+	    background-color: #03436A;
+	}
+	nav ul li:hover
+	{
+	    background-color: red;
+	}
+	nav ul li ul li
+	{
+		border-bottom: black 0.3px dotted;
+		border-top: black 0.3px dotted;
+	}
+	nav ul li ul li a:hover{
+	    color: red;
+		background-color: #03436A;
+	}
+	#active
+	{
+		background-color: #477000;
+	}
+	#active a
+	{
+		color: #9cf700;
+	}
+	nav ul li a 
+	{
+		color: #FFA940;
+		text-align: center;
+	}
+		nav ul li ul li a 
+	{
+		color: #FFA940;
+		text-align: left;
+	}
+/*Functionality*/																			          /* Dropdown Menu*/
+	nav 
+	{
+	    width: 100%;
+	}
+	nav ul 
+	{
+	    padding: 0px;
+	    margin: 0px;
+	}
+	nav ul:after 
+	{
+	    clear: both;
+	    content: "";
+	    display:block;
+	    visibility: hidden;
+	}
+    nav ul li 
+	{
+	    list-style: none;
+	    float:left;
+		width: 25%;
+	}
+	nav ul li a {
+	    display: block;
+	    padding: 10px 30px;
+	}
+	nav ul li:hover > ul {
+	    visibility: visible;
+	}
+	nav ul li ul{
+	    display: inline;
+	    visibility: hidden;
+	    position: absolute;
+	    padding:0px;
+	}
+	nav ul li ul li{
+	    float: none;
+		width: auto;
+	}
+/*</Navigation>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Main> Erstellt von Lukas Ebbers*/
+
+	/*Design*/
+	#mainBackground
+	{
+		background-color: #3D9AD1;
+	}
+	main
+	{
+		background-color: #0969A2;
+	}
+	/*Functionality*/
+	#mainBackground
+	{
+		height: auto;
+	}
+
+/*</Main>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Footer> Erstellt von Lukas Ebbers*/
+	/*Design*/
+	#mainFooter
+	{
+		background-color: #03436A;
+	}
+	/*Functionality*/	
+	#mainFooter
+	{
+		position: fixed;
+		bottom: 0;
+		left: 10%;
+		text-align: center;
+	}
+/*</Footer>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Responsive Settings>  Erstellt von Martin Dirkmorfeld und Lukas Ebbers*/
+@media only screen and (max-width: 560px) {
+
+/*<Navigation>*/									 												  /*Accordion Menu*/
+	/*Design*/
+	nav ul li a 
+	{
+		text-align: left;
+	}
+	
+	/*Functionality*/
+	nav{
+		width: auto;
+	}
+    nav ul li
+	{
+	    float:none;
+		width: auto;
+	}
+	nav ul li ul {
+	    position: relative;
+	    display: none;
+	    visibility: hidden;
+		height: 0;
+	}
+	nav ul li:hover > ul {
+	    visibility: visible;
+		height: auto;
+	}
+	nav ul li:active > ul {
+	    visibility: visible;
+		height: auto;
+	}
+	nav ul:after {
+		clear: both;
+		content: " ";
+		display: block;
+		font-size: 0;
+		height: 0;
+		visibility: hidden;
+	}
+	nav ul li a {
+		text-decoration: none;
+		display: block;
+	}
+	nav ul li ul{
+    display: block;
+    padding: 0px;
+	position: relative;
+	}
+	nav ul li ul li{
+		float: none;
+		display: block;
+		border: none;
+	}
+	nav ul li ul li a {
+    padding-left: 44px;
+    color: #FAFAFA;
+	}
+/*</Navigation>*/
+
+
+	#mainFooter
+	{
+		position: relative;
+		left: 0;
+		width: 100%;
+	}
+}
+/*</Responsive Settings>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Buttons>*/
+/* http://www.cssbuttongenerator.com/ */
+.btn_download {
+	-moz-box-shadow:inset 0px 0px 7px 0px #000000;
+	-webkit-box-shadow:inset 0px 0px 7px 0px #000000;
+	box-shadow:inset 0px 0px 7px 0px #000000;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3D9AD1), color-stop(1, #f03436A) );
+	background:-moz-linear-gradient( center top, #3D9AD1 5%, #03436A 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3D9AD1', endColorstr='#03436A');
+	background-color:#ffffff;
+	-webkit-border-top-left-radius:14px;
+	-moz-border-radius-topleft:14px;
+	border-top-left-radius:14px;
+	-webkit-border-top-right-radius:14px;
+	-moz-border-radius-topright:14px;
+	border-top-right-radius:14px;
+	-webkit-border-bottom-right-radius:14px;
+	-moz-border-radius-bottomright:14px;
+	border-bottom-right-radius:14px;
+	-webkit-border-bottom-left-radius:14px;
+	-moz-border-radius-bottomleft:14px;
+	border-bottom-left-radius:14px;
+	text-indent:0px;
+	border:1px solid #245A7A;
+	display:inline-block;
+	color:#000000;
+	font-family:Arial Black;
+	font-size:20px;
+	font-weight:bold;
+	font-style:normal;
+	height:58px;
+	line-height:58px;
+	width:138px;
+	text-decoration:none;
+	text-align:center;
+}
+.btn_download:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f58803), color-stop(1, #4a2e0e) );
+	background:-moz-linear-gradient( center top, #f58803 5%, #4a2e0e 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f58803', endColorstr='#4a2e0e');
+	background-color:#ffffff;
+}.btn_download:active {
+	position:relative;
+	top:1px;
+}
+/*</Buttons>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
