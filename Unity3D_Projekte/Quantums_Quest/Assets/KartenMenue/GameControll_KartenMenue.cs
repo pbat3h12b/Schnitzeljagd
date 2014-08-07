@@ -109,6 +109,8 @@ public class GameControll_KartenMenue : MonoBehaviour {
 		{
 			Application.LoadLevel(5);
 		}
+
+        GUI.Label(new Rect(mapPositionX, mapPositionY - 50, mapScaleWidth, mapScaleHeight), " "+userLongitude+" "+userLatitude+" ");
 	}
 	
 	/*
