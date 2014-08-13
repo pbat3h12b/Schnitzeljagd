@@ -9,9 +9,20 @@ using SimpleJSON;
 
 	class RESTCommunication : MonoBehaviour
     {
-        private static String secret,username,password;
+
+        //In secret wird das sogenannte session secret gespeichert. Mit ihm wird das Token für bestimmte 
+        //Funktionen generiert
+        private static String secret;
+        
+        //Der counter wird ebenfalls für das Erstellen des Tokens benötigt.
         private static int counter;
 
+        //Den Usernamen und dass Password werden statisch in der Klasse gespeichert
+        private static String username,password;
+
+
+        //Die Funktion RegisterNewUser ermöglicht es dem Benutzer einen neuen Benutzer für
+        //die Datenbank hinzu zu fügen.
         public bool RegisterNewUser(String username, String password)
         {
             List<Parameter> parameter = new List<Parameter>();
@@ -26,6 +37,7 @@ using SimpleJSON;
                 return false;
         }
 
+        //Die Funktion LoginUser laesst den Benutzer im System anmelden
         public bool LoginUser(String _username, String _password)
         {
             List<Parameter> parameter = new List<Parameter>();
@@ -44,6 +56,8 @@ using SimpleJSON;
 
         }
 
+        //Die Funktion UpdatePosition aktuallisiert den Standpunkt des Benutzers. Der Funktion wird
+        //dafür Die Position in Laengen- und Breitengrad übergeben.
         public bool UpdatePosition(float longitude, float latitude) 
         {
 
@@ -60,7 +74,9 @@ using SimpleJSON;
             else
                 return false;
         }
-      
+
+        //Die Funktion Communication stellt die Verbindung zum Server her, sie übermittelt dabei
+        //die gewünschten Parameter und gibt die Antwort des Servers dann als String zurück
         private string Communication(String url, byte[] postdata)
         {
             WebRequest request = WebRequest.Create(url);
@@ -79,9 +95,9 @@ using SimpleJSON;
 
             return responsestring;
         }
-
         
-
+        //Diese Funktion wird erstellt aus den Parametern einen Byte-Array der für die 
+        //Übermittlung an den Server benötigt wird
         private byte[] GetPostDatafromString(List<Parameter>parameter) 
         {
             String postdata ="";
@@ -95,6 +111,7 @@ using SimpleJSON;
             return bytes;
         }
 
+        //Diese Funktion generiert das Token das benötigt wird um eine erfolgreiche Kommunikation zu erreichen
         private string GenrateToken() 
         {
             string token ="";
@@ -119,9 +136,13 @@ using SimpleJSON;
         }
     }
 
+    //Die klasse Parameter wird dazu benutzt den passenden Parameter einfacher in der 
+    //Klasse zu benutzen.
     public class Parameter
     {
+        //content enthaelt die zu übertragenden Daten
         string content;
+        //name bekommt den Namen des Parameters da dieser an der Server-Seite identisch sein muss
         string name;
 
         public string Name
@@ -142,35 +163,33 @@ using SimpleJSON;
         }
     }
 
-    //public class Response 
-    //{
-    //    private bool success;
-    //    private string error;
-    //    private string session_secret;
-        
-    //    public bool Success
-    //    {
-    //        get { return success; }
-    //        set { success = value; }
-    //    }
-        
-    //    public string Session_secret
-    //    {
-    //        get { return session_secret; }
-    //        set { session_secret = value; }
-    //    }
-        
-    //    public string Error
-    //    {
-    //        get { return error; }
-    //        set { error = value; }
-    //    }
+    public class Position
+    {
+        float latitude;
+        float longitude;
+        string userid;
 
-    //    public Response()
-    //    {
-    //        this.success = false;
-    //        this.session_secret = "";
-    //        this.error = "";
-    //    }
-    //}
+        public float Latitude        
+        {
+            get{return latitude;}
+        }
+
+        public float Longitude
+        {
+            get{return longitude}
+        }
+
+        public string userid
+        {
+            get{return userid;}
+        }
+
+        public Position(float latitude, float longitude,string userid)
+        {
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.userid = userid;
+        }
+
+    }
 
