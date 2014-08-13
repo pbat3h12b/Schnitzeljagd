@@ -1,0 +1,7 @@
+Die Android-Versionen sind wie folgt aufgebaut:
+
+<major release>.<minor release>.<patch level>
+
+major release: Hauptversionsnummer (0=Alpha, 1=Beta, 2=Release).
+minor release: Nebenversionsnummer. In unserem Fall die Sprints.
+patch level  : Wird nach jedem Build um 1 erhöht.
