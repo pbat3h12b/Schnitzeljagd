@@ -6,17 +6,27 @@ public class GameControll_Registration : MonoBehaviour {
     [HideInInspector]
 	private GameObject gameController;
 
-    private int screenWidth;
-    private int screenHeight;
+    public Texture2D User;
+    public Texture2D Passwort;
+    public Texture2D Regis;
+    public Texture2D Cancel;
 
-    private double scaleWidth;
-    private double scaleHeight;
+    //private int screenWidth;
+    //private int screenHeight;
 
-	private string inputUsername = "";
-	private string inputPassword = "";
-	private string inputPasswordRepetition = "";
-	private string buttonRegisterValue = "Registrieren";
-	private string buttonCancelValue = "Abbrechen";
+    //private double scaleWidth;
+    //private double scaleHeight;
+
+    private string inputUsername = "";
+    private string inputPassword = "";
+    private string inputPasswordRepetition = "";
+    //private string buttonRegisterValue = "Registrieren";
+    //private string buttonCancelValue = "Abbrechen";
+
+    GUIStyle styleUser = new GUIStyle();
+    GUIStyle stylePasswort = new GUIStyle();
+    GUIStyle styleRegis = new GUIStyle();
+    GUIStyle styleCancel = new GUIStyle();
 
     private bool isIncorrect = false;
 
@@ -24,33 +34,25 @@ public class GameControll_Registration : MonoBehaviour {
 	void Start () {
 		gameController = GameObject.Find("GameController");
 
-        screenHeight = Screen.height;
-        screenWidth = Screen.width;
+        styleUser.normal.background = User;
+        styleCancel.normal.background = Cancel;
+        stylePasswort.normal.background = Passwort;
+        styleRegis.normal.background = Regis;
+        //screenHeight = Screen.height;
+        //screenWidth = Screen.width;
 
-        scaleWidth = screenWidth / 100;
-        scaleHeight = screenHeight / 100;
+        //scaleWidth = screenWidth / 100;
+        //scaleHeight = screenHeight / 100;
 	}
 	
 	// Oberfläche konstruieren
     void OnGUI()
     {
-		inputUsername = GUI.TextField(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
-		                                  	   (float)((screenHeight / 3) - (5 * scaleHeight) * 3), 
-		                                       (float)(60 * scaleWidth), 
-		                                       (float)(8 * scaleHeight)), inputUsername);
-		inputPassword = GUI.PasswordField(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
-		                                    	   (float)((screenHeight / 3) - (5 * scaleHeight)), 
-		                                           (float)(60 * scaleWidth), 
-		                                           (float)(8 * scaleHeight)), inputPassword,'*');
-		inputPasswordRepetition = GUI.PasswordField(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
-		                                          			 (float)((screenHeight / 3) + (5 * scaleHeight)), 
-		                                                     (float)(60 * scaleWidth), 
-		                                                     (float)(8 * scaleHeight)), inputPasswordRepetition,'*');
+        inputUsername = GUI.TextField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 25, 60, 10)), "", styleUser);
+        inputPassword = GUI.PasswordField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 40, 60, 10)), "", '*',stylePasswort);
+        inputPasswordRepetition = GUI.PasswordField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 55, 60, 10)), "", '*',stylePasswort);
 
-        if (GUI.Button(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
-		                        (float)((screenHeight / 3) + (5 * scaleHeight) * 3), 
-		                        (float)(60 * scaleWidth), 
-		                        (float)(8 * scaleHeight)), buttonRegisterValue))
+        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 70, 60, 10)), "",styleRegis))
         {
 			if (inputPassword == inputPasswordRepetition && inputPassword != "")
             {
@@ -66,15 +68,9 @@ public class GameControll_Registration : MonoBehaviour {
         }
         if (isIncorrect)
         {
-            GUI.Label(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
-			                   (float)((screenHeight / 3) - (5 * scaleHeight) * 4), 
-			                   (float)(60 * scaleWidth), 
-			                   (float)(8 * scaleHeight)), "Falsche Eingabe");
+            GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 10, 60, 10)), "Falsche Eingabe");
         }
-        if (GUI.Button(new Rect((float)((screenWidth / 2) - ((60 * scaleWidth) / 2)), 
-		                        (float)((screenHeight / 3) + (5 * scaleHeight) * 5), 
-		                        (float)(60 * scaleWidth), 
-		                        (float)(8 * scaleHeight)), buttonCancelValue))
+        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 85, 60, 10)), "",styleCancel))
         {
             Application.LoadLevel(0);
         }
