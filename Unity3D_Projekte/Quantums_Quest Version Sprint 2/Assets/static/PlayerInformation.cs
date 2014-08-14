@@ -16,17 +16,17 @@ public class PlayerInformation : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Input.location.Start();
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+        Input.location.Start();
         longitude = Input.location.lastData.longitude;
         latitude = Input.location.lastData.latitude;
         timeSinceUpdate += Time.deltaTime;
         updateGeoData();
+        Input.location.Stop();
 
 	}
 
