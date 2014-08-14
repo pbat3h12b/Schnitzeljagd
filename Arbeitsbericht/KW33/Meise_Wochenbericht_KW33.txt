@@ -1,0 +1,17 @@
+Datum: 14. August 2014
+Wochenbericht KW 33
+
+Name: Fabian Meise
+Organisationsgruppe: O2 Testen
+Spezialistengruppe:	S5 GUI/Story
+
+Wochen Arbeitsbericht:
+-Testdokumentation überarbeitet
+-Designrichtlinien überarbeitet
+5h
+
+Was werde ich noch tun?
+- Am Minispiel Galaxy Invaders
+
+Was hindert mich an meiner Arbeit?
+-
