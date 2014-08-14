@@ -176,10 +176,10 @@ using SimpleJSON;
 
         public float Longitude
         {
-            get{return longitude}
+            get { return longitude;}
         }
 
-        public string userid
+        public string Userid
         {
             get{return userid;}
         }
