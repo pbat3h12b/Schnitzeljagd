@@ -197,11 +197,11 @@ class Api(object):
 
 		message = dict()
 
-		recently = (datetime.datetime.utcnow()-datetime.timedelta(minutes=5)).strftime('%s')
 		users_select = """
 		SELECT username
 		FROM user"""
 		users_query = User.raw(users_select)
+
 		usernames = []
 		for user in users_query:
 			usernames.append(user.username)
@@ -211,46 +211,41 @@ class Api(object):
 		message["success"]  = True
 		return (json.dumps(message))
 
-
-#Top10 aller spiele
-
 #SELECT COUNT(name) FROM minigame;
-
-#SELECt u.username, s.points, m.name
-#FROM user u, minigame m, score s
-#WHERE s.user_id = u.username
-#AND s.game_id_id = m.id
-#AND m.id = 1
-#ORDER BY s.points DESC
-#LIMIT 10;
-
-#top_ten_select = """SELECt * FROM score s WHERE s.id in ( 	SELECT s.id 	FROM user u, minigame m, score s WHERE s.user_id = u.username AND s.game_id_id = m.id AND m.id = 1 ) ORDER BY s.points DESC LIMIT 10;"""
 
 
 	def getTopTenForAllMinigames(self):
-		top_ten_select = """
-		SELECt *
-		FROM score s
-		WHERE s.id in (
-			SELECT s.id
-			FROM user u, minigame m, score s
-			WHERE s.user_id = u.username
-			AND s.game_id_id = m.id
-			AND m.id = 1
-		)
-		ORDER BY s.points DESC
-		LIMIT 10;"""
 
-		score_map = dict()
+#		top_ten_select = """
+#		SELECT s.id
+#		FROM minigame m, score s
+#		WHERE m.id = 1
+#		AND s.game_id_id = m.id
+#		ORDER BY s.points DESC
+#		LIMIT 10
+#		"""
+
+		top_ten_select = """
+		SELECT id 
+		FROM score;"""
+
 		top_ten_query = Score.raw(top_ten_select)
-		for score in top_ten_query:
-			print(score.points)
+
+
+		print("foo")
+		print(top_ten_query)
+		scoresA = []
+		for sco in top_ten_query:
+			print("bob")
+#			print(sco.score_id)
+#			scoresA.append(sco.score_id)
+		print("final")
 
 #		Tracer()()
-#		message = dict()
+		message = dict()
 
 #		message["user_map"] = user_map
-		message["success"]  = True
+#		message["success"]  = True
 		return (json.dumps(message))
 # }}}
 
@@ -287,13 +282,16 @@ class Api(object):
 			message["error"]   = "Wrong Format or Insufficient position accurarcy."
 			return (json.dumps(message))
 
+		now = int(datetime.datetime.utcnow().strftime('%s'))
+
 		pos = PositionLog()
 		pos.user          = username
+		pos.recorded_date  = now
 		pos.latitude      = float(latitude)
 		pos.longitude     = float(longitude)
-		pos.recordedDate  = int(datetime.datetime.utcnow().strftime('%s'))
 		pos.save(force_insert=True)
 
+		print
 
 		message["success"] = True
 		return (json.dumps(message))
