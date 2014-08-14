@@ -6,7 +6,15 @@
 # Implementation of the RestAPI
 #
 
+#active nutzer
+
+#Top score aller spiele - für spiler
+
+# gästebuch
+
 __author__ = "space"
+
+from IPython.core.debugger import Tracer
 
 import re
 import uuid
@@ -185,9 +193,65 @@ class Api(object):
 #		user = User.get(User.username == username)
 #		user.logbookEntries.order_by(logbookEntries.recorded_date.desc()):
 
+	def getUsers(self):
+
+		message = dict()
+
+		recently = (datetime.datetime.utcnow()-datetime.timedelta(minutes=5)).strftime('%s')
+		users_select = """
+		SELECT username
+		FROM user"""
+		users_query = User.raw(users_select)
+		usernames = []
+		for user in users_query:
+			usernames.append(user.username)
+
+#		print(usernames)
+		message["users"] = usernames
+		message["success"]  = True
+		return (json.dumps(message))
 
 
+#Top10 aller spiele
 
+#SELECT COUNT(name) FROM minigame;
+
+#SELECt u.username, s.points, m.name
+#FROM user u, minigame m, score s
+#WHERE s.user_id = u.username
+#AND s.game_id_id = m.id
+#AND m.id = 1
+#ORDER BY s.points DESC
+#LIMIT 10;
+
+#top_ten_select = """SELECt * FROM score s WHERE s.id in ( 	SELECT s.id 	FROM user u, minigame m, score s WHERE s.user_id = u.username AND s.game_id_id = m.id AND m.id = 1 ) ORDER BY s.points DESC LIMIT 10;"""
+
+
+	def getTopTenForAllMinigames(self):
+		top_ten_select = """
+		SELECt *
+		FROM score s
+		WHERE s.id in (
+			SELECT s.id
+			FROM user u, minigame m, score s
+			WHERE s.user_id = u.username
+			AND s.game_id_id = m.id
+			AND m.id = 1
+		)
+		ORDER BY s.points DESC
+		LIMIT 10;"""
+
+		score_map = dict()
+		top_ten_query = Score.raw(top_ten_select)
+		for score in top_ten_query:
+			print(score.points)
+
+#		Tracer()()
+#		message = dict()
+
+#		message["user_map"] = user_map
+		message["success"]  = True
+		return (json.dumps(message))
 # }}}
 
 # {{{ Authentication required
