@@ -11,11 +11,11 @@ public class GameControll_LogIn : MonoBehaviour {
     [HideInInspector]
 	private GameObject gameController;
 
-    private int screenWidth;
-    private int screenHeight;
+    //private int screenWidth;
+    //private int screenHeight;
 
-    private double scaleWidth;
-    private double scaleHeight;
+    //private double scaleWidth;
+    //private double scaleHeight;
 
     private string inputUsername = "";
     private string inputPassword = "";
@@ -35,37 +35,29 @@ public class GameControll_LogIn : MonoBehaviour {
         stylePassword.normal.background = passwort;
         stylePassword.fontSize = 35;
         styleLogInName.normal.background = name;
-        styleLogInName.fontSize = 35;
+        styleLogInName.fontSize = 25;
         styleLogIn.normal.background = login;
         styleRegistration.normal.background = registrieren;
 
 
 		gameController = GameObject.Find("GameController");
 
-        screenHeight = Screen.height;
-        screenWidth = Screen.width;
 
-        scaleWidth = screenWidth / 100;
-        scaleHeight = screenHeight / 100;
+        //screenHeight = Screen.height;
+        //screenWidth = Screen.width;
+
+        //scaleWidth = screenWidth / 100;
+        //scaleHeight = screenHeight / 100;
 	}
 
 	// Oberfläche konstruieren
     void OnGUI()
     {
-        
-        inputUsername = GUI.TextField(new Rect((float)((screenWidth / 2) - ((40 * scaleWidth) / 2)),
-                                               (float)((screenHeight / 3) - (5 * scaleHeight)),
-                                               (float)(20 * scaleWidth) * 2,
-                                               (float)(7 * scaleHeight)),inputUsername, styleLogInName);
-		inputPassword = GUI.PasswordField(new Rect((float)((screenWidth / 2) - ((40 * scaleWidth) / 2)), 
-		                                           (float)((screenHeight / 3) + (5 * scaleHeight)), 
-		                                           (float)(20 * scaleWidth)*2, 
-		                                           (float)(7 * scaleHeight)), inputPassword, '*', stylePassword);
 
-        if (GUI.Button(new Rect((float)((screenWidth / 2) - ((40 * scaleWidth) / 2)), 
-		                        (float)((screenHeight / 3) + (5 * scaleHeight) * 3), 
-		                        (float)(20 * scaleWidth)*2, 
-		                        (float)(7 * scaleHeight)), "",styleLogIn))
+        inputUsername = GUI.TextField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20,25,60,10)), inputUsername, styleLogInName);
+        inputPassword = GUI.PasswordField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 40, 60, 10)), inputPassword, '*', stylePassword);
+
+        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 55, 60, 10)), "", styleLogIn))
         {
 			if (gameController.GetComponent<RESTCommunication>().LoginUser(inputUsername,inputPassword) == true )
             {
@@ -81,16 +73,10 @@ public class GameControll_LogIn : MonoBehaviour {
 
 		if (isIncorrect)
 		{
-			GUI.Label(new Rect((float)((screenWidth / 2) - ((40 * scaleWidth) / 2)), 
-			                   (float)((screenHeight / 3) - (5 * scaleHeight) * 2), 
-			                   (float)(60 * scaleWidth), 
-			                   (float)(8 * scaleHeight)), "Falsche Eingabe");
+            GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 15, 60, 10)), "Falsche Eingabe");
 		}
 
-        if (GUI.Button(new Rect((float)((screenWidth / 2) - ((40 * scaleWidth) / 2)), 
-		                        (float)((screenHeight / 3) + (5 * scaleHeight) * 5),
-                                (float)(20 * scaleWidth) * 2,
-                                (float)(7 * scaleHeight)), "", styleRegistration))
+        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 70, 60, 10)), "", styleRegistration))
         {
             Application.LoadLevel(2);
         }

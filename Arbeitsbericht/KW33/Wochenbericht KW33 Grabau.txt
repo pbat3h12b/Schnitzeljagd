@@ -1,0 +1,19 @@
+Datum: 14. August 2014
+Wochenbericht KW 22
+
+Name: Florens Grabau
+Organisationsgruppe: O3 Qualitätsmanagement
+Spezialistengruppe:	S5 GUI/Story
+
+Wochen Arbeitsbericht:
+- Veteilung der Scripte für Galaxy Invaders besprechen
+- Beteiligte Personen: Florens Grabau/Fabian Meise => 1h
+- Erstellung des Spawnscripts für die Gegnerwellen in Galaxy Invaders
+- Beteiligte Personen: Florens Grabau => 2 1/2h
+- Bei den Spielegruppen nach Einhaltung der Designrichtlinien schauen (noch keiner außer Herr Stobbe bei Design angelangt)
+- Beteiligte Personen: Florens Grabau => 1 1/2h
+
+Was werde ich noch tun?
+-
+
+Was hindert mich an meiner Arbeit?
