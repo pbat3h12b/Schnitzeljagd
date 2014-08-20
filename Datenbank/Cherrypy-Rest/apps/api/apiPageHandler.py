@@ -6,7 +6,15 @@
 # Implementation of the RestAPI
 #
 
+#active nutzer
+
+#Top score aller spiele - für spiler
+
+# gästebuch
+
 __author__ = "space"
+
+from IPython.core.debugger import Tracer
 
 import re
 import uuid
@@ -185,9 +193,60 @@ class Api(object):
 #		user = User.get(User.username == username)
 #		user.logbookEntries.order_by(logbookEntries.recorded_date.desc()):
 
+	def getUsers(self):
+
+		message = dict()
+
+		users_select = """
+		SELECT username
+		FROM user"""
+		users_query = User.raw(users_select)
+
+		usernames = []
+		for user in users_query:
+			usernames.append(user.username)
+
+#		print(usernames)
+		message["users"] = usernames
+		message["success"]  = True
+		return (json.dumps(message))
+
+#SELECT COUNT(name) FROM minigame;
 
 
+	def getTopTenForAllMinigames(self):
 
+#		top_ten_select = """
+#		SELECT s.id
+#		FROM minigame m, score s
+#		WHERE m.id = 1
+#		AND s.game_id_id = m.id
+#		ORDER BY s.points DESC
+#		LIMIT 10
+#		"""
+
+		top_ten_select = """
+		SELECT id 
+		FROM score;"""
+
+		top_ten_query = Score.raw(top_ten_select)
+
+
+		print("foo")
+		print(top_ten_query)
+		scoresA = []
+		for sco in top_ten_query:
+			print("bob")
+#			print(sco.score_id)
+#			scoresA.append(sco.score_id)
+		print("final")
+
+#		Tracer()()
+		message = dict()
+
+#		message["user_map"] = user_map
+#		message["success"]  = True
+		return (json.dumps(message))
 # }}}
 
 # {{{ Authentication required
@@ -223,13 +282,16 @@ class Api(object):
 			message["error"]   = "Wrong Format or Insufficient position accurarcy."
 			return (json.dumps(message))
 
+		now = int(datetime.datetime.utcnow().strftime('%s'))
+
 		pos = PositionLog()
 		pos.user          = username
+		pos.recorded_date  = now
 		pos.latitude      = float(latitude)
 		pos.longitude     = float(longitude)
-		pos.recordedDate  = int(datetime.datetime.utcnow().strftime('%s'))
 		pos.save(force_insert=True)
 
+		print
 
 		message["success"] = True
 		return (json.dumps(message))

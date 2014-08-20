@@ -16,17 +16,17 @@ public class PlayerInformation : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Input.location.Start();
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+        Input.location.Start();
         longitude = Input.location.lastData.longitude;
         latitude = Input.location.lastData.latitude;
         timeSinceUpdate += Time.deltaTime;
         updateGeoData();
+        Input.location.Stop();
 
 	}
 
@@ -85,5 +85,20 @@ public class PlayerInformation : MonoBehaviour {
 		//GameObject.Find("GameController").GetComponent<RESTCommunication>().newLogBook(Text, CachID);
     }
 
+    public Rect GetRelativeRect(Rect oldRect)
+    {
+        Rect newRect = new Rect();
+
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        newRect.width = (oldRect.width * screenWidth) / 100;
+        newRect.height = (oldRect.height * screenHeight) / 100;
+
+        newRect.x = (oldRect.x * screenWidth) / 100;
+        newRect.y = (oldRect.y * screenHeight) / 100;
+
+        return newRect;
+    }
 }
 
