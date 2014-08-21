@@ -12,6 +12,17 @@
 
 # gästebuch
 
+# author 
+# timestamp
+# nachricht 
+
+# sql injection
+
+
+#	def getAvailableMinigames(self, username, token):
+#		#doesn't work with current db moddel
+# }}}
+
 __author__ = "space"
 
 from IPython.core.debugger import Tracer
@@ -158,7 +169,7 @@ class Api(object):
 		user_map = dict()
 		current_positions_query = PositionLog.raw(current_positions_select)
 		for pos in current_positions_query:
-			if pos.user.username in user_map: logging.debug("NEIN!")
+#			if pos.user.username in user_map: pass
 			user_map[pos.user.username] = (pos.longitude, pos.latitude)
 
 		message["user_map"] = user_map
@@ -178,8 +189,6 @@ class Api(object):
 #message["user_map"]["bernd"]
 #=> (43.234534, 23.423662)
 
-#foreach username in user_map:
-#	user_map[username]
 
 
 
@@ -198,9 +207,10 @@ class Api(object):
 		message = dict()
 
 		users_select = """
-		SELECT username
+		SELECT *
 		FROM user"""
 		users_query = User.raw(users_select)
+		print(users_query)
 
 		usernames = []
 		for user in users_query:
@@ -211,42 +221,100 @@ class Api(object):
 		message["success"]  = True
 		return (json.dumps(message))
 
-#SELECT COUNT(name) FROM minigame;
+
+	def getTopTenScoresForAllMinigames(self, player=None ):
+		message = dict()
+		if player != None and ( self.checkUserExists(player) ):
+			message["success"] = False
+			message["error"]   = "Username doesn't exist."
+			return (json.dumps(message))
+
+		minigames_select = """
+		SELECT *
+		FROM minigame m
+		"""	
+
+		minigame_query = Minigame.raw(minigames_select)
+		for minigame in minigame_query:
+			message[minigame.name] = list()
+
+			if player != None:
+				player_restriction = "AND s.user = %s" % (player)
+			else:
+				player_restriction = ""
+
+			top_ten_select = """
+			SELECT *
+			FROM minigame m, score s
+			WHERE m.id = %s
+			AND s.game_id = m.id
+			%s
+			ORDER BY s.points DESC
+			LIMIT 10
+			""" % (minigame.get_id(), player_restriction)
+
+			top_ten_query = Score.raw(top_ten_select)
+			for score in top_ten_query:
+#				Tracer()()
+				message[minigame.name].append((score.user.username, score.points, score.play_date))
+
+		message["success"] = True
+		return (json.dumps(message))
 
 
-	def getTopTenForAllMinigames(self):
+	def makeGuestbookEntry(self, author, message):
+		message = dict()
+		
+		now = int(datetime.datetime.utcnow().strftime('%s'))
 
-#		top_ten_select = """
-#		SELECT s.id
-#		FROM minigame m, score s
-#		WHERE m.id = 1
-#		AND s.game_id_id = m.id
-#		ORDER BY s.points DESC
-#		LIMIT 10
-#		"""
-
-		top_ten_select = """
-		SELECT id 
-		FROM score;"""
-
-		top_ten_query = Score.raw(top_ten_select)
+		entry = Guestbook()
+		entry.author        = author
+		entry.message       = message
+		entry.recorded_date = now
+		entry.save(force_insert=True)
+		
+		message["success"] = True
+		return (json.dumps(message))
 
 
-		print("foo")
-		print(top_ten_query)
-		scoresA = []
-		for sco in top_ten_query:
-			print("bob")
-#			print(sco.score_id)
-#			scoresA.append(sco.score_id)
-		print("final")
-
-#		Tracer()()
+	def getGuestbookIndex(self):
 		message = dict()
 
-#		message["user_map"] = user_map
-#		message["success"]  = True
+		index_select = """
+		SELECT id
+		FROM guestbook
+		ORDER BY recorded_date DESC"""
+		index_query = Guestbook.raw(index_select)
+
+		index = []
+		for entry in index_query:
+			index.append(entry.id)
+
+		message["index"] = index
+		message["success"]  = True
 		return (json.dumps(message))
+
+	def getGuestbookEntryById(self, id):
+		message = dict()
+
+		index_select = """
+		SELECT *
+		FROM guestbook
+		WHERE id = %s""" % (id)
+ 		index_query = Guestbook.raw(index_select)
+
+		for entry in index_query:
+			message["id"]      = entry.id
+			message["author"]  = entry.author
+			message["message"] = entry.message
+			message["date"]    = entry.recorded_date
+			break
+
+		message["success"]  = True
+		return (json.dumps(message))
+
+
+
 # }}}
 
 # {{{ Authentication required
@@ -264,10 +332,6 @@ class Api(object):
 			return (json.dumps(message))
 
 	def updatePosition(self, username, token, longitude, latitude):
-
-		log.warning("===")
-		log.warning(username)
-		log.warning("===")
 
 		message = dict()
 		if not (self.checkToken(username, token)):
@@ -291,18 +355,38 @@ class Api(object):
 		pos.longitude     = float(longitude)
 		pos.save(force_insert=True)
 
-		print
-
 		message["success"] = True
 		return (json.dumps(message))
 
-#	def getAvailableMinigames(self, username, token):
-#		#doesn't work with current db moddel
-# }}}
+#	def makeLogbookEntry(self, username, token, cache_id, secret, message):
+#		message = dict()
+#		if not (self.checkToken(username, token)):
+#			message["success"] = False
+#			message["error"]   = "Invalid Authentication Token."
+#			return (json.dumps(message))
+
+		# TODO: Check user is allowed to solve
+
+
+
+#class Logbook(BaseModel):
+#	logbook_id    = PrimaryKeyField
+#	puzzle_solved = BooleanField()
+#	message       = CharField()
+#	found_date    = IntegerField()
+#	cache         = ForeignKeyField(Geocache, related_name='findings')
+#	user          = ForeignKeyField(User, related_name='logbookEntries')	
+
+#class Geocache(BaseModel):
+#	geochache_id = PrimaryKeyField
+#	latitude     = DoubleField()
+#	longitude    = DoubleField()
+#	secret       = CharField()
+#	next_cache   = ForeignKeyField('self', related_name='next')
+#	hint         = CharField()
+
 
 # {{{ Database wrapper
-# Die folgenden Klassen nutzen die CamelCase Notation für Attribute, 
-# da sie die SQL Tabellen  wieder spiegeln.
 class BaseModel(peewee.Model):
 	class Meta: 
 		database = db_conn
@@ -319,7 +403,7 @@ class Minigame(BaseModel):
 class Score(BaseModel):
 	score_id  = PrimaryKeyField
 	user      = ForeignKeyField(User, related_name='played_rounds')
-	game_id   = ForeignKeyField(Minigame, related_name='scores')
+	game   = ForeignKeyField(Minigame, related_name='scores')
 	points    = IntegerField()
 	play_date = IntegerField()
 
@@ -329,7 +413,7 @@ class Geocache(BaseModel):
 	longitude    = DoubleField()
 	secret       = CharField()
 	next_cache   = ForeignKeyField('self', related_name='next')
-	hint         = CharField()
+#	hint         = CharField()
 
 class Logbook(BaseModel):
 	logbook_id    = PrimaryKeyField
@@ -346,6 +430,11 @@ class PositionLog(BaseModel):
 	longitude       = DoubleField()
 	recorded_date   = IntegerField()
 
+class Guestbook(BaseModel):
+	guestbook_id  = PrimaryKeyField
+	author        = CharField()
+	message       = CharField()
+	recorded_date = IntegerField()
 
 # }}}
 

@@ -18,7 +18,8 @@ if __name__ == '__main__':
 #	ip = '81.169.244.213'
 #	port = 8080
 
-	db_host = 'localhost'
+	db_host = '10.0.3.75'
+	#	db_host = 'localhost'
 	db_database = 'geo'
 	db_user = 'berry_pink'
 	db_password = 'mellow_yellow'
@@ -32,15 +33,18 @@ if __name__ == '__main__':
 	d = cherrypy.dispatch.RoutesDispatcher()
 	d.connect(name='root',		action='index',		controller=index_controller,	route='/')
 
-	d.connect(name='api',		action='register',					controller=api_controller,	route='/api/register')
-	d.connect(name='api',		action='login',						controller=api_controller,	route='/api/login')	
-	d.connect(name='api',		action='nop',						controller=api_controller,	route='/api/nop')
-	d.connect(name='api',		action='updatePosition',			controller=api_controller,	route='/api/updatePosition')
-	d.connect(name='api',		action='getPositionsMap',			controller=api_controller,	route='/api/getPositionsMap')
-	d.connect(name='api',		action='getUsers',					controller=api_controller,	route='/api/getUsers')
-	d.connect(name='api',		action='getTopTenForAllMinigames',	controller=api_controller,	route='/api/getTopTenForAllMinigames')	
+	d.connect(name='api',		action='register',							controller=api_controller,	route='/api/register')
+	d.connect(name='api',		action='login',								controller=api_controller,	route='/api/login')	
+	d.connect(name='api',		action='nop',								controller=api_controller,	route='/api/nop')
+	d.connect(name='api',		action='updatePosition',					controller=api_controller,	route='/api/updatePosition')
+	d.connect(name='api',		action='getPositionsMap',					controller=api_controller,	route='/api/getPositionsMap')
+	d.connect(name='api',		action='getUsers',							controller=api_controller,	route='/api/getUsers')
+	d.connect(name='api',		action='getTopTenScoresForAllMinigames',	controller=api_controller,	route='/api/getTopTenScoresForAllMinigames')
+	d.connect(name='api',		action='makeGuestbookEntry',				controller=api_controller,	route='/api/makeGuestbookEntry')
+	d.connect(name='api',		action='getGuestbookIndex',					controller=api_controller,	route='/api/getGuestbookIndex')
+	d.connect(name='api',		action='getGuestbookEntryById',				controller=api_controller,	route='/api/getGuestbookEntryById')
 
-	
+
 	config_dict = {
 		'/': {
 			'request.dispatch': d
