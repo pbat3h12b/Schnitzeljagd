@@ -245,7 +245,7 @@ class Api(object):
 			game[minigame.name] = dict()
 
 			if player != None:
-				player_restriction = "AND s.user_id = %s" % (player)
+				player_restriction = "AND s.user_id = '%s'" % (player)
 			else:
 				player_restriction = ""
 
