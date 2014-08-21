@@ -234,9 +234,10 @@ class Api(object):
 		FROM minigame m
 		"""	
 
+		game = dict()
 		minigame_query = Minigame.raw(minigames_select)
 		for minigame in minigame_query:
-			message[minigame.name] = list()
+			game[minigame.name] = list()
 
 			if player != None:
 				player_restriction = "AND s.user = %s" % (player)
@@ -256,8 +257,9 @@ class Api(object):
 			top_ten_query = Score.raw(top_ten_select)
 			for score in top_ten_query:
 #				Tracer()()
-				message[minigame.name].append((score.user.username, score.points, score.play_date))
+				game[minigame.name].append((score.user.username, score.points, score.play_date))
 
+		message["game"] = game
 		message["success"] = True
 		return (json.dumps(message))
 
