@@ -100,22 +100,21 @@ using SimpleJSON;
 
         //Die Funktion GetPositionMap gibt eine Liste von allen aktiven Benutzern zurück, welche die Positionen und 
         //und Namen der Benutzer enthällt
-        /*public List<Position> GetPositionMap()
+        public List<Position> GetPositionMap()
         {
             List<Position>positionen = new List<Position>();
-            byte[] emptyarray = new byte[];
-            var response = JSON.Parse(Communication("http://btcwash.de:8080/api/getPositionMap"),emptyarray);
-            var responseuser = JSON.Parse(Communication("http://btcwash.de:8080/api/alluser"),emptyarray)
+            byte[] emptyarray = new byte[0];
+            var response = JSON.Parse(Communication("http://btcwash.de:8080/api/getPositionsMap",emptyarray));
 
             if (response["success"].AsBool)
             {
-                foreach(var person in response["user_map"])
+                for ( int i = 0 ; i < response["uder_map"].Count; i++)
                 {
-                    positionen.add(new Position(person[0],person[1],person.AsString));
+                    positionen.Add(new Position((response["User_map"][i][0].AsFloat),response["User_map"][i][1].AsFloat, response["User_map"][i].Value));
                 }
             }
             return positionen;
-        }*/
+        }
 
         //Die Funktion Communication stellt die Verbindung zum Server her, sie übermittelt dabei
         //die gewünschten Parameter und gibt die Antwort des Servers dann als String zurück
