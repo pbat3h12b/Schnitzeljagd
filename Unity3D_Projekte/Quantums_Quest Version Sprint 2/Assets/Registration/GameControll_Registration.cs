@@ -56,7 +56,7 @@ public class GameControll_Registration : MonoBehaviour {
         {
 			if (inputPassword == inputPasswordRepetition && inputPassword != "")
             {
-				if (gameController.GetComponent<RESTCommunication>().RegisterNewUser(inputUsername,inputPassword) == true )
+				if (gameController.GetComponent<RESTCommunication>().RegisterNewUser(inputUsername,inputPassword).Success == true )
                 {
                     Application.LoadLevel(0);
                 }

@@ -47,7 +47,7 @@ using SimpleJSON;
 
         //Die Funktion LoginUser ermöglicht es dem Benutzer sich am System anzumelden
         //Parameter:    die Parameter username und password werden an den Server gesendet
-        public bool LoginUser(String _username, String _password)
+        public Response LoginUser(String _username, String _password)
         {
             //Die Parameter werden mit dem dazu gehörigen namen erstellt und in einer Liste gespeichert
             List<Parameter> parameter = new List<Parameter>();
@@ -245,17 +245,17 @@ using SimpleJSON;
 
     public class Response
     {
-        bool success ;
+        bool success;
+
+        public bool Success
+        {
+            get { return success; }
+        }
         string message;
 
-        public Success
+        public string Message
         {
-            get{return success;}
-        }
-
-        public Message
-        {
-            get{return message;}
+            get { return message; }
         }
 
         public Response(bool _success,string _message)
