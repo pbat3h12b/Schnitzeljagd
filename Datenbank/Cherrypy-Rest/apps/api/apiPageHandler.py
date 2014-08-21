@@ -55,6 +55,10 @@ def setup_db():
 	Guestbook.create_table()
 
 
+
+
+
+
 class Api(object):
 	def __init__(self, db_host, db_database, db_user, db_password):
 		self.db_host = db_host
@@ -225,7 +229,7 @@ class Api(object):
 
 	def getTopTenScoresForAllMinigames(self, player=None ):
 		message = dict()
-		if player != None and ( self.checkUserExists(player) ):
+		if player != None and not ( self.checkUserExists(player) ):
 			message["success"] = False
 			message["error"]   = "Username doesn't exist."
 			return (json.dumps(message))
@@ -238,7 +242,7 @@ class Api(object):
 		game = dict()
 		minigame_query = Minigame.raw(minigames_select)
 		for minigame in minigame_query:
-			game[minigame.name] = list()
+			game[minigame.name] = dict()
 
 			if player != None:
 				player_restriction = "AND s.user = %s" % (player)
@@ -258,7 +262,8 @@ class Api(object):
 			top_ten_query = Score.raw(top_ten_select)
 			for score in top_ten_query:
 #				Tracer()()
-				game[minigame.name].append((score.user.username, score.points, score.play_date))
+#				game[minigame.name].append((score.user.username, score.points, score.play_date))
+				game[minigame.name][score.user.username] = (score.points, score.play_date)
 
 		message["game"] = game
 		message["success"] = True
@@ -413,6 +418,7 @@ class Score(BaseModel):
 
 class Geocache(BaseModel):
 	geochache_id = PrimaryKeyField
+	name         = CharField()
 	latitude     = DoubleField()
 	longitude    = DoubleField()
 	secret       = CharField()
