@@ -265,14 +265,14 @@ class Api(object):
 		return (json.dumps(message))
 
 
-	def makeGuestbookEntry(self, author, message):
+	def makeGuestbookEntry(self, author, message_str):
 		message = dict()
 		
 		now = int(datetime.datetime.utcnow().strftime('%s'))
 
 		entry = Guestbook()
 		entry.author        = author
-		entry.message       = message
+		entry.message       = message_str
 		entry.recorded_date = now
 		entry.save(force_insert=True)
 		
