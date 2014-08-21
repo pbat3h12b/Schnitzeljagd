@@ -8,14 +8,6 @@
 
 #active nutzer
 
-#Top score aller spiele - für spiler
-
-# gästebuch
-
-# author 
-# timestamp
-# nachricht 
-
 # sql injection
 
 
@@ -55,8 +47,59 @@ def setup_db():
 	Guestbook.create_table()
 
 
+	user = User()
+	user.username = "testUser"
+	user.password_salt = "hb/ynyeWg'LHR%=cgQ~,"
+	user.password_hash = "f4669ab43b879253c96375caa2349dde"
+	user.save(force_insert=True)
 
+	gc = Geocache()
+	gc.cachename	= "Serverraum"
+	gc.latitude		= 51.73106
+	gc.longitude	= 8.73635
+	gc.secret		= 'df5a8617'
+	gc.next_cache	= "Serverraum"
+	gc.save(force_insert=True)
 
+	gc = Geocache()
+	gc.cachename	= "Fluss"
+	gc.latitude		= 51.73064
+	gc.longitude	= 8.73554
+	gc.secret		= '4f1fc70d'
+	gc.next_cache	= "Serverraum"
+	gc.save(force_insert=True)
+
+	gc = Geocache()
+	gc.cachename	= "Wohnheim"
+	gc.latitude		= 51.72956
+	gc.longitude	= 8.7374
+	gc.secret		= '8a1b32fa'
+	gc.next_cache	= "Fluss"
+	gc.save(force_insert=True)
+
+	gc = Geocache()
+	gc.cachename	= "HNF"
+	gc.latitude		= 51.73147
+	gc.longitude	= 8.73618
+	gc.secret		= 'b7a34174'
+	gc.next_cache	= "Wohnheim"
+	gc.save(force_insert=True)
+
+	gc = Geocache()
+	gc.cachename	= "Zukunftsmeile"
+	gc.latitude		= 51.73057
+	gc.longitude	= 8.73807
+	gc.secret		= 'd1741e41'
+	gc.next_cache	= "HNF"
+	gc.save(force_insert=True)				
+
+	gc = Geocache()
+	gc.cachename	= "bib-Eingang"
+	gc.latitude		= 51.73075
+	gc.longitude	= 8.73707
+	gc.secret		= '8e71bee3'
+	gc.next_cache	= "Zukunftsmeile"
+	gc.save(force_insert=True)
 
 
 class Api(object):
@@ -261,7 +304,6 @@ class Api(object):
 
 			top_ten_query = Score.raw(top_ten_select)
 			for score in top_ten_query:
-#				Tracer()()
 #				game[minigame.name].append((score.user.username, score.points, score.play_date))
 				game[minigame.name][score.user.username] = (score.points, score.play_date)
 
@@ -412,18 +454,16 @@ class Minigame(BaseModel):
 class Score(BaseModel):
 	score_id  = PrimaryKeyField
 	user      = ForeignKeyField(User, related_name='played_rounds')
-	game   = ForeignKeyField(Minigame, related_name='scores')
+	game      = ForeignKeyField(Minigame, related_name='scores')
 	points    = IntegerField()
 	play_date = IntegerField()
 
 class Geocache(BaseModel):
-	geochache_id = PrimaryKeyField
-	name         = CharField()
+	cachename    = CharField(primary_key=True)
 	latitude     = DoubleField()
 	longitude    = DoubleField()
 	secret       = CharField()
 	next_cache   = ForeignKeyField('self', related_name='next')
-#	hint         = CharField()
 
 class Logbook(BaseModel):
 	logbook_id    = PrimaryKeyField
