@@ -51,7 +51,8 @@ def setup_db():
 	Score.create_table()
 	Geocache.create_table()
 	Logbook.create_table()
-	PositionLog.create_table()	
+	PositionLog.create_table()
+	Guestbook.create_table()
 
 
 class Api(object):
@@ -278,7 +279,6 @@ class Api(object):
 		message["success"] = True
 		return (json.dumps(message))
 
-
 	def getGuestbookIndex(self):
 		message = dict()
 
@@ -314,6 +314,8 @@ class Api(object):
 
 		message["success"]  = True
 		return (json.dumps(message))
+
+
 
 
 
