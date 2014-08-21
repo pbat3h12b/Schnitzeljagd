@@ -10,27 +10,36 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	private float timeSinceChance = 0;
 
 	private GameObject gameController;
+
+    // new
+    private Component staticScript;
 	
 	private int screenWidth;
 	private int screenHeight;
 	
 	private double scaleWidth;
 	private double scaleHeight;
+
+    private float mapMinLatitude = 51.73299f;
+    private float mapMinLongitude = 8.73370f;
+    private float mapMaxLatitude = 51.72893f;
+	private float mapMaxLongitude = 8.74004f;
 	
-	private float mapMinLatitude = 51.72901f;
-	private float mapMinLongitude = 8.73424f;
-	private float mapMaxLatitude = 51.73263f;
-	private float mapMaxLongitude = 8.73991f;
-	
+    // new
+    private Rect mapTransform;
+
 	private float mapScaleWidth;
 	private float mapScaleHeight;
 	private float mapPositionX;
 	private float mapPositionY;
 	
-	private float userLatitude = 51.72901f;
-	private float userLongitude = 8.73424f;
+	private float userLatitude;
+	private float userLongitude;
 	private float userLatitudePosition = 0;
 	private float userLongitudePosition = 0;
+
+    // new
+    private Rect userPosition;
 	
 	private float timeBetweenUpdates = 5;
 	private float timeSinceLastUpdate = 0;
@@ -56,6 +65,14 @@ public class GameControll_KartenMenue : MonoBehaviour {
 		mapScaleWidth = mapScaleHeight;
 		mapPositionX = (float)(50 * scaleWidth) - (mapScaleWidth / 2);
 		mapPositionY = (float)(30 * scaleHeight) - (mapScaleHeight / 2);
+
+        // new
+        mapTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(0, 0, 0, 100));
+        mapTransform.width = mapTransform.height;
+
+        // new
+        userPosition.width = mapTransform.width / 20;
+        userPosition.height = mapTransform.height / 20;
 	}
 	
 	/*
@@ -64,11 +81,6 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	void Update()
 	{
 		timeSinceChance += Time.deltaTime;
-
-		if (timeSinceChance > 30) {
-			Application.LoadLevel(5);
-				}
-
 	}
 	
 	/*
@@ -76,7 +88,12 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	 */
 	void OnGUI()
 	{
-		GUI.DrawTexture (new Rect(mapPositionX, mapPositionY, mapScaleWidth, mapScaleHeight), imageMap);
+		GUI.DrawTexture (new Rect(mapTransform.x, 
+                                    mapTransform.y, 
+                                    mapTransform.width, 
+                                    mapTransform.height), 
+                                    imageMap);
+
 		GUI.Label (new Rect(mapPositionX, mapPositionY - 50, mapScaleWidth, mapScaleHeight), errorMessage);
 
 		if (timeSinceLastUpdate <= 0 && CheckGeoStatus())
@@ -84,10 +101,9 @@ public class GameControll_KartenMenue : MonoBehaviour {
 			Input.location.Start ();
 
 			userLatitude = Input.location.lastData.latitude;
-			userLatitudePosition = GetLatitudePosition(userLatitude);
+            userPosition.x = GetLatitudePosition(51.73090f);
 			userLongitude = Input.location.lastData.longitude;
-			userLongitudePosition = GetLatitudePosition(userLongitude);
-
+            userPosition.y = GetLongitudePosition(8.73631f);
 			timeSinceLastUpdate = timeBetweenUpdates;
 
 			Input.location.Stop ();
@@ -96,11 +112,11 @@ public class GameControll_KartenMenue : MonoBehaviour {
 		{
 			timeSinceLastUpdate -= Time.deltaTime;
 		}
-		
-		GUI.DrawTexture (new Rect(userLongitudePosition, 
-		                          userLatitudePosition, 
-		                          mapScaleWidth / 20, 
-		                          mapScaleHeight / 20), imageCurrentUser);
+
+        GUI.DrawTexture(new Rect(userPosition.y,
+                                  userPosition.x,
+                                  userPosition.width,
+                                  userPosition.height), imageCurrentUser);
 		
 		if (GUI.Button(new Rect((float)((screenWidth) - ((50 * scaleWidth))), 
 		                        (float)((screenHeight) - (5 * scaleHeight) * 2), 
@@ -149,10 +165,14 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	 */
 	float GetLatitudePosition(float latitute)
 	{
-		float latitudePosition = mapPositionX + (mapScaleWidth * 
+		/*float latitudePosition = mapTransform.x + (mapTransform.width * 
 		                                         ((mapMinLatitude - latitute) * 100) / 
-		                                         (mapMinLatitude - mapMaxLatitude) / 100);
-		latitudePosition = Mathf.Clamp (latitudePosition, mapPositionX, mapPositionX + mapScaleWidth);
+		                                         (mapMinLatitude - mapMaxLatitude) / 100);*/
+        float latitudePosition = ((latitute - mapMinLatitude) * 100) / (mapMaxLatitude - mapMinLatitude);
+        Debug.Log(latitudePosition);
+        latitudePosition = mapTransform.x + ((mapTransform.width * latitudePosition) / 100);
+		latitudePosition = Mathf.Clamp (latitudePosition, mapTransform.x, mapTransform.x + mapTransform.width);
+        latitudePosition -= userPosition.width / 2;
 		return latitudePosition;
 	}
 	
@@ -161,10 +181,14 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	 */
 	float GetLongitudePosition(float longitude)
 	{
-		float longitudePosition = mapPositionY + (mapScaleHeight * 
-		                                          ((mapMinLongitude - longitude) * 100) / 
-		                                          (mapMinLongitude - mapMaxLongitude) / 100);
-		longitudePosition = Mathf.Clamp (longitudePosition, mapPositionY, mapPositionY + mapScaleHeight);
+       /* float longitudePosition = mapTransform.y + (mapTransform.height *
+                                                  ((mapMinLongitude - longitude) * 100) /
+                                                  (mapMinLongitude - mapMaxLongitude) / 100);*/
+        float longitudePosition = ((longitude - mapMinLongitude) * 100) / (mapMaxLongitude - mapMinLongitude);
+        Debug.Log(longitudePosition);
+        longitudePosition = mapTransform.y + ((mapTransform.height * longitudePosition) / 100);
+		longitudePosition = Mathf.Clamp (longitudePosition, mapTransform.y, mapTransform.y + mapTransform.height);
+        longitudePosition -= userPosition.height / 2;
 		return longitudePosition;
 	}
 }

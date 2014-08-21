@@ -7,6 +7,8 @@ public class GameControll_LogIn : MonoBehaviour {
     public Texture2D passwort;
     public Texture2D login;
     public Texture2D registrieren;
+    public Texture2D verlauf;
+    public Texture2D background;
 
     [HideInInspector]
 	private GameObject gameController;
@@ -53,13 +55,14 @@ public class GameControll_LogIn : MonoBehaviour {
 	// Oberfläche konstruieren
     void OnGUI()
     {
+        GUI.DrawTexture(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
 
         inputUsername = GUI.TextField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20,25,60,10)), inputUsername, styleLogInName);
         inputPassword = GUI.PasswordField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 40, 60, 10)), inputPassword, '*', stylePassword);
 
         if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 55, 60, 10)), "", styleLogIn))
         {
-			if (gameController.GetComponent<RESTCommunication>().LoginUser(inputUsername,inputPassword) == true )
+			if (gameController.GetComponent<RESTCommunication>().LoginUser(inputUsername,inputPassword).Success == true )
             {
 				gameController.GetComponent<PlayerInformation>().logIn(inputUsername);
                 Screen.orientation = ScreenOrientation.Landscape;
@@ -80,5 +83,7 @@ public class GameControll_LogIn : MonoBehaviour {
         {
             Application.LoadLevel(2);
         }
+
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
     }
 }
