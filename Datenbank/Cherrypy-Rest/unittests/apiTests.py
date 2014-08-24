@@ -114,59 +114,32 @@ class BaseFunctions(object):
 			return None
 		else: return response_json	
 
-class GeoTests(unittest.TestCase, BaseFunctions):
-	def testforwardUpdatePosition(self):
-		login_payload = {	'username': config["existing_user"], 
-							'password': config["existing_users_password"] }
+	def makeGuestbookEntry(self, payload, expected_error = None):
+		pos_url=(config["api_url"] + "makeGuestbookEntry")
 
- 		pos_payload   = {	'longitude' : "12.345678",
-							'latitude'  : "98.765432" }
+		response_json = self.genericRestCall(pos_url, payload, expected_error)
+		if not (response_json["success"]): 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
+		else: return response_json
 
-		session = self.login(login_payload)
-		session = self.updatePosition(session, pos_payload)
-		session = self.nop(session)			
+	def getGuestbookIndex(self, expected_error = None):
+		pos_url=(config["api_url"] + "getGuestbookIndex")
 
-	def testUpdatePositionNotEnoughAccurarcy(self):
-		login_payload = {	'username': config["existing_user"], 
-							'password': config["existing_users_password"] }
+		response_json = self.genericRestCall(pos_url, {}, expected_error)
+		if not (response_json["success"]):
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
+		else: return response_json	
 
- 		pos_payload   = {	'longitude' : "12.3456",
-							'latitude'  : "98.7654" }
+	def getGuestbookEntryById(self, payload, expected_error = None):
+		pos_url=(config["api_url"] + "getGuestbookEntryById")
 
-		session = self.login(login_payload)
-		session = self.updatePosition(session, pos_payload, "Wrong Format or Insufficient position accurarcy.")
-		self.assertIsNone(session)
-
-	def testfoarwardGetPositionsMap(self):
-		response_json = self.getPositionsMap()
-		self.assertIsNotNone(response_json)
-
-
-	def testfoarwardUpdateAndGetPositionsMap(self):
-		expected_map  = dict()
-		user_sessions = list()
-
-		for idx in xrange(5):
-			login_payload = {	'username': ("to_delete" + str(uuid.uuid4()))[0:30], 
-								'password': uuid.uuid4() }
-		
-			self.register(login_payload)
-			session = self.login(login_payload)	
-			user_sessions.append(session)
-
-		for i in xrange(len(user_sessions)*10):
- 			pos_payload   = {	'longitude' : ("%d.%d" %  (random.randint(1, 99), random.randint(100000, 999999))),
-								'latitude'  : ("%d.%d" %  (random.randint(1, 99), random.randint(100000, 999999))) }
-
-			idx = random.randint(0, len(user_sessions)-1)
-			user_sessions[idx] = self.updatePosition(user_sessions[idx], pos_payload)
-			self.assertIsNotNone(user_sessions[idx])
-
-			expected_map[user_sessions[idx]["username"]] = [float(pos_payload["longitude"]), float(pos_payload["latitude"])]
-
-		response_json = self.getPositionsMap()
-		for key in expected_map:
-			self.assertEqual(expected_map[key], response_json["user_map"][key])
+		response_json = self.genericRestCall(pos_url, payload, expected_error)
+		if not (response_json["success"]): 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
+		else: return response_json
 
 
 class RegisterTests(unittest.TestCase, BaseFunctions):
@@ -243,6 +216,98 @@ class TokenTests(unittest.TestCase, BaseFunctions):
 		session = self.nop(session)
 		self.assertIsNotNone(session)
 
+
+class GeoTests(unittest.TestCase, BaseFunctions):
+	def testforwardUpdatePosition(self):
+		login_payload = {	'username': config["existing_user"], 
+							'password': config["existing_users_password"] }
+
+ 		pos_payload   = {	'longitude' : "12.345678",
+							'latitude'  : "98.765432" }
+
+		session = self.login(login_payload)
+		session = self.updatePosition(session, pos_payload)
+		session = self.nop(session)			
+
+	def testUpdatePositionNotEnoughAccurarcy(self):
+		login_payload = {	'username': config["existing_user"], 
+							'password': config["existing_users_password"] }
+
+ 		pos_payload   = {	'longitude' : "12.3456",
+							'latitude'  : "98.7654" }
+
+		session = self.login(login_payload)
+		session = self.updatePosition(session, pos_payload, "Wrong Format or Insufficient position accurarcy.")
+		self.assertIsNone(session)
+
+	def testfoarwardGetPositionsMap(self):
+		response_json = self.getPositionsMap()
+		self.assertIsNotNone(response_json)
+
+
+	def testfoarwardUpdateAndGetPositionsMap(self):
+		expected_map  = dict()
+		user_sessions = list()
+
+		for idx in xrange(5):
+			login_payload = {	'username': ("to_delete" + str(uuid.uuid4()))[0:30], 
+								'password': uuid.uuid4() }
+		
+			self.register(login_payload)
+			session = self.login(login_payload)	
+			user_sessions.append(session)
+
+		for i in xrange(len(user_sessions)*10):
+ 			pos_payload   = {	'longitude' : ("%d.%d" %  (random.randint(1, 99), random.randint(100000, 999999))),
+								'latitude'  : ("%d.%d" %  (random.randint(1, 99), random.randint(100000, 999999))) }
+
+			idx = random.randint(0, len(user_sessions)-1)
+			user_sessions[idx] = self.updatePosition(user_sessions[idx], pos_payload)
+			self.assertIsNotNone(user_sessions[idx])
+
+			expected_map[user_sessions[idx]["username"]] = [float(pos_payload["longitude"]), float(pos_payload["latitude"])]
+
+		response_json = self.getPositionsMap()
+		for key in expected_map:
+			self.assertEqual(expected_map[key], response_json["user_map"][key])
+
+
+class GuestbookTests(unittest.TestCase, BaseFunctions):
+	# umlaute
+	# sonderzeichen
+	# non printable characters
+	# XSS
+	def testforwardMakeAndRetriveGuestbookEntry(self):
+		entry_payload = {	'author' : "Axel Stoll",
+							'message_str'  : "Magie = Physik / Wollen" }
+
+		response_json = self.makeGuestbookEntry(entry_payload)
+		response_json = self.getGuestbookIndex()
+		self.assertIsNotNone(response_json)
+
+		query_payload = {	'id' : response_json["index"][0] }
+		response_json = self.getGuestbookEntryById(query_payload)
+
+		self.assertEqual(entry_payload['author'], response_json['author'])
+		self.assertEqual(entry_payload['message_str'], response_json['message'])
+		self.assertEqual(response_json['id'], query_payload['id'])
+
+	def testgetGuestbookEntryWithWrongId(self):
+		query_payload = {	'id' : -1 }
+		response_json = self.getGuestbookEntryById(query_payload, "No Entry by that id.")
+		self.assertIsNone(response_json)
+
+
+class MinigameTests(unittest.TestCase, BaseFunctions):
+	pass
+
+# getUsers
+# getTopTenScoresForAllMinigames
+# secretValidForNextCache
+# submitGameScore
+# makeLogbookEntry
+# getAllLogbookEntriesByUser
+# markPuzzleSolved
 
 if __name__ == '__main__':
     unittest.main()

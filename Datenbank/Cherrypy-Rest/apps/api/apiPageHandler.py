@@ -9,11 +9,9 @@
 #active nutzer
 
 # sql injection
+# Allowed charaters
+# Guestbook XSS
 
-
-#	def getAvailableMinigames(self, username, token):
-#		#doesn't work with current db moddel
-# }}}
 
 __author__ = "space"
 
@@ -37,70 +35,6 @@ log = logging.getLogger(__name__)
 
 db_conn = MySQLDatabase(None)
 
-def setup_db():
-	User.create_table()
-	Minigame.create_table()
-	Score.create_table()
-	Geocache.create_table()
-	Logbook.create_table()
-	PositionLog.create_table()
-	Guestbook.create_table()
-
-
-	user = User()
-	user.username = "testUser"
-	user.password_salt = "hb/ynyeWg'LHR%=cgQ~,"
-	user.password_hash = "f4669ab43b879253c96375caa2349dde"
-	user.save(force_insert=True)
-
-	gc = Geocache()
-	gc.cachename	= "Serverraum"
-	gc.latitude		= 51.73106
-	gc.longitude	= 8.73635
-	gc.secret		= 'df5a8617'
-	gc.next_cache	= "Serverraum"
-	gc.save(force_insert=True)
-
-	gc = Geocache()
-	gc.cachename	= "Fluss"
-	gc.latitude		= 51.73064
-	gc.longitude	= 8.73554
-	gc.secret		= '4f1fc70d'
-	gc.next_cache	= "Serverraum"
-	gc.save(force_insert=True)
-
-	gc = Geocache()
-	gc.cachename	= "Wohnheim"
-	gc.latitude		= 51.72956
-	gc.longitude	= 8.7374
-	gc.secret		= '8a1b32fa'
-	gc.next_cache	= "Fluss"
-	gc.save(force_insert=True)
-
-	gc = Geocache()
-	gc.cachename	= "HNF"
-	gc.latitude		= 51.73147
-	gc.longitude	= 8.73618
-	gc.secret		= 'b7a34174'
-	gc.next_cache	= "Wohnheim"
-	gc.save(force_insert=True)
-
-	gc = Geocache()
-	gc.cachename	= "Zukunftsmeile"
-	gc.latitude		= 51.73057
-	gc.longitude	= 8.73807
-	gc.secret		= 'd1741e41'
-	gc.next_cache	= "HNF"
-	gc.save(force_insert=True)				
-
-	gc = Geocache()
-	gc.cachename	= "bib-Eingang"
-	gc.latitude		= 51.73075
-	gc.longitude	= 8.73707
-	gc.secret		= '8e71bee3'
-	gc.next_cache	= "Zukunftsmeile"
-	gc.save(force_insert=True)
-
 
 class Api(object):
 	def __init__(self, db_host, db_database, db_user, db_password):
@@ -120,6 +54,9 @@ class Api(object):
 		#setup_db()
 
 # {{{ Unexposed Methods
+	def now(self):
+		return int(datetime.datetime.utcnow().strftime('%s'))
+
 	def generateRandomString(self, length=20):
 		character_set = string.digits + string.letters + string.punctuation
 		return ''.join(random.choice(character_set) for c in range(length))
@@ -142,6 +79,42 @@ class Api(object):
 			self.session[username]["command_counter"] += 1
 			return (True)
 		else: return (False)
+
+	def allLogbookEntriesByUser(self, username):
+		logbook_select = """
+		SELECT *
+		FROM Logbook
+		WHERE user_id = %s
+		ORDER BY logbook_id;
+		""" % (username)
+
+		logbook_query = Logbook.raw(logbook_query)
+		all_entries = list()
+		for log in logbook_query:
+			all_entries.append(log)
+
+		return all_entries
+
+	def lastLogbookEntryByUser(self, username):
+		all_entries = allLogbookEntriesByUser(username)
+		if all_entries.lenght == 0:
+			return None
+		else:
+			return all_entries[-1]
+
+	def nextCache(self, username):
+
+		lastLogbook = lastLogbookEntry(username)
+
+		nextCache = None
+		if lastLogbook is None:
+			# TODO: Maybe this could be made less static.
+			nextCache = Geocache.select().where( Geocache.cachename == "bib-Eingang").get()
+		else:
+			nextCache = lastLogbook.cache.next_cache
+
+		return nextCache
+
 # }}}
 
 # {{{ No Authentication required
@@ -217,38 +190,11 @@ class Api(object):
 		user_map = dict()
 		current_positions_query = PositionLog.raw(current_positions_select)
 		for pos in current_positions_query:
-#			if pos.user.username in user_map: pass
 			user_map[pos.user.username] = (pos.longitude, pos.latitude)
 
 		message["user_map"] = user_map
 		message["success"]  = True
 		return (json.dumps(message))
-
-#message =
-#{
-#	success: True
-#	user_map: {
-#		"bernd": (längen, breiten)
-#		"eva": (längen, breiten)
-#		"eris": (längen, breiten)
-#	}
-#}
-
-#message["user_map"]["bernd"]
-#=> (43.234534, 23.423662)
-
-
-
-
-#	def cachesAndUser(self, username):
-#		message = dict()
-#		if not ( self.checkUserExists(username) ):
-#			message["success"] = False
-#			message["error"]   = "Username doesn't exist."
-#			return (json.dumps(message))
-#
-#		user = User.get(User.username == username)
-#		user.logbookEntries.order_by(logbookEntries.recorded_date.desc()):
 
 	def getUsers(self):
 
@@ -264,11 +210,9 @@ class Api(object):
 		for user in users_query:
 			usernames.append(user.username)
 
-#		print(usernames)
 		message["users"] = usernames
 		message["success"]  = True
 		return (json.dumps(message))
-
 
 	def getTopTenScoresForAllMinigames(self, player=None ):
 		message = dict()
@@ -304,23 +248,19 @@ class Api(object):
 
 			top_ten_query = Score.raw(top_ten_select)
 			for score in top_ten_query:
-#				game[minigame.name].append((score.user.username, score.points, score.play_date))
 				game[minigame.name][score.user.username] = (score.points, score.play_date)
 
 		message["game"] = game
 		message["success"] = True
 		return (json.dumps(message))
 
-
 	def makeGuestbookEntry(self, author, message_str):
 		message = dict()
 		
-		now = int(datetime.datetime.utcnow().strftime('%s'))
-
 		entry = Guestbook()
 		entry.author        = author
 		entry.message       = message_str
-		entry.recorded_date = now
+		entry.recorded_date = self.now()
 		entry.save(force_insert=True)
 		
 		message["success"] = True
@@ -357,14 +297,13 @@ class Api(object):
 			message["author"]  = entry.author
 			message["message"] = entry.message
 			message["date"]    = entry.recorded_date
-			break
 
-		message["success"]  = True
+			message["success"]  = True
+			return (json.dumps(message))
+
+		message["success"]  = False
+		message["error"]   = "No Entry by that id."
 		return (json.dumps(message))
-
-
-
-
 
 # }}}
 
@@ -382,6 +321,55 @@ class Api(object):
 			message["success"] = True
 			return (json.dumps(message))
 
+	def secretValidForNextCache(self, username, token, cache_secret):
+
+		message = dict()
+		if not (self.checkToken(username, token)):
+			message["success"] = False
+			message["error"]   = "Invalid Authentication Token."
+			return (json.dumps(message))
+		
+		next_cache = nextCache(username)
+		if next_cache is None:
+			message["success"] = False
+			message["error"]   = "All caches already solved."
+		elif next_cache.secret == cache_secret:
+			message["success"] = True
+		else:
+			message["success"] = False
+			message["error"]   = "Wrong secret."
+
+		return (json.dumps(message))
+
+	def submitGameScore(self, username, token, points, cache):
+
+		message = dict()
+		if not (self.checkToken(username, token)):
+			message["success"] = False
+			message["error"]   = "Invalid Authentication Token."
+			return (json.dumps(message))
+
+		if not Geocache.select().where( Geocache.cachename == cache).exists():
+			message["success"] = False
+			message["error"]   = "Cache not in database."
+			return (json.dumps(message))
+
+		relevant_cache = Geocache.select().where( Geocache.cachename == cache).get()
+		if not relevant_cache in allLogbookEntriesByUser(Username):
+			message["success"] = False
+			message["error"]   = "User didn't find that cache yet."
+			return (json.dumps(message))
+
+		sc = Score()
+		sc.user      = username
+		sc.cache     = cache
+		sc.points    = points
+		sc.play_date = self.now()
+		sc.save(force_insert=True)
+
+		message["success"] = True
+		return (json.dumps(message))
+
 	def updatePosition(self, username, token, longitude, latitude):
 
 		message = dict()
@@ -397,11 +385,9 @@ class Api(object):
 			message["error"]   = "Wrong Format or Insufficient position accurarcy."
 			return (json.dumps(message))
 
-		now = int(datetime.datetime.utcnow().strftime('%s'))
-
 		pos = PositionLog()
 		pos.user          = username
-		pos.recorded_date  = now
+		pos.recorded_date = self.now()
 		pos.latitude      = float(latitude)
 		pos.longitude     = float(longitude)
 		pos.save(force_insert=True)
@@ -409,32 +395,59 @@ class Api(object):
 		message["success"] = True
 		return (json.dumps(message))
 
-#	def makeLogbookEntry(self, username, token, cache_id, secret, message):
-#		message = dict()
-#		if not (self.checkToken(username, token)):
-#			message["success"] = False
-#			message["error"]   = "Invalid Authentication Token."
-#			return (json.dumps(message))
+	def makeLogbookEntry(self, username, token, secret, message):
+		message = dict()
+		if not (self.checkToken(username, token)):
+			message["success"] = False
+			message["error"]   = "Invalid Authentication Token."
+			return (json.dumps(message))
 
-		# TODO: Check user is allowed to solve
+		next_cache = nextCache(username)
+		if next_cache is None:
+			message["success"] = False
+			message["error"]   = "All caches already solved."
+			return (json.dumps(message))
+		elif next_cache.secret != cache_secret:
+			message["success"] = False
+			message["error"]   = "Wrong secret."
+			return (json.dumps(message))
 
+		log = Logbook()
+		log.puzzle_solved = False
+		log.message       = message
+		log.found_date    = self.now()
+		log.cache         = next_cache
+		log.user          = Username
 
+		message["success"] = True
+		return (json.dumps(message))
 
-#class Logbook(BaseModel):
-#	logbook_id    = PrimaryKeyField
-#	puzzle_solved = BooleanField()
-#	message       = CharField()
-#	found_date    = IntegerField()
-#	cache         = ForeignKeyField(Geocache, related_name='findings')
-#	user          = ForeignKeyField(User, related_name='logbookEntries')	
+	def getAllLogbookEntriesByUser(self, username, token):
+		message = dict()
+		if not (self.checkToken(username, token)):
+			message["success"] = False
+			message["error"]   = "Invalid Authentication Token."
+			return (json.dumps(message))
 
-#class Geocache(BaseModel):
-#	geochache_id = PrimaryKeyField
-#	latitude     = DoubleField()
-#	longitude    = DoubleField()
-#	secret       = CharField()
-#	next_cache   = ForeignKeyField('self', related_name='next')
-#	hint         = CharField()
+		message["entries"] = allLogbookEntriesByUser(username)
+		message["success"] = True
+		return (json.dumps(message))
+
+	def markPuzzleSolved(self, username, token):
+		message = dict()		
+		lastLogbook = lastLogbookEntry()
+
+		if lastLogbook is not None:
+			lastLogbook.puzzle_solved = True
+			message["success"] = True		
+
+		else:
+			message["success"] = False
+			message["error"]   = "User hasn't yet found a cache."
+
+		return (json.dumps(message))
+
+# }}}
 
 
 # {{{ Database wrapper
@@ -442,21 +455,13 @@ class BaseModel(peewee.Model):
 	class Meta: 
 		database = db_conn
 
+#class Minigame(BaseModel):
+#	minigamename = CharField(primary_key=True)
+
 class User(BaseModel):
 	username      = CharField(primary_key=True)
 	password_hash = TextField()
 	password_salt = TextField()
-
-class Minigame(BaseModel):
-	minigame_id = PrimaryKeyField
-	name = CharField()
-
-class Score(BaseModel):
-	score_id  = PrimaryKeyField
-	user      = ForeignKeyField(User, related_name='played_rounds')
-	game      = ForeignKeyField(Minigame, related_name='scores')
-	points    = IntegerField()
-	play_date = IntegerField()
 
 class Geocache(BaseModel):
 	cachename    = CharField(primary_key=True)
@@ -480,6 +485,14 @@ class PositionLog(BaseModel):
 	longitude       = DoubleField()
 	recorded_date   = IntegerField()
 
+class Score(BaseModel):
+	score_id  = PrimaryKeyField
+	cache     = ForeignKeyField(Geocache, related_name='gameScores')	
+	user      = ForeignKeyField(User, related_name='playedRounds')
+#	game      = ForeignKeyField(Minigame, related_name='gameScores')
+	points    = IntegerField()
+	play_date = IntegerField()
+
 class Guestbook(BaseModel):
 	guestbook_id  = PrimaryKeyField
 	author        = CharField()
@@ -488,3 +501,68 @@ class Guestbook(BaseModel):
 
 # }}}
 
+
+
+def setup_db():
+	User.create_table()
+	#Minigame.create_table()
+	Geocache.create_table()
+	Logbook.create_table()
+	Score.create_table()
+
+	PositionLog.create_table()
+	Guestbook.create_table()
+
+	user = User()
+	user.username = "testUser"
+	user.password_salt = "hb/ynyeWg'LHR%=cgQ~,"
+	user.password_hash = "f4669ab43b879253c96375caa2349dde"
+	user.save(force_insert=True)
+
+	gc = Geocache()
+	gc.cachename	= "Serverraum"
+	gc.latitude		= 51.73106
+	gc.longitude	= 8.73635
+	gc.secret		= 'df5a8617'
+	gc.next_cache	= "Serverraum" #  TODO: none?
+	gc.save(force_insert=True)
+
+	gc = Geocache()
+	gc.cachename	= "Fluss"
+	gc.latitude		= 51.73064
+	gc.longitude	= 8.73554
+	gc.secret		= '4f1fc70d'
+	gc.next_cache	= "Serverraum"
+	gc.save(force_insert=True)
+
+	gc = Geocache()
+	gc.cachename	= "Wohnheim"
+	gc.latitude		= 51.72956
+	gc.longitude	= 8.7374
+	gc.secret		= '8a1b32fa'
+	gc.next_cache	= "Fluss"
+	gc.save(force_insert=True)
+
+	gc = Geocache()
+	gc.cachename	= "HNF"
+	gc.latitude		= 51.73147
+	gc.longitude	= 8.73618
+	gc.secret		= 'b7a34174'
+	gc.next_cache	= "Wohnheim"
+	gc.save(force_insert=True)
+
+	gc = Geocache()
+	gc.cachename	= "Zukunftsmeile"
+	gc.latitude		= 51.73057
+	gc.longitude	= 8.73807
+	gc.secret		= 'd1741e41'
+	gc.next_cache	= "HNF"
+	gc.save(force_insert=True)				
+
+	gc = Geocache()
+	gc.cachename	= "bib-Eingang"
+	gc.latitude		= 51.73075
+	gc.longitude	= 8.73707
+	gc.secret		= '8e71bee3'
+	gc.next_cache	= "Zukunftsmeile"
+	gc.save(force_insert=True)
