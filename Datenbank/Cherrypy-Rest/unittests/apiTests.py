@@ -5,6 +5,9 @@
 #
 # RestAPI Unittests
 #
+# Some tests have race conditions and may fail 
+# when run against a server with active users.
+#
 
 __author__ = "space"
 
@@ -55,8 +58,7 @@ class BaseFunctions(object):
 		
 		return response_json
 
-
-	def login(self, payload, expected_error = None): # TODO: more asserts
+	def login(self, payload, expected_error = None):
 		login_url = (config["api_url"] + "login")
 		response_json = self.genericRestCall(login_url, payload, expected_error)
 		if not (response_json["success"]): 
@@ -141,6 +143,62 @@ class BaseFunctions(object):
 			return None
 		else: return response_json
 
+	def getUsers(self, expected_error = None):
+		pos_url=(config["api_url"] + "getUsers")
+
+		response_json = self.genericRestCall(pos_url, {}, expected_error)
+		if not (response_json["success"]): 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
+		else: return response_json
+
+	def getAllLogbookEntriesByUser(self, payload, expected_error = None):
+		pos_url=(config["api_url"] + "getAllLogbookEntriesByUser")
+
+		response_json = self.genericRestCall(pos_url, payload, expected_error)
+		if not (response_json["success"]): 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
+		else: return response_json	
+
+	def secretValidForNextCache(self, payload, expected_error = None):
+		pos_url=(config["api_url"] + "secretValidForNextCache")
+
+		response_json = self.genericRestCall(pos_url, payload, expected_error)
+		if not (response_json["success"]): 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
+		else: return response_json
+
+	def makeLogbookEntry(self, session, payload, expected_error = None):
+		pos_url=(config["api_url"] + "makeLogbookEntry")
+
+		token, session = self.token(session)
+		payload.update( {	'username': session["username"], 
+							'token': token } )
+
+		response_json = self.genericRestCall(pos_url, payload, expected_error)
+		if not (response_json["success"]):																	 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
+		else: return session
+
+
+	def markPuzzleSolved(self, session, expected_error = None):
+		pos_url=(config["api_url"] + "markPuzzleSolved")
+
+		token, session = self.token(session)
+		payload = dict()
+		payload.update( {	'username': session["username"], 
+							'token': token } )
+
+		response_json = self.genericRestCall(pos_url, payload, expected_error)
+		if not (response_json["success"]):																	 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
+		else: return session		
+
+		
 
 class RegisterTests(unittest.TestCase, BaseFunctions):
 	def testUsernametaken(self):
@@ -161,6 +219,8 @@ class RegisterTests(unittest.TestCase, BaseFunctions):
 
 		self.register(payload)
 
+		response_json = self.getUsers()
+		self.assertTrue( payload["username"] in response_json["users"] )
 
 class LoginTests(unittest.TestCase, BaseFunctions):
 	def testUserDoesNotExist(self):
@@ -188,7 +248,6 @@ class LoginTests(unittest.TestCase, BaseFunctions):
 		self.register(payload)
 		self.login(payload)
 
-
 class TokenTests(unittest.TestCase, BaseFunctions):
 	def testWrongTokenUsage(self):
 		payload = {	'username': config["existing_user"], 
@@ -215,7 +274,6 @@ class TokenTests(unittest.TestCase, BaseFunctions):
 		session = self.nop(session)
 		session = self.nop(session)
 		self.assertIsNotNone(session)
-
 
 class GeoTests(unittest.TestCase, BaseFunctions):
 	def testforwardUpdatePosition(self):
@@ -271,6 +329,47 @@ class GeoTests(unittest.TestCase, BaseFunctions):
 		for key in expected_map:
 			self.assertEqual(expected_map[key], response_json["user_map"][key])
 
+class CacheTest(unittest.TestCase, BaseFunctions):
+	def testforwardWalkthroughCaches(self):
+		login_payload = {	'username': ("to_delete" + str(uuid.uuid4()))[0:30], 
+							'password': uuid.uuid4() }
+		
+		self.register(login_payload)
+		session = self.login(login_payload)
+
+		caches = [ {	'name':   'bib-Eingang',
+						'secret': '8e71bee3'	},
+					{	'name':   'Zukunftsmeile',
+						'secret': 'd1741e41'	},
+					{	'name':   'HNF',
+						'secret': 'b7a34174'	},
+					{	'name':   'Wohnheim',
+						'secret': '8a1b32fa'	},
+					{	'name':   'Fluss',
+						'secret': '4f1fc70d'	},
+					{	'name':   'Serverraum',
+						'secret': 'df5a8617'	} ]
+
+		for cache in caches:
+			
+			response_json = self.getAllLogbookEntriesByUser({"username": login_payload['username']})
+			for le in response_json["entries"]:	self.assertTrue(cache['name'] != le['cache'])
+
+			response_json = self.secretValidForNextCache({"cache_secret": cache['secret'], "username": login_payload['username']})
+			self.assertTrue(response_json["success"])
+
+			session = self.markPuzzleSolved(session)
+			session = self.nop(session)
+
+			session = self.makeLogbookEntry(session, {"secret": cache['secret'], "message_str": str(uuid.uuid4())})	
+			session = self.nop(session)
+
+			response_json = self.getAllLogbookEntriesByUser({"username": login_payload['username']})
+
+			found = False
+			for le in response_json["entries"]:
+				if cache['name'] == le['cache']: found = True
+			self.assertTrue(found)
 
 class GuestbookTests(unittest.TestCase, BaseFunctions):
 	# umlaute
@@ -297,22 +396,17 @@ class GuestbookTests(unittest.TestCase, BaseFunctions):
 		response_json = self.getGuestbookEntryById(query_payload, "No Entry by that id.")
 		self.assertIsNone(response_json)
 
-
 class MinigameTests(unittest.TestCase, BaseFunctions):
 	pass
 
+
 # getUsers
-# getTopTenScoresForAllMinigames
-# secretValidForNextCache
-# submitGameScore
-# makeLogbookEntry
-# getAllLogbookEntriesByUser
 # markPuzzleSolved
 
 if __name__ == '__main__':
     unittest.main()
 
 #	suite = unittest.TestSuite()
-#	suite.addTest(GeoTests("testfoarwardUpdateAndGetPositionsMap"))
+#	suite.addTest(CacheTest("testforwardWalkthroughCaches"))
 #	runner = unittest.TextTestRunner()
 #	runner.run(suite)

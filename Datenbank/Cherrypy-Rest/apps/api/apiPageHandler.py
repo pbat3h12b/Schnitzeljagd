@@ -6,8 +6,6 @@
 # Implementation of the RestAPI
 #
 
-#active nutzer
-
 # sql injection
 # Allowed charaters
 # Guestbook XSS
@@ -83,12 +81,12 @@ class Api(object):
 	def allLogbookEntriesByUser(self, username):
 		logbook_select = """
 		SELECT *
-		FROM Logbook
-		WHERE user_id = %s
-		ORDER BY logbook_id;
+		FROM logbook
+		WHERE user_id = '%s'
+		ORDER BY id;
 		""" % (username)
 
-		logbook_query = Logbook.raw(logbook_query)
+		logbook_query = Logbook.raw(logbook_select)
 		all_entries = list()
 		for log in logbook_query:
 			all_entries.append(log)
@@ -96,20 +94,24 @@ class Api(object):
 		return all_entries
 
 	def lastLogbookEntryByUser(self, username):
-		all_entries = allLogbookEntriesByUser(username)
-		if all_entries.lenght == 0:
+		all_entries = self.allLogbookEntriesByUser(username)
+		print(all_entries)
+		if all_entries == []:
 			return None
 		else:
+			print(all_entries)
 			return all_entries[-1]
 
 	def nextCache(self, username):
 
-		lastLogbook = lastLogbookEntry(username)
+		lastLogbook = self.lastLogbookEntryByUser(username)
 
 		nextCache = None
 		if lastLogbook is None:
 			# TODO: Maybe this could be made less static.
 			nextCache = Geocache.select().where( Geocache.cachename == "bib-Eingang").get()
+		elif lastLogbook.cache == lastLogbook.cache.next_cache:
+			nextCache = None
 		else:
 			nextCache = lastLogbook.cache.next_cache
 
@@ -172,6 +174,24 @@ class Api(object):
 		message["session_secret"] = self.session[username]["session_secret"]
 		return (json.dumps(message))
 
+	def getUsers(self):
+
+		message = dict()
+
+		users_select = """
+		SELECT *
+		FROM user"""
+		users_query = User.raw(users_select)
+		print(users_query)
+
+		usernames = []
+		for user in users_query:
+			usernames.append(user.username)
+
+		message["users"] = usernames
+		message["success"]  = True
+		return (json.dumps(message))
+
 	def getPositionsMap(self):
 
 		message = dict()
@@ -196,27 +216,9 @@ class Api(object):
 		message["success"]  = True
 		return (json.dumps(message))
 
-	def getUsers(self):
-
+	def getTopTenScoresForAllMinigames(self, username=None ):
 		message = dict()
-
-		users_select = """
-		SELECT *
-		FROM user"""
-		users_query = User.raw(users_select)
-		print(users_query)
-
-		usernames = []
-		for user in users_query:
-			usernames.append(user.username)
-
-		message["users"] = usernames
-		message["success"]  = True
-		return (json.dumps(message))
-
-	def getTopTenScoresForAllMinigames(self, player=None ):
-		message = dict()
-		if player != None and not ( self.checkUserExists(player) ):
+		if username != None and not ( self.checkUserExists(username) ):
 			message["success"] = False
 			message["error"]   = "Username doesn't exist."
 			return (json.dumps(message))
@@ -231,8 +233,8 @@ class Api(object):
 		for minigame in minigame_query:
 			game[minigame.name] = dict()
 
-			if player != None:
-				player_restriction = "AND s.user_id = '%s'" % (player)
+			if username != None:
+				player_restriction = "AND s.user_id = '%s'" % (username)
 			else:
 				player_restriction = ""
 
@@ -252,6 +254,44 @@ class Api(object):
 
 		message["game"] = game
 		message["success"] = True
+		return (json.dumps(message))
+
+	def getAllLogbookEntriesByUser(self, username):
+		message = dict()
+		if username != None and not ( self.checkUserExists(username) ):
+			message["success"] = False
+			message["error"]   = "Username doesn't exist."
+			return (json.dumps(message))
+
+		entries = list()
+		for entry in self.allLogbookEntriesByUser(username):
+			entries.append({"puzzle_solved": entry.puzzle_solved, 
+							"message": entry.message,
+							"found_date": entry.found_date,
+							"cache": entry.cache.cachename,
+							"user": entry.user.username})
+
+		message["entries"] = entries
+		message["success"] = True
+		return (json.dumps(message))
+
+	def secretValidForNextCache(self, username, cache_secret):
+		message = dict()
+		if username != None and not ( self.checkUserExists(username) ):
+			message["success"] = False
+			message["error"]   = "Username doesn't exist."
+			return (json.dumps(message))
+		
+		next_cache = self.nextCache(username)
+		if next_cache is None:
+			message["success"] = False
+			message["error"]   = "All caches already solved."
+		elif next_cache.secret == cache_secret:
+			message["success"] = True
+		else:
+			message["success"] = False
+			message["error"]   = "Wrong secret."
+
 		return (json.dumps(message))
 
 	def makeGuestbookEntry(self, author, message_str):
@@ -305,6 +345,7 @@ class Api(object):
 		message["error"]   = "No Entry by that id."
 		return (json.dumps(message))
 
+
 # }}}
 
 # {{{ Authentication required
@@ -320,55 +361,6 @@ class Api(object):
 		else:
 			message["success"] = True
 			return (json.dumps(message))
-
-	def secretValidForNextCache(self, username, token, cache_secret):
-
-		message = dict()
-		if not (self.checkToken(username, token)):
-			message["success"] = False
-			message["error"]   = "Invalid Authentication Token."
-			return (json.dumps(message))
-		
-		next_cache = nextCache(username)
-		if next_cache is None:
-			message["success"] = False
-			message["error"]   = "All caches already solved."
-		elif next_cache.secret == cache_secret:
-			message["success"] = True
-		else:
-			message["success"] = False
-			message["error"]   = "Wrong secret."
-
-		return (json.dumps(message))
-
-	def submitGameScore(self, username, token, points, cache):
-
-		message = dict()
-		if not (self.checkToken(username, token)):
-			message["success"] = False
-			message["error"]   = "Invalid Authentication Token."
-			return (json.dumps(message))
-
-		if not Geocache.select().where( Geocache.cachename == cache).exists():
-			message["success"] = False
-			message["error"]   = "Cache not in database."
-			return (json.dumps(message))
-
-		relevant_cache = Geocache.select().where( Geocache.cachename == cache).get()
-		if not relevant_cache in allLogbookEntriesByUser(Username):
-			message["success"] = False
-			message["error"]   = "User didn't find that cache yet."
-			return (json.dumps(message))
-
-		sc = Score()
-		sc.user      = username
-		sc.cache     = cache
-		sc.points    = points
-		sc.play_date = self.now()
-		sc.save(force_insert=True)
-
-		message["success"] = True
-		return (json.dumps(message))
 
 	def updatePosition(self, username, token, longitude, latitude):
 
@@ -395,56 +387,87 @@ class Api(object):
 		message["success"] = True
 		return (json.dumps(message))
 
-	def makeLogbookEntry(self, username, token, secret, message):
+	def makeLogbookEntry(self, username, token, secret, message_str):
 		message = dict()
 		if not (self.checkToken(username, token)):
 			message["success"] = False
 			message["error"]   = "Invalid Authentication Token."
 			return (json.dumps(message))
 
-		next_cache = nextCache(username)
+		next_cache = self.nextCache(username)
 		if next_cache is None:
 			message["success"] = False
 			message["error"]   = "All caches already solved."
 			return (json.dumps(message))
-		elif next_cache.secret != cache_secret:
+			
+		if next_cache.secret != secret:
 			message["success"] = False
 			message["error"]   = "Wrong secret."
 			return (json.dumps(message))
 
+		if self.lastLogbookEntryByUser(username) != None:
+			if self.lastLogbookEntryByUser(username).puzzle_solved == False:
+				message["success"] = False
+				message["error"]   = "Puzzle not yet solved."
+				return (json.dumps(message))
+
+
 		log = Logbook()
 		log.puzzle_solved = False
-		log.message       = message
+		log.message       = message_str
 		log.found_date    = self.now()
 		log.cache         = next_cache
-		log.user          = Username
+		log.user          = username
+		log.save(force_insert=True)
 
 		message["success"] = True
 		return (json.dumps(message))
 
-	def getAllLogbookEntriesByUser(self, username, token):
+	def markPuzzleSolved(self, username, token):
 		message = dict()
 		if not (self.checkToken(username, token)):
 			message["success"] = False
 			message["error"]   = "Invalid Authentication Token."
 			return (json.dumps(message))
 
-		message["entries"] = allLogbookEntriesByUser(username)
-		message["success"] = True
-		return (json.dumps(message))
-
-	def markPuzzleSolved(self, username, token):
-		message = dict()		
-		lastLogbook = lastLogbookEntry()
+		lastLogbook = self.lastLogbookEntryByUser(username)
 
 		if lastLogbook is not None:
 			lastLogbook.puzzle_solved = True
+			lastLogbook.save()
 			message["success"] = True		
 
 		else:
-			message["success"] = False
-			message["error"]   = "User hasn't yet found a cache."
+			message["success"] = True
+		return (json.dumps(message))
 
+	def submitGameScore(self, username, token, points, cache):
+
+		message = dict()
+		if not (self.checkToken(username, token)):
+			message["success"] = False
+			message["error"]   = "Invalid Authentication Token."
+			return (json.dumps(message))
+
+		if not Geocache.select().where( Geocache.cachename == cache).exists():
+			message["success"] = False
+			message["error"]   = "Cache not in database."
+			return (json.dumps(message))
+
+		relevant_cache = Geocache.select().where( Geocache.cachename == cache).get()
+		if not relevant_cache in self.allLogbookEntriesByUser(Username):
+			message["success"] = False
+			message["error"]   = "User didn't find that cache yet."
+			return (json.dumps(message))
+
+		sc = Score()
+		sc.user      = username
+		sc.cache     = cache
+		sc.points    = points
+		sc.play_date = self.now()
+		sc.save(force_insert=True)
+
+		message["success"] = True
 		return (json.dumps(message))
 
 # }}}
