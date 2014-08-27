@@ -95,12 +95,18 @@ class Api(object):
 
 	def lastLogbookEntryByUser(self, username):
 		all_entries = self.allLogbookEntriesByUser(username)
-		print(all_entries)
 		if all_entries == []:
 			return None
 		else:
-			print(all_entries)
 			return all_entries[-1]
+
+	def allCachesFoundByUser(self, username):
+		entries = self.allLogbookEntriesByUser(username)
+		caches = []
+		for e in entries:
+			caches.append(e.cache)
+
+		return caches
 
 	def nextCache(self, username):
 
@@ -182,7 +188,6 @@ class Api(object):
 		SELECT *
 		FROM user"""
 		users_query = User.raw(users_select)
-		print(users_query)
 
 		usernames = []
 		for user in users_query:
@@ -216,22 +221,22 @@ class Api(object):
 		message["success"]  = True
 		return (json.dumps(message))
 
-	def getTopTenScoresForAllMinigames(self, username=None ):
+	def getTopTenScoresForAllMinigames(self, username = None ):				
 		message = dict()
 		if username != None and not ( self.checkUserExists(username) ):
 			message["success"] = False
 			message["error"]   = "Username doesn't exist."
 			return (json.dumps(message))
 
-		minigames_select = """
+		cache_select = """
 		SELECT *
-		FROM minigame m
+		FROM geocache m
 		"""	
 
 		game = dict()
-		minigame_query = Minigame.raw(minigames_select)
-		for minigame in minigame_query:
-			game[minigame.name] = dict()
+		geocache_query = Geocache.raw(cache_select)
+		for cache in geocache_query:
+			game[cache.cachename] = list()
 
 			if username != None:
 				player_restriction = "AND s.user_id = '%s'" % (username)
@@ -240,17 +245,21 @@ class Api(object):
 
 			top_ten_select = """
 			SELECT *
-			FROM minigame m, score s
-			WHERE m.id = %s
-			AND s.game_id = m.id
+			FROM geocache g, score s
+			WHERE g.cachename = '%s'
+			AND s.cache_id = g.cachename
 			%s
 			ORDER BY s.points DESC
 			LIMIT 10
-			""" % (minigame.get_id(), player_restriction)
+			""" % (cache.get_id(), player_restriction)
 
 			top_ten_query = Score.raw(top_ten_select)
 			for score in top_ten_query:
-				game[minigame.name][score.user.username] = (score.points, score.play_date)
+				game[cache.cachename].append({
+					"username": score.user.username,
+					"points":	score.points,
+					"date":		score.play_date
+				})
 
 		message["game"] = game
 		message["success"] = True
@@ -289,7 +298,7 @@ class Api(object):
 		elif next_cache.secret == cache_secret:
 			message["success"] = True
 		else:
-			message["success"] = False
+			message["success"] = True
 			message["error"]   = "Wrong secret."
 
 		return (json.dumps(message))
@@ -455,7 +464,7 @@ class Api(object):
 			return (json.dumps(message))
 
 		relevant_cache = Geocache.select().where( Geocache.cachename == cache).get()
-		if not relevant_cache in self.allLogbookEntriesByUser(Username):
+		if not relevant_cache in self.allCachesFoundByUser(username):
 			message["success"] = False
 			message["error"]   = "User didn't find that cache yet."
 			return (json.dumps(message))
@@ -589,3 +598,4 @@ def setup_db():
 	gc.secret		= '8e71bee3'
 	gc.next_cache	= "Zukunftsmeile"
 	gc.save(force_insert=True)
+

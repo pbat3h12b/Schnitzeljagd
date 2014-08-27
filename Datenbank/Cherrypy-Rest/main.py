@@ -35,18 +35,20 @@ if __name__ == '__main__':
 
 	d.connect(name='api',		action='register',							controller=api_controller,	route='/api/register')
 	d.connect(name='api',		action='login',								controller=api_controller,	route='/api/login')	
-	d.connect(name='api',		action='nop',								controller=api_controller,	route='/api/nop')
-	d.connect(name='api',		action='updatePosition',					controller=api_controller,	route='/api/updatePosition')
-	d.connect(name='api',		action='getPositionsMap',					controller=api_controller,	route='/api/getPositionsMap')
 	d.connect(name='api',		action='getUsers',							controller=api_controller,	route='/api/getUsers')
+	d.connect(name='api',		action='getPositionsMap',					controller=api_controller,	route='/api/getPositionsMap')
 	d.connect(name='api',		action='getTopTenScoresForAllMinigames',	controller=api_controller,	route='/api/getTopTenScoresForAllMinigames')
-	d.connect(name='api',		action='secretValidForNextCache',			controller=api_controller,	route='/api/secretValidForNextCache')
-	d.connect(name='api',		action='makeLogbookEntry',					controller=api_controller,	route='/api/makeLogbookEntry')
 	d.connect(name='api',		action='getAllLogbookEntriesByUser',		controller=api_controller,	route='/api/getAllLogbookEntriesByUser')
-	d.connect(name='api',		action='markPuzzleSolved',					controller=api_controller,	route='/api/markPuzzleSolved')
+	d.connect(name='api',		action='secretValidForNextCache',			controller=api_controller,	route='/api/secretValidForNextCache')
 	d.connect(name='api',		action='makeGuestbookEntry',				controller=api_controller,	route='/api/makeGuestbookEntry')
 	d.connect(name='api',		action='getGuestbookIndex',					controller=api_controller,	route='/api/getGuestbookIndex')
 	d.connect(name='api',		action='getGuestbookEntryById',				controller=api_controller,	route='/api/getGuestbookEntryById')
+
+	d.connect(name='api',		action='nop',								controller=api_controller,	route='/api/nop')
+	d.connect(name='api',		action='updatePosition',					controller=api_controller,	route='/api/updatePosition')
+	d.connect(name='api',		action='makeLogbookEntry',					controller=api_controller,	route='/api/makeLogbookEntry')
+	d.connect(name='api',		action='markPuzzleSolved',					controller=api_controller,	route='/api/markPuzzleSolved')
+	d.connect(name='api',		action='submitGameScore',					controller=api_controller,	route='/api/submitGameScore')
 
 
 	config_dict = {

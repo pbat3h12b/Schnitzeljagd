@@ -20,7 +20,7 @@ import requests
 import time
 
 import logging
-logging.basicConfig(level=logging.WARNING)#INFO)
+logging.basicConfig(level=logging.WARNING) # INFO
 log = logging.getLogger(__name__)
 
 config = {
@@ -198,7 +198,31 @@ class BaseFunctions(object):
 			return None
 		else: return session		
 
-		
+	def submitGameScore(self, session, payload, expected_error = None):
+		pos_url=(config["api_url"] + "submitGameScore")
+
+		token, session = self.token(session)
+		payload.update( {	'username': session["username"], 
+							'token': token } )
+
+		response_json = self.genericRestCall(pos_url, payload, expected_error)
+		if not (response_json["success"]):																	 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
+		else: return session
+
+
+	def getTopTenScoresForAllMinigames(self, payload = {}, expected_error = None):
+		pos_url=(config["api_url"] + "getTopTenScoresForAllMinigames")
+
+
+		response_json = self.genericRestCall(pos_url, payload, expected_error)
+		if not (response_json["success"]): 
+			if expected_error != response_json["error"]: logging.warning(response_json["error"])
+			return None
+		else: return response_json
+
+
 
 class RegisterTests(unittest.TestCase, BaseFunctions):
 	def testUsernametaken(self):
@@ -351,7 +375,7 @@ class CacheTest(unittest.TestCase, BaseFunctions):
 						'secret': 'df5a8617'	} ]
 
 		for cache in caches:
-			
+
 			response_json = self.getAllLogbookEntriesByUser({"username": login_payload['username']})
 			for le in response_json["entries"]:	self.assertTrue(cache['name'] != le['cache'])
 
@@ -397,16 +421,56 @@ class GuestbookTests(unittest.TestCase, BaseFunctions):
 		self.assertIsNone(response_json)
 
 class MinigameTests(unittest.TestCase, BaseFunctions):
-	pass
+	def testfoarwardSubmitAndRetrieveGameScores(self):
+		expected_map  = dict()
 
+		login_payload = {	'username': ("to_delete" + str(uuid.uuid4()))[0:30], 
+							'password': uuid.uuid4() }
+		
+		self.register(login_payload)
+		session = self.login(login_payload)
 
-# getUsers
-# markPuzzleSolved
+		caches = [ {	'name':   'bib-Eingang',
+						'secret': '8e71bee3'	},
+					{	'name':   'Zukunftsmeile',
+						'secret': 'd1741e41'	},
+					{	'name':   'HNF',
+						'secret': 'b7a34174'	},
+					{	'name':   'Wohnheim',
+						'secret': '8a1b32fa'	},
+					{	'name':   'Fluss',
+						'secret': '4f1fc70d'	},
+					{	'name':   'Serverraum',
+						'secret': 'df5a8617'	} ]
+
+		for cache in caches:
+			session = self.markPuzzleSolved(session)
+			session = self.makeLogbookEntry(session, {"secret": cache['secret'], "message_str": str(uuid.uuid4())})	
+
+		for i in xrange(10):
+			cache = random.choice(caches)["name"]
+ 			game_payload   = {	'points' : ("%d" %  (random.randint(100000, 999999))),
+								'cache'  :  cache}
+
+			session = self.submitGameScore(session, game_payload)
+			self.assertIsNotNone(session)
+
+			response_json = self.getTopTenScoresForAllMinigames({ "username": login_payload["username"]})
+
+			found = False
+			for score in response_json["game"][cache]:
+				if(	score["username"] == login_payload["username"]
+				and score["points"] == int(game_payload["points"])):
+					found = True
+					break
+
+			self.assertTrue(found)
+
 
 if __name__ == '__main__':
     unittest.main()
 
 #	suite = unittest.TestSuite()
-#	suite.addTest(CacheTest("testforwardWalkthroughCaches"))
+#	suite.addTest(MinigameTests("testfoarwardSubmitAndRetrieveGameScores"))
 #	runner = unittest.TextTestRunner()
 #	runner.run(suite)
