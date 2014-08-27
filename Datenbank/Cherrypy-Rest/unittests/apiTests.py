@@ -460,7 +460,7 @@ class CacheTest(unittest.TestCase, BaseFunctions):
 
 class GuestbookTests(unittest.TestCase, BaseFunctions):
 	def testforwardMakeAndRetriveGuestbookEntry(self):
-		time.sleep(0.1)
+		time.sleep(1)
 		entry_payload = {	'author' : "Axel Stoll",
 							'message_str'  : "Magie = Physik / Wollen" }
 
@@ -476,7 +476,7 @@ class GuestbookTests(unittest.TestCase, BaseFunctions):
 		self.assertEqual(response_json['id'], query_payload['id'])
 
 	def testforwardMakeAndRetriveGuestbookEntryWithHTML(self):
-		time.sleep(0.2)		
+		time.sleep(2)		
 		entry_payload		= {	'author' : "Axel Stoll",
 								'message_str' : "<ne> &\"'Magie = Physik / Wollen <ne/>" }
 
@@ -495,7 +495,7 @@ class GuestbookTests(unittest.TestCase, BaseFunctions):
 		self.assertEqual(response_json['id'], query_payload['id'])
 
 	def testforwardMakeAndRetriveGuestbookEntryWithUnicode(self):
-		time.sleep(0.3)		
+		time.sleep(3)		
 		entry_payload = {	'author' : u"☃",
 							'message_str'  : u"‽" }
 
@@ -596,9 +596,9 @@ class MinigameTests(unittest.TestCase, BaseFunctions):
 		self.assertIsNone(response_json)
 
 if __name__ == '__main__':
-    unittest.main()
+	unittest.main()
 
 #	suite = unittest.TestSuite()
-#	suite.addTest(GuestbookTests("testforwardMakeAndRetriveGuestbookEntryWithUnicode"))
+#	suite.addTest(MinigameTests("testfoarwardSubmitAndRetrieveGameScores"))
 #	runner = unittest.TextTestRunner()
 #	runner.run(suite)

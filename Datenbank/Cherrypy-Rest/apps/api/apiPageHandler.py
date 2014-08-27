@@ -7,8 +7,6 @@
 #
 
 # sql injection
-# Allowed charaters
-# Guestbook XSS
 
 
 __author__ = "space"
@@ -123,6 +121,19 @@ class Api(object):
 
 		return nextCache
 
+	def html_escape(self, text):
+		"""Produce entities within text."""
+
+		escape_table = {
+			"&": "&amp;",
+			'"': "&quot;",
+			"'": "&apos;",
+			">": "&gt;",
+			"<": "&lt;",
+		}
+
+		return "".join(escape_table.get(char,char) for char in text)
+
 # }}}
 
 # {{{ No Authentication required
@@ -210,10 +221,10 @@ class Api(object):
 			GROUP BY user_id) AS a, positionlog p
 		WHERE p.recorded_date = a.recorded_date
 		AND p.user_id = a.user_id
-		AND p.recorded_date > %s""" % (recently)
+		AND p.recorded_date > %s""" # (recently)
 
 		user_map = dict()
-		current_positions_query = PositionLog.raw(current_positions_select)
+		current_positions_query = PositionLog.raw(current_positions_select, recently)
 		for pos in current_positions_query:
 			user_map[pos.user.username] = (pos.longitude, pos.latitude)
 
@@ -298,13 +309,16 @@ class Api(object):
 		elif next_cache.secret == cache_secret:
 			message["success"] = True
 		else:
-			message["success"] = True
+			message["success"] = False
 			message["error"]   = "Wrong secret."
 
 		return (json.dumps(message))
 
 	def makeGuestbookEntry(self, author, message_str):
 		message = dict()
+
+		author      = self.html_escape(author)
+		message_str = self.html_escape(message_str)
 		
 		entry = Guestbook()
 		entry.author        = author
@@ -338,8 +352,8 @@ class Api(object):
 		index_select = """
 		SELECT *
 		FROM guestbook
-		WHERE id = %s""" % (id)
- 		index_query = Guestbook.raw(index_select)
+		WHERE id = %s"""
+ 		index_query = Guestbook.raw(index_select, id)
 
 		for entry in index_query:
 			message["id"]      = entry.id
