@@ -3,6 +3,7 @@ guid: a282883cf840dd242bd04116479b6304
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
+  - backgroundImage: {fileID: 2800000, guid: f11148c8748d1ea409c091cca50ca230, type: 3}
   - imageMap: {fileID: 2800000, guid: aeda630e026f4bb42b7d4a06948e5ae1, type: 3}
   - imageCurrentUser: {fileID: 2800000, guid: 16ea409310aec8a4cb25a655443b1dec, type: 3}
   executionOrder: 0
