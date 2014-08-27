@@ -326,7 +326,6 @@ class GeoTests(unittest.TestCase, BaseFunctions):
 		response_json = self.getPositionsMap()
 		self.assertIsNotNone(response_json)
 
-
 	def testfoarwardUpdateAndGetPositionsMap(self):
 		expected_map  = dict()
 		user_sessions = list()
@@ -395,12 +394,73 @@ class CacheTest(unittest.TestCase, BaseFunctions):
 				if cache['name'] == le['cache']: found = True
 			self.assertTrue(found)
 
+
+		payload = {	"cache_secret": "irgendwas", 
+					"username": 	login_payload["username"]}
+
+		response_json = self.secretValidForNextCache(payload, "All caches already solved.")
+		self.assertIsNone(response_json)		
+
+	def testSecretValidForNextCacheWithWrongUsername(self):
+
+			payload = {	"cache_secret": "8e71bee3", 
+						"username": 	"nenenenenene"}
+
+			response_json = self.secretValidForNextCache(payload, "Username doesn't exist.")
+			self.assertIsNone(response_json)
+
+	def testGetAllLogbookEntriesByUserWithWrongUsername(self):
+
+			payload = {	"username": "nenenenenene"}
+
+			response_json = self.getAllLogbookEntriesByUser(payload, "Username doesn't exist.")
+			self.assertIsNone(response_json)
+
+	def testSecretValidForNextCacheWithWrongSecret(self):
+		login_payload = {	'username': ("to_delete" + str(uuid.uuid4()))[0:30], 
+							'password': uuid.uuid4() }
+		
+		self.register(login_payload)
+		session = self.login(login_payload)
+
+		payload = {	"cache_secret": "falsch", 
+					"username": 	login_payload["username"]}
+
+		response_json = self.secretValidForNextCache(payload, "Wrong secret.")
+		self.assertIsNone(response_json)		
+
+	def testMakeLogbookEntryWrongToken(self):
+		login_payload = {	'username': ("to_delete" + str(uuid.uuid4()))[0:30], 
+							'password': uuid.uuid4() }
+
+		self.register(login_payload)
+		session = self.login(login_payload)
+		session["session_secret"] = "Eris the younger"
+
+		payload = {	"secret":		"8e71bee3", 
+					"message_str":	"blub",
+					"username": 	login_payload["username"]}
+
+		session = self.makeLogbookEntry(session, payload, "Invalid Authentication Token.")
+		self.assertIsNone(session)
+
+	def testSecretValidForNextCacheWithWrongSecret(self):
+		login_payload = {	'username': ("to_delete" + str(uuid.uuid4()))[0:30], 
+							'password': uuid.uuid4() }
+		
+		self.register(login_payload)
+		session = self.login(login_payload)
+
+		payload = {	"secret":		"falsch", 
+					"message_str":	"blub",
+					"username": 	login_payload["username"]}
+
+		response_json = self.makeLogbookEntry(session, payload, "Wrong secret.")
+		self.assertIsNone(response_json)		
+
 class GuestbookTests(unittest.TestCase, BaseFunctions):
-	# umlaute
-	# sonderzeichen
-	# non printable characters
-	# XSS
 	def testforwardMakeAndRetriveGuestbookEntry(self):
+		time.sleep(0.1)
 		entry_payload = {	'author' : "Axel Stoll",
 							'message_str'  : "Magie = Physik / Wollen" }
 
@@ -414,6 +474,42 @@ class GuestbookTests(unittest.TestCase, BaseFunctions):
 		self.assertEqual(entry_payload['author'], response_json['author'])
 		self.assertEqual(entry_payload['message_str'], response_json['message'])
 		self.assertEqual(response_json['id'], query_payload['id'])
+
+	def testforwardMakeAndRetriveGuestbookEntryWithHTML(self):
+		time.sleep(0.2)		
+		entry_payload		= {	'author' : "Axel Stoll",
+								'message_str' : "<ne> &\"'Magie = Physik / Wollen <ne/>" }
+
+		expected_response	= {	'author' : "Axel Stoll",
+								'message_str' : "&lt;ne&gt; &amp;&quot;&apos;Magie = Physik / Wollen &lt;ne/&gt;" }
+
+		response_json = self.makeGuestbookEntry(entry_payload)
+		response_json = self.getGuestbookIndex()
+		self.assertIsNotNone(response_json)
+
+		query_payload = {	'id' : response_json["index"][0] }
+		response_json = self.getGuestbookEntryById(query_payload)
+
+		self.assertEqual(expected_response['author'], response_json['author'])
+		self.assertEqual(expected_response['message_str'], response_json['message'])
+		self.assertEqual(response_json['id'], query_payload['id'])
+
+	def testforwardMakeAndRetriveGuestbookEntryWithUnicode(self):
+		time.sleep(0.3)		
+		entry_payload = {	'author' : u"☃",
+							'message_str'  : u"‽" }
+
+		response_json = self.makeGuestbookEntry(entry_payload)
+		response_json = self.getGuestbookIndex()
+		self.assertIsNotNone(response_json)
+
+		query_payload = {	'id' : response_json["index"][0] }
+		response_json = self.getGuestbookEntryById(query_payload)
+
+		self.assertEqual(entry_payload['author'], response_json['author'])
+		self.assertEqual(entry_payload['message_str'], response_json['message'])
+		self.assertEqual(response_json['id'], query_payload['id'])
+
 
 	def testgetGuestbookEntryWithWrongId(self):
 		query_payload = {	'id' : -1 }
@@ -466,11 +562,43 @@ class MinigameTests(unittest.TestCase, BaseFunctions):
 
 			self.assertTrue(found)
 
+	def testSecretGetTopTenScoresForAllMinigamesWithWrongUsername(self):
+
+			payload = {	"username": "nenenenenene"}
+
+			response_json = self.getTopTenScoresForAllMinigames(payload, "Username doesn't exist.")
+			self.assertIsNone(response_json)
+
+	def testSubmitGameScoreWithWrongCache(self):
+		login_payload = {	'username': ("to_delete" + str(uuid.uuid4()))[0:30], 
+							'password': uuid.uuid4() }
+		
+		self.register(login_payload)
+		session = self.login(login_payload)
+
+		payload = { 'points':	342344, 
+					'cache':	"herebedragons"	}
+
+		response_json = self.submitGameScore(session, payload, "Cache not in database.")
+		self.assertIsNone(response_json)	
+
+	def testSubmitGameScoreWithUnfoundCache(self):
+		login_payload = {	'username': ("to_delete" + str(uuid.uuid4()))[0:30], 
+							'password': uuid.uuid4() }
+		
+		self.register(login_payload)
+		session = self.login(login_payload)
+
+		payload = { 'points':	342344, 
+					'cache':	"bib-Eingang"	}
+
+		response_json = self.submitGameScore(session, payload, "User didn't find that cache yet.")
+		self.assertIsNone(response_json)
 
 if __name__ == '__main__':
     unittest.main()
 
 #	suite = unittest.TestSuite()
-#	suite.addTest(MinigameTests("testfoarwardSubmitAndRetrieveGameScores"))
+#	suite.addTest(GuestbookTests("testforwardMakeAndRetriveGuestbookEntryWithUnicode"))
 #	runner = unittest.TextTestRunner()
 #	runner.run(suite)
