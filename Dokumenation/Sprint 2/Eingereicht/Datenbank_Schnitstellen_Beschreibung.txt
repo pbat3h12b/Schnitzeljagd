@@ -1,0 +1,195 @@
+register:
+Bekommt username, password
+Antwort bei "success" == True:
+hat keine zusätzlichen Felder.
+Beispiel Antwort:
+{
+    "success": true
+}
+
+login:
+Bekommt username, password
+Antwort bei "success" == True:
+"session_secret": Dieses Feld stellt zusammen mit einem Befehlzähler eine Session dar.
+Beispiel Antwort:
+{
+    "session_secret": "-9\"?\"PZl?C>QB:remCIh",
+    "success": true
+}
+
+getUsers:
+Bekommt keine Parameter
+Antwort bei "success" == True:
+"users": Eine Liste aller User.
+Beispiel Antwort:
+{
+    "users": ["Falk", "AxellStoll", "Kevin"],
+    "success": true
+}
+
+getPositionsMap:
+Bekommt keine Parameter
+Antwort bei "success" == True:
+"user_map": Dictionary mit mapping von Usern zu ihren letzten Laengen- und Breitengraden
+Beispiel Antwort:
+{
+    "success": true,
+    "user_map": {
+        "Falk": [61.227301, 82.21948],
+        "Kevin": [12.345678, 98.765432]
+    }
+}
+
+getTopTenScoresForAllMinigames:
+Optionales Attribut username
+Antwort bei "success" == True:
+"game": Ist ein Dictionary mit jedem Cache und deren top zehn Scores. Wenn ein username uebergeben wurde, werden die top zehn Spiele des Users zurueck gegeben,
+Beispiel Antwort:
+{
+    "game": {
+        "Zukunftsmeile": [],
+        "HNF": [],
+        "Fluss": [],
+        "Serverraum": [],
+        "Wohnheim": [{
+            "username": "Falk",
+            "date": 1409238709,
+            "points": 851882
+        }],
+        "bib-Eingang": [{
+                "username": "Kevin",
+                "date": 1409238609,
+                "points": 644884
+            }, {
+                "username": "Falk",
+                "date": 1409238609,
+                "points": 504163
+            }
+        ]
+    },
+    "success": true
+}
+
+
+
+getAllLogbookEntriesByUser:
+Bekommt username
+Antwort bei "success" == True:
+"":
+Beispiel Antwort:
+{
+    "success": true,
+    "entries": [{
+        "user": "Kevin",
+        "message": "Physik",
+        "cache": "bib-Eingang",
+        "puzzle_solved": true,
+        "found_date": 1409238607
+    }, {
+        "user": "Kevin",
+        "message": "Mathematik",
+        "cache": "Zukunftsmeile",
+        "puzzle_solved": true,
+        "found_date": 1409238607
+    }, {
+        "user": "Kevin",
+        "message": "Philosophy",
+        "cache": "HNF",
+        "puzzle_solved": false,
+        "found_date": 1409238608
+    }]
+}
+
+
+secretValidForNextCache:
+Bekommt username, cache_secret
+Antwort bei "success" == True:
+Beispiel Antwort:
+{
+    "success": true
+}
+
+makeGuestbookEntry:
+Bekommt author, message_str
+Antwort bei "success" == True:
+Beispiel Antwort:
+{
+    "success": true
+}
+
+getGuestbookIndex:
+Bekommt 
+Antwort bei "success" == True:
+"index": Liste mit allen abrufbaren Guestbook Eintraegen.
+Beispiel Antwort:
+{
+    "index": [1, 3, 4, 5],
+    "success": true
+}
+
+getGuestbookEntryById:
+Bekommt id
+Antwort bei "success" == True:
+Die Antwort haellt den Inhalt einer Nachricht.
+Beispiel Antwort:
+{
+    "date": 1409238609,
+    "message": "Magie = Physik / Wollen",
+    "id": 1,
+    "success": true,
+    "author": "Axel Stoll"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+nop:
+Bekommt: username und token
+Antwort bei "success" == True: hat keine zusätzlichen Felder.
+(Diese Funktion macht nichts, außer das Token zu überprüfen und den Befehlszähler um eins zu erhöhen, wie es später nützliche Kommandos machen würden. Nop ist eine Test funktion)
+Beispiel Antwort:
+{
+    "success": true
+}
+
+updatePosition:
+Bekommt: username, token, longitude, latitude.
+Antwort bei "success" == True: hat keine zusätzlichen Felder.
+Beispiel Antwort:
+{
+    "success": true
+}
+
+
+makeLogbookEntry:
+Bekommt username, token, secret, message_str
+Antwort bei "success" == True: hat keine zusätzlichen Felder.
+Beispiel Antwort:
+{
+    "success": true
+}
+
+
+markPuzzleSolved:
+Bekommt username, token
+Antwort bei "success" == True: hat keine zusätzlichen Felder.
+Beispiel Antwort:
+{
+    "success": true
+}
+
+submitGameScore:
+Bekommt username, token, points, cache
+Antwort bei "success" == True: hat keine zusätzlichen Felder.
+Beispiel Antwort:
+{
+    "success": true
+}
