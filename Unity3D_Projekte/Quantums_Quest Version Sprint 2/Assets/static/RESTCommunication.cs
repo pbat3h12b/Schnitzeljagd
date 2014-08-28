@@ -171,6 +171,9 @@ class RESTCommunication : MonoBehaviour
 
     public Response getAlleLogBookEntrys()
     {
+        bool[] cache = new bool[5];
+        bool[] puzzels = new bool[5];
+        string[] messages = new string[5];
         return null;
     }
 
@@ -184,8 +187,9 @@ class RESTCommunication : MonoBehaviour
         return null;
     }
 
-    public Response getTopScore(int gameID)
+    public Response getTopScoreByUser(int gameID)
     {
+        int[] scores = new int[5];
         return null;
     }
 
