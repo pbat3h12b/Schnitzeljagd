@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerInformation : MonoBehaviour {
 
@@ -8,10 +9,12 @@ public class PlayerInformation : MonoBehaviour {
     private static float latitude;
     private static bool[] caches = {false,false,false,false,false,false};
     private static string[] logBook = new string[5];
+    private static string[] cachnamen = { "Zukunftsmeile", "HNF", "Wohnheim", "Fluss", "Serverraum" };
     private static string[] gameNames = { "Lookpick", "Galaxy Invaders", "Wohnheim Spiel", "Angel Spiel", "Endkapmf Spiel" };
     private static bool[] games = { false, false, false, false, false, false };
     private static int[] highscores = new int[5];
     private static float timeSinceUpdate = 0;
+    private static string lastFoundSecret = "";
 
 
 	// Use this for initialization
@@ -42,9 +45,18 @@ public class PlayerInformation : MonoBehaviour {
 
     void getUserData()
     {
-		//caches = GameObject.Find("GameController").GetComponent<RESTCommunication>().getCaches(userName);
-        games = caches;
-		//highscores = GameObject.Find("GameController").GetComponent<RESTCommunication>().getHighscors(userName);
+        List<Logbookentry> temp = GameObject.Find("GameController").GetComponent<RESTCommunication>().getAlleLogBookEntrys();
+
+        for (int i = 0; i < temp.Count; i++)
+        {
+            caches[i] = temp[i].Puzzlesolved;
+            games[i] = true;
+        }
+
+        for (int i = 0; i < highscores.Length; i++)
+        {
+            highscores[i] = GameObject.Find("GameController").GetComponent<RESTCommunication>().getTopScoreByUser(cachnamen[i]).Points;
+        }
     }
 
     void updateGeoData()
@@ -56,12 +68,6 @@ public class PlayerInformation : MonoBehaviour {
         }
     }
 
-    void updateCach(int ID)
-    {
-        caches[ID - 1] = true;
-		//GameObject.Find("GameController").GetComponent<RESTCommunication>().updateCach(ID);
-    }
-
     void newScore(int SpielID, int Score)
     {
         if (highscores[SpielID - 1] < Score)
@@ -69,13 +75,23 @@ public class PlayerInformation : MonoBehaviour {
             highscores[SpielID - 1] = Score;
         }
 
-		//GameObject.Find("GameController").GetComponent<RESTCommunication>().newScore(SpielID, Score);
+        GameObject.Find("GameController").GetComponent<RESTCommunication>().SubmitGameScore(Score, SpielID);
     }
 
-    void newlogBook( int CachID, string Text )
+
+    public int[] getHighscores()
     {
-        logBook[CachID - 1] = Text;
-		//GameObject.Find("GameController").GetComponent<RESTCommunication>().newLogBook(Text, CachID);
+        return highscores;
+    }
+
+    public void setCachSecret(string secret)
+    {
+        lastFoundSecret = secret;
+    }
+
+    public string getSecret()
+    {
+        return lastFoundSecret;
     }
 }
 

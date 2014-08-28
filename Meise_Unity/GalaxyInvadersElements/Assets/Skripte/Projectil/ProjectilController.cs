@@ -3,8 +3,9 @@ using System.Collections;
 
 public class ProjectilController : MonoBehaviour {
 
-	//Skript zur Kontrolle des Projektils
+	//Klasse zur Lebensverwaltung von Objekten
 	//Erstellt von Fabian Meise am 23.8.2014
+	//Zuletzt bearbeitet am 28.8.2014
 
 	#region Attribute
 	//Bewegungsgeschwindigkeit

@@ -1,0 +1,6 @@
+Dies ist noch nicht die Endversion es werden noch Änderungen auftretten.
+Folgendes wird sich noch ändern:
+-die derzeit genutzen bilder die nur als Platzhalter dienen
+-Feinheiten am Design
+-Aufteilung der CSS Datei
+-Kommentierung des Quellcodes

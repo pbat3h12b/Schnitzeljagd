@@ -119,78 +119,147 @@ class RESTCommunication : MonoBehaviour
 
 
     public GameScoreListResponse GetTopTenScoresForAllMinigames()
+    {
+        byte[] emptyarray = new byte[0];
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/getTopTenScoresForAllMinigames", emptyarray));
+        if (response["success"].AsBool)
         {
-            byte[] emptyarray = new byte[0];
-            var response = JSON.Parse(Communication("http://btcwash.de:8080/api/getTopTenScoresForAllMinigames",emptyarray));
-            if(response["success"].AsBool)
+            GameScoreListResponse gslr = new GameScoreListResponse(response["success"].AsBool);
+            for (int i = 0; i < response["game"].Count; i++)
             {
-                GameScoreListResponse gslr = new GameScoreListResponse(response["success"].AsBool);
-                for(int i = 0; i < response["game"].Count; i++)
+                Game newgame = new Game(response["game"][i].Value);
+                for (int x = 0; x < response["game"][i].Count; x++)
                 {
-                    Game newgame = new Game(response["game"][i].Value);
-                    for(int x = 0; x < response["game"][i].Count; x++)
-                    {
-                        //newgame.AddScore(new Score(response["game"][i][x]["username"].Value, (int)response["game"][i][x]["points"].AsFloat, (int)response["game"][i][x]["date"].AsFloat));
-                        newgame.AddScore(response["game"][i][x]["username"].Value, (int)response["game"][i][x]["points"].AsFloat, (int)response["game"][i][x]["date"].AsFloat);
-                    
-                    }
-                    gslr.AddGame(newgame);
+                    newgame.AddScore(response["game"][i][x]["username"].Value, (int)response["game"][i][x]["points"].AsFloat, (int)response["game"][i][x]["date"].AsFloat);
                 }
-                return gslr;
+                gslr.AddGame(newgame);
             }
-            else
-            {
-                GameScoreListResponse gslr = new GameScoreListResponse(response["success"].AsBool);
-                return gslr;
-            }
+            return gslr;
         }
+        else
+        {
+            GameScoreListResponse gslr = new GameScoreListResponse(response["success"].AsBool);
+            return gslr;
+        }
+    }
 
     public Response MakeGuestbookEntry(string message)
+    {
+        List<Parameter> parameter = new List<Parameter>();
+        parameter.Add(new Parameter("message", message));
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/makeGuestbookEntry", GetPostDatafromString(parameter)));
+        if (response["success"].AsBool)
         {
-            byte[] emptyarray = new byte[0];
-            var response = JSON.Parse(Communication("http://btcwash.de:8080/api/makeGuestbookEntry", emptyarray));
-            if(response["success"].AsBool)
-            {
-                return new Response(response["success"].AsBool,"");
-            }
-            else
-            {
-                return new Response(response["success"].AsBool, response["message"].Value);
-            }
+            return new Response(response["success"].AsBool, "");
         }
+        else
+        {
+            return new Response(response["success"].AsBool, response["message"].Value);
+        }
+    }
 
     public Response SubmitGameScore(int score, int gameID)
     {
-        return null;
+        string strgameid = Convert.ToString(gameID);
+        string strscore = Convert.ToString(score);
+        List<Parameter> parameter = new List<Parameter>();
+        parameter.Add(new Parameter("username", username));
+        parameter.Add(new Parameter("token", GenrateToken()));
+        parameter.Add(new Parameter("score", strscore));
+        parameter.Add(new Parameter("cache", strgameid));
+
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/submitGameScore", GetPostDatafromString(parameter)));
+        if (response["success"].AsBool)
+        {
+            return new Response(response["success"].AsBool, "");
+        }
+        else
+        {
+            return new Response(response["success"].AsBool, response["message"].Value);
+        }
     }
 
     public Response markPuzzelSolved()
     {
-        return null;
+        List<Parameter> parameter = new List<Parameter>();
+        parameter.Add(new Parameter("username", username));
+        parameter.Add(new Parameter("token", GenrateToken()));
+
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/markPuzzleSolved", GetPostDatafromString(parameter)));
+        if (response["success"].AsBool)
+        {
+            return new Response(response["success"].AsBool, "");
+        }
+        else
+        {
+            return new Response(response["success"].AsBool, response["message"].Value);
+        }
     }
 
-    public Response getAlleLogBookEntrys()
+    public List<Logbookentry> getAlleLogBookEntrys()
     {
-        bool[] cache = new bool[5];
-        bool[] puzzels = new bool[5];
-        string[] messages = new string[5];
-        return null;
+        List<Logbookentry> logbookentries = new List<Logbookentry>();
+        List<Parameter> parameter = new List<Parameter>();
+        parameter.Add(new Parameter("username", username));
+
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/getAllLogbookEntriesByUser", GetPostDatafromString(parameter)));
+        if (response["success"].AsBool && response["entries"].Count > 0)
+        {
+            for (int i = 0; i < response["entries"].Count; i++)
+            {
+                logbookentries.Add(new Logbookentry(response["entries"][i]["cache"].Value, response["entries"][i]["message"].Value, response["entries"][i]["puzzle_solved"].AsBool, response["entries"][i]["found_date"].AsInt));
+            }
+        }
+        return logbookentries;
     }
+
 
     public Response checkCacheSecret(string userCachInput)
     {
-        return null;
+        List<Parameter> parameter = new List<Parameter>();
+        parameter.Add(new Parameter("cache_secret", userCachInput));
+        parameter.Add(new Parameter("username", username));
+
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/secretValidForNextCache", GetPostDatafromString(parameter)));
+        if (response["success"].AsBool)
+        {
+            return new Response(response["success"].AsBool, "");
+        }
+        else
+        {
+            return new Response(response["success"].AsBool, response["message"].Value);
+        }
     }
 
-    public Response MakeLogBookEntry(string message)
+    public Response MakeLogBookEntry(string message, string secret)
     {
-        return null;
+        List<Parameter> parameter = new List<Parameter>();
+        parameter.Add(new Parameter("message", message));
+        parameter.Add(new Parameter("token", GenrateToken()));
+        parameter.Add(new Parameter("username", username));
+        parameter.Add(new Parameter("secret", secret));
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/makeLogbookentry", GetPostDatafromString(parameter)));
+        if (response["success"].AsBool)
+        {
+            return new Response(response["success"].AsBool, "");
+        }
+        else
+        {
+            return new Response(response["success"].AsBool, response["message"].Value);
+        }
     }
 
-    public Response getTopScoreByUser(int gameID)
+    public Score getTopScoreByUser(string gameID)
     {
-        int[] scores = new int[5];
-        return null;
+        List<Parameter> parameter = new List<Parameter>();
+        parameter.Add(new Parameter("username", username));
+
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/getTopTenScoresForAllMinigames", GetPostDatafromString(parameter)));
+        if (response["success"].AsBool && response["game"][gameID].Count > 0)
+        {
+            return new Score(username, response["game"][gameID][0]["points"].AsInt, response["game"][0][gameID]["date"].AsInt);
+        }
+        return new Score(username, 0, 0);
     }
 
     //public int[] GetGuestbookIndex()
@@ -209,16 +278,17 @@ class RESTCommunication : MonoBehaviour
     //}
 
     public List<GuestbookEntry> GetlastGuestbookentries()
+    {
+        List<GuestbookEntry> name = new List<GuestbookEntry>();
+        byte[] emptyarray = new byte[0];
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/", emptyarray));
+        if (response["success"].AsBool)
         {
-            List<GuestbookEntry> name = new List<GuestbookEntry>();
-            byte[] emptyarray = new byte[0];
 
-            for(int i = 0; i < 10; i++)
-            {
-
-            }
-            return null;
         }
+
+        return null;
+    }
 
     //private String[] GetUsers()
     //{
@@ -244,7 +314,7 @@ class RESTCommunication : MonoBehaviour
 
     //Die Funktion Communication stellt die Verbindung zum Server her, sie übermittelt dabei
     //die gewünschten Parameter und gibt die Antwort des Servers dann als String zurück
-    private string Communication(String url, byte[] postdata)
+    public string Communication(String url, byte[] postdata)
     {
         //Zu beginn wird eine POST-Request erstellt und die Typ des für die Parameter bestimmt
         WebRequest request = WebRequest.Create(url);
@@ -270,7 +340,7 @@ class RESTCommunication : MonoBehaviour
 
     //Diese Funktion wird erstellt aus den Parametern einen Byte-Array der für die 
     //Übermittlung an den Server benötigt wird
-    private byte[] GetPostDatafromString(List<Parameter> parameter)
+    public byte[] GetPostDatafromString(List<Parameter> parameter)
     {
         //Zuerst werden die Parameter aus der Liste Passen in einen String gesetzt
         String postdata = "";
@@ -301,8 +371,6 @@ class RESTCommunication : MonoBehaviour
             sb.Append(bytehash[i].ToString("x2"));
         }
         token = sb.ToString();
-        Debug.Log(token);
-        Debug.Log(counter);
 
         //Der Counter wird nach jedem generieren eines Tokens um einen zähler hochgezählt da so nie das gleiche Token generiert wird
         counter++;
@@ -412,9 +480,9 @@ public class GameScoreListResponse
     }
 
     public void AddGame(Game _game)
-        {
-            gameslist.Add(_game);
-        }
+    {
+        gameslist.Add(_game);
+    }
 }
 
 public class Game
@@ -501,5 +569,39 @@ public class GuestbookEntry
         this.author = _author;
         this.message = _message;
         this.date = _date;
+    }
+}
+
+public class Logbookentry
+{
+    string cache;
+
+    public string Cache
+    {
+        get { return cache; }
+        set { cache = value; }
+    }
+    string message;
+
+    public string Message
+    {
+        get { return message; }
+        set { message = value; }
+    }
+    bool puzzlesolved;
+
+    public bool Puzzlesolved
+    {
+        get { return puzzlesolved; }
+        set { puzzlesolved = value; }
+    }
+    int founddate;
+
+    public Logbookentry(string _cache, string _message, bool _puzzlesolved, int _date)
+    {
+        this.cache = _cache;
+        this.message = _message;
+        this.puzzlesolved = _puzzlesolved;
+        this.founddate = _date;
     }
 }

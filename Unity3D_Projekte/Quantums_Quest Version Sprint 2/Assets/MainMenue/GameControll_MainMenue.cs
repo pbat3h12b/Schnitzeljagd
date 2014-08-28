@@ -4,6 +4,8 @@ using System.Collections;
 public class GameControll_MainMenue : MonoBehaviour {
     [HideInInspector]
     private GameObject gameController;
+    public Texture2D verlauf;
+    public Texture2D background;
 
     public Texture2D KarteAnzeigen;
     public Texture2D SpieleAnzeigen;
@@ -37,6 +39,7 @@ public class GameControll_MainMenue : MonoBehaviour {
 
     void OnGUI()
     {
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(15, 40, 30, 15)), "", styleKarteAnzeigen))
         {
             Application.LoadLevel(4);
@@ -46,5 +49,6 @@ public class GameControll_MainMenue : MonoBehaviour {
         {
             Application.LoadLevel(3);
         }
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
     }
 }

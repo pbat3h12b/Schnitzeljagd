@@ -3,12 +3,18 @@ using System.Collections;
 
 public class GameOverCollider : MonoBehaviour {
 
-	//Klasse für GameOver
+	//Klasse zur Lebensverwaltung von Objekten
 	//Erstellt von Fabian Meise am 23.8.2014
+	//Zuletzt bearbeitet am 28.8.2014
 
 	//Das Spiel ist vorbei sobald ein Gegner auf das mit dieser
 	//Klasse verbundende Objekt trifft
-	
+
+	#region Methoden
+	//Überprüfen ob nur Enemy sich im Collider befindet
+	public string tagName="enemy";
+	#endregion
+
 
 	#region Methoden
 	//Es werden alle 3 Triggermethoden benutzt um mögliche Fehler
@@ -20,7 +26,7 @@ public class GameOverCollider : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{	
 		//Aufruf von Senddamage
-		GameOver();
+		GameOver(other);
 	}
 	//wird aufgerufen wenn ein der Collider eines anderen
 	//Gameobjects im Trigger befindet
@@ -28,7 +34,7 @@ public class GameOverCollider : MonoBehaviour {
 	void OnTriggerStay(Collider other)
 	{
 		//Aufruf von Senddamage
-		GameOver();
+		GameOver(other);
 	}
 	//wird aufgerufen wenn ein der Collider eines anderen
 	//Gameobjects den Trigger berührt
@@ -36,15 +42,17 @@ public class GameOverCollider : MonoBehaviour {
 	void OnTriggerExit(Collider other)
 	{
 		//Aufruf von Senddamage
-		GameOver();
+		GameOver(other);
 	}
 	
 	
 	//Methode zum Senden von Schaden an Objekt
-	void GameOver()
+	void GameOver(Collider other)
 	{
-		//Szenenwechsel	
-
+		if (other.gameObject.tag == tagName)
+		{
+			//Szenenwechsel	
+		}
 	}
 	#endregion
 }
