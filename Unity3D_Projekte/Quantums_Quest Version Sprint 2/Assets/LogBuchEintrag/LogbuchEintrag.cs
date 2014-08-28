@@ -33,7 +33,7 @@ public class LogbuchEintrag : MonoBehaviour {
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(70, 15, 10, 10)), "Hier können Sie eine Nachricht hinterlassen");
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(67, 30, 20, 10)), "", styleWeiter) && lgeintrag != "")
         {
-            Response temp = gameController.GetComponent<RESTCommunication>().MakeLogBookEntry(lgeintrag);
+            Response temp = gameController.GetComponent<RESTCommunication>().MakeLogBookEntry(lgeintrag, gameController.GetComponent<PlayerInformation>().getSecret());
 
             if (temp.Success == true)
             {
