@@ -37,12 +37,12 @@ public class GameControll_MainMenue : MonoBehaviour {
 
     void OnGUI()
     {
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(15, 40, 30, 15)), "",styleKarteAnzeigen))
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(15, 40, 30, 15)), "", styleKarteAnzeigen))
         {
             Application.LoadLevel(4);
         }
 
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(55, 40, 30, 15)), "",styleSpieleAnzeigen))
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 40, 30, 15)), "", styleSpieleAnzeigen))
         {
             Application.LoadLevel(3);
         }

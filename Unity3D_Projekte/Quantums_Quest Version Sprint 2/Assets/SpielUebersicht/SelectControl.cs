@@ -27,62 +27,62 @@ public class SelectControl : MonoBehaviour {
 
 	void OnGUI()
 	{
-        scrollPosition = GUI.BeginScrollView(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(5, 5, 90, 90)), scrollPosition, gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(5, 5, 85, 250)));
+        scrollPosition = GUI.BeginScrollView(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(5, 5, 90, 90)), scrollPosition, gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(5, 5, 85, 250)));
         
         // erstes
-        GUI.Box(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(10, 10, 70, 35)), "");
-		GUI.DrawTexture (gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(12, 15, 20, 25)), texture1);
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(55, 30, 20, 10)), "",stylePlay)) 
+        GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 10, 70, 35)), "");
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 15, 20, 25)), texture1);
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 30, 20, 10)), "", stylePlay)) 
 		{
             Application.LoadLevel(7);
 		}
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 15, 20, 10)), "WohnheimSpiel");
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 25, 10, 10)), "Spielbar :");
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(45, 25, 20, 10)), "Ja");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 15, 20, 10)), "WohnheimSpiel");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 25, 10, 10)), "Spielbar :");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(45, 25, 20, 10)), "Ja");
 
         //zweites
-        GUI.Box(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(10, 60, 70, 35)), "");
-        GUI.DrawTexture(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(12, 65, 20, 25)), texture1);
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(55, 80, 20, 10)), "", stylePlay))
+        GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 60, 70, 35)), "");
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 65, 20, 25)), texture1);
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 80, 20, 10)), "", stylePlay))
         {
             Application.LoadLevel(7);
         }
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 65, 20, 10)), "WohnheimSpiel");
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 75, 10, 10)), "Spielbar :");
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(45, 75, 20, 10)), "Ja");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 65, 20, 10)), "WohnheimSpiel");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 75, 10, 10)), "Spielbar :");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(45, 75, 20, 10)), "Ja");
 
         //drites
-        GUI.Box(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(10, 110, 70, 35)), "");
-        GUI.DrawTexture(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(12, 115, 20, 25)), texture1);
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(55, 130, 20, 10)), "", stylePlay))
+        GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 110, 70, 35)), "");
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 115, 20, 25)), texture1);
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 130, 20, 10)), "", stylePlay))
         {
             Application.LoadLevel(7);
         }
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 115, 20, 10)), "WohnheimSpiel");
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 125, 10, 10)), "Spielbar :");
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(45, 125, 20, 10)), "Ja");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 115, 20, 10)), "WohnheimSpiel");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 125, 10, 10)), "Spielbar :");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(45, 125, 20, 10)), "Ja");
 
         //virtes
-        GUI.Box(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(10, 160, 70, 35)), "");
-        GUI.DrawTexture(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(12, 165, 20, 25)), texture1);
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(55, 180, 20, 10)), "", stylePlay))
+        GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 160, 70, 35)), "");
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 165, 20, 25)), texture1);
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 180, 20, 10)), "", stylePlay))
         {
             Application.LoadLevel(7);
         }
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 165, 20, 10)), "WohnheimSpiel");
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 175, 10, 10)), "Spielbar :");
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(45, 175, 20, 10)), "Ja");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 165, 20, 10)), "WohnheimSpiel");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 175, 10, 10)), "Spielbar :");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(45, 175, 20, 10)), "Ja");
 
         //fünftes
-        GUI.Box(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(10, 210, 70, 35)), "");
-        GUI.DrawTexture(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(12, 215, 20, 25)), texture1);
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(55, 230, 20, 10)), "", stylePlay))
+        GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 210, 70, 35)), "");
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 215, 20, 25)), texture1);
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 230, 20, 10)), "", stylePlay))
         {
             Application.LoadLevel(7);
         }
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 215, 20, 10)), "WohnheimSpiel");
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 225, 10, 10)), "Spielbar :");
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(45, 225, 20, 10)), "Ja");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 215, 20, 10)), "WohnheimSpiel");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 225, 10, 10)), "Spielbar :");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(45, 225, 20, 10)), "Ja");
 
         // OLD
         //GUI.Box (new Rect (50, 200, 420, 120), "");

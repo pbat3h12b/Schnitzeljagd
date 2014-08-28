@@ -27,7 +27,6 @@ public class PlayerInformation : MonoBehaviour {
         timeSinceUpdate += Time.deltaTime;
         updateGeoData();
         Input.location.Stop();
-
 	}
 
     public string getUsername()
@@ -57,12 +56,6 @@ public class PlayerInformation : MonoBehaviour {
         }
     }
 
-	void OnGui()
-	{        if (timeSinceUpdate > 5 && userName != "") {
-						GUI.Label (new Rect (100, 100, 100, 100), GameObject.Find ("GameController").GetComponent<RESTCommunication> ().UpdatePosition (longitude, latitude).ToString ());
-				}
-		}
-
     void updateCach(int ID)
     {
         caches[ID - 1] = true;
@@ -83,22 +76,6 @@ public class PlayerInformation : MonoBehaviour {
     {
         logBook[CachID - 1] = Text;
 		//GameObject.Find("GameController").GetComponent<RESTCommunication>().newLogBook(Text, CachID);
-    }
-
-    public Rect GetRelativeRect(Rect oldRect)
-    {
-        Rect newRect = new Rect();
-
-        float screenWidth = Screen.width;
-        float screenHeight = Screen.height;
-
-        newRect.width = (oldRect.width * screenWidth) / 100;
-        newRect.height = (oldRect.height * screenHeight) / 100;
-
-        newRect.x = (oldRect.x * screenWidth) / 100;
-        newRect.y = (oldRect.y * screenHeight) / 100;
-
-        return newRect;
     }
 }
 

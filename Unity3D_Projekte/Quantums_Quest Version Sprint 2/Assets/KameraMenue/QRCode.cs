@@ -32,18 +32,18 @@ public class QRCode : MonoBehaviour {
 
 	void OnGUI()
 	{
-        
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(30, 5, 40, 10)), "QR-Code Scanner");
-        qrcode = GUI.TextField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(30, 35, 20, 10)), qrcode);
-        GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(35, 30, 20, 10)), "Bitte Code eingeben");
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(53, 35, 20, 10)), "",styleAbsenden))
+
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(30, 5, 40, 10)), "QR-Code Scanner");
+        qrcode = GUI.TextField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(30, 35, 20, 10)), qrcode);
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 30, 20, 10)), "Bitte Code eingeben");
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(53, 35, 20, 10)), "", styleAbsenden))
         {
         }
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(25, 55, 20, 10)), "",styleZurueck))
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(25, 55, 20, 10)), "", styleZurueck))
         {
             Application.LoadLevel(4);
         }
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(55, 55, 20, 10)), "", styleWeiter))
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 55, 20, 10)), "", styleWeiter))
         {
             Application.LoadLevel(6);
         }
