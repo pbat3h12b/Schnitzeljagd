@@ -38,16 +38,16 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	{
 		gameController = GameObject.Find("GameController");
 
-        backgroundTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(-20, -20, 140, 140));
+        backgroundTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(-20, -20, 140, 140));
 
         // new
-        mapTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(0, 0, 90, 100));
+        mapTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 90, 100));
 
         // new
         userTransform.width = mapTransform.width / 20;
         userTransform.height = mapTransform.height / 20;
 
-        buttonScanTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(91, 2, 8, 8));
+        buttonScanTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(91, 2, 8, 8));
 	}
 	
 	/*

@@ -20,6 +20,7 @@ public class GameControll_Registration : MonoBehaviour {
     private string inputUsername = "";
     private string inputPassword = "";
     private string inputPasswordRepetition = "";
+    private string falseInput = "";
     //private string buttonRegisterValue = "Registrieren";
     //private string buttonCancelValue = "Abbrechen";
 
@@ -48,17 +49,22 @@ public class GameControll_Registration : MonoBehaviour {
 	// Oberfläche konstruieren
     void OnGUI()
     {
-        inputUsername = GUI.TextField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 25, 60, 10)), "", styleUser);
-        inputPassword = GUI.PasswordField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 40, 60, 10)), "", '*',stylePasswort);
-        inputPasswordRepetition = GUI.PasswordField(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 55, 60, 10)), "", '*',stylePasswort);
+        inputUsername = GUI.TextField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 25, 60, 10)), "", styleUser);
+        inputPassword = GUI.PasswordField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 40, 60, 10)), "", '*', stylePasswort);
+        inputPasswordRepetition = GUI.PasswordField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 55, 60, 10)), "", '*', stylePasswort);
 
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 70, 60, 10)), "",styleRegis))
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 70, 60, 10)), "", styleRegis))
         {
 			if (inputPassword == inputPasswordRepetition && inputPassword != "")
             {
-				if (gameController.GetComponent<RESTCommunication>().RegisterNewUser(inputUsername,inputPassword).Success == true )
+                Response temp = gameController.GetComponent<RESTCommunication>().RegisterNewUser(inputUsername, inputPassword);
+                if (temp.Success == true)
                 {
                     Application.LoadLevel(0);
+                }
+                else
+                {
+                    falseInput = temp.Message;
                 }
             }
             else
@@ -68,9 +74,9 @@ public class GameControll_Registration : MonoBehaviour {
         }
         if (isIncorrect)
         {
-            GUI.Label(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 10, 60, 10)), "Falsche Eingabe");
+            GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 10, 60, 10)), falseInput);
         }
-        if (GUI.Button(gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(20, 85, 60, 10)), "",styleCancel))
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 85, 60, 10)), "", styleCancel))
         {
             Application.LoadLevel(0);
         }
