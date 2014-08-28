@@ -3,8 +3,9 @@ using System.Collections;
 
 public class SendDamageCollider : MonoBehaviour {
 
-	//Klasse zum Übertragen von Schaden
+	//Klasse zur Lebensverwaltung von Objekten
 	//Erstellt von Fabian Meise am 23.8.2014
+	//Zuletzt bearbeitet am 28.8.2014
 
 	#region Attribute
 	//Schadenswert der übergeben wird
@@ -55,6 +56,7 @@ public class SendDamageCollider : MonoBehaviour {
 		                             damageValue,
 		                             SendMessageOptions.DontRequireReceiver);	
 		}
+		GameObject.Destroy (this.gameObject);
 	}
 	#endregion
 }

@@ -5,10 +5,13 @@ public class HealthController : MonoBehaviour {
 
 	//Klasse zur Lebensverwaltung von Objekten
 	//Erstellt von Fabian Meise am 23.8.2014
+	//Zuletzt bearbeitet am 28.8.2014
 
 	#region Attribute
 	//Leben des Gameobjects
 	public float currentHealth = 1;
+	//Punkte für Töten
+	public int points = 10;
 	#endregion
 
 	#region Methoden
@@ -35,6 +38,15 @@ public class HealthController : MonoBehaviour {
 	//Gameobject wird zerstört
 	void Destroythis()
 	{
+		if (this.gameObject.tag == "enemy")
+		{
+			GameObject score;
+			score = GameObject.FindGameObjectWithTag("score");
+			score.SendMessage("ApplyScore",
+			                  points,
+			                  SendMessageOptions.DontRequireReceiver);
+		}
+
 		GameObject.Destroy (this.gameObject);
 	}
 	#endregion
