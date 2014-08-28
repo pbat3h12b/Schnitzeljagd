@@ -24,27 +24,30 @@ import random
 import cherrypy
 import peewee
 from peewee import *
+from playhouse.pool import *
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 
-db_conn = MySQLDatabase(None)
+db_host = '10.0.3.75'
+#	db_host = 'localhost'
+db_database = 'geo'
+db_user = 'berry_pink'
+db_password = 'mellow_yellow'
 
+db_conn = PooledMySQLDatabase(db_database,
+							  max_connections=0,
+							  stale_timeout=600,
+							  host=db_host, 
+							  user=db_user, 
+							  passwd=db_password,
+							  threadlocals=True)
 
 class Api(object):
-	def __init__(self, db_host, db_database, db_user, db_password):
-		self.db_host = db_host
-		self.db_database = db_database
-		self.db_user = db_user
-		self.db_password = db_password
-
+	def __init__(self):
 		self.session = dict()
 
-		db_conn.init (db_database,
-					  host=db_host, 
-					  user=db_user, 
-					  passwd=db_password)
 		db_conn.connect()
 
 		#setup_db()

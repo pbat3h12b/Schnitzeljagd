@@ -18,17 +18,11 @@ if __name__ == '__main__':
 #	ip = '81.169.244.213'
 #	port = 8080
 
-	db_host = '10.0.3.75'
-	#	db_host = 'localhost'
-	db_database = 'geo'
-	db_user = 'berry_pink'
-	db_password = 'mellow_yellow'
-
 	cherrypy.config.update({'server.socket_host': ip})
 	cherrypy.config.update({'server.socket_port': port})
 
 	index_controller = Root()
-	api_controller = Api(db_host, db_database, db_user, db_password)
+	api_controller = Api()
 
 	d = cherrypy.dispatch.RoutesDispatcher()
 	d.connect(name='root',		action='index',								controller=index_controller,	route='/')
