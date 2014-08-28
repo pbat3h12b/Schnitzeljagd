@@ -9,6 +9,8 @@ public class QRCode : MonoBehaviour {
     public Texture2D Absenden;
     public Texture2D Zurueck;
     public Texture2D Weiter;
+    public Texture2D verlauf;
+    public Texture2D background;
 
     GUIStyle styleWeiter = new GUIStyle();
     GUIStyle styleZurueck = new GUIStyle();
@@ -27,13 +29,12 @@ public class QRCode : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(gameController.GetComponent<RESTCommunication>().GetPositionMap());
+
 	}
 
 	void OnGUI()
 	{
-
-        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(30, 5, 40, 10)), "QR-Code Scanner");
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
         qrcode = GUI.TextField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(30, 35, 20, 10)), qrcode);
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 30, 20, 10)), "Bitte Code eingeben");
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(53, 35, 20, 10)), "", styleAbsenden))
@@ -47,5 +48,6 @@ public class QRCode : MonoBehaviour {
         {
             Application.LoadLevel(6);
         }
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
 	}
 }

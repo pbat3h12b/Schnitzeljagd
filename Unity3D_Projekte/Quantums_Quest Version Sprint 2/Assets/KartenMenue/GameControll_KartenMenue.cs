@@ -9,6 +9,8 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	public Texture2D imageCurrentUser;
 
 	private GameObject gameController;
+    public Texture2D verlauf;
+    public Texture2D background;
 
     // new
     private Component staticScript;
@@ -63,6 +65,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	 */
 	void OnGUI()
 	{
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
         /*
          * Karten-Textur auf GUI wiedergeben
          */
@@ -109,6 +112,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
          */
         GUI.DrawTexture(backgroundTransform,
                             backgroundImage);
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
 	}
 	
 	/*

@@ -37,14 +37,15 @@ public class PlayerInformation : MonoBehaviour {
     public void logIn(string name)
     {
         userName = name;
-        getUserData();
+        //getUserData();
     }
 
     void getUserData()
     {
-		//caches = GameObject.Find("GameController").GetComponent<RESTCommunication>().getCaches(userName);
-        games = caches;
-		//highscores = GameObject.Find("GameController").GetComponent<RESTCommunication>().getHighscors(userName);
+        ResponseCaches temp = GameObject.Find("GameController").GetComponent<RESTCommunication>().getAlleLogBookEntrys();
+        caches = temp.Cache;
+        games = temp.Puzzels;
+        highscores = GameObject.Find("GameController").GetComponent<RESTCommunication>().getTopScoreByUser();
     }
 
     void updateGeoData()
@@ -56,12 +57,6 @@ public class PlayerInformation : MonoBehaviour {
         }
     }
 
-    void updateCach(int ID)
-    {
-        caches[ID - 1] = true;
-		//GameObject.Find("GameController").GetComponent<RESTCommunication>().updateCach(ID);
-    }
-
     void newScore(int SpielID, int Score)
     {
         if (highscores[SpielID - 1] < Score)
@@ -69,13 +64,7 @@ public class PlayerInformation : MonoBehaviour {
             highscores[SpielID - 1] = Score;
         }
 
-		//GameObject.Find("GameController").GetComponent<RESTCommunication>().newScore(SpielID, Score);
-    }
-
-    void newlogBook( int CachID, string Text )
-    {
-        logBook[CachID - 1] = Text;
-		//GameObject.Find("GameController").GetComponent<RESTCommunication>().newLogBook(Text, CachID);
+        GameObject.Find("GameController").GetComponent<RESTCommunication>().SubmitGameScore(Score, SpielID);
     }
 }
 

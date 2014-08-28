@@ -10,7 +10,10 @@ public class SelectControl : MonoBehaviour {
 	public Texture2D texture4;
 	public Texture2D texture5;
     public Texture2D playButton;
+    public Texture2D verlauf;
+    public Texture2D background;
     private GUIStyle stylePlay = new GUIStyle();
+
 
 	Vector2 scrollPosition = Vector2.zero;
 
@@ -27,6 +30,7 @@ public class SelectControl : MonoBehaviour {
 
 	void OnGUI()
 	{
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
         scrollPosition = GUI.BeginScrollView(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(5, 5, 90, 90)), scrollPosition, gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(5, 5, 85, 250)));
         
         // erstes
@@ -110,5 +114,6 @@ public class SelectControl : MonoBehaviour {
         //GUI.Label (new Rect (160, 710, 100, 50), "Spielbar");
 
 		GUI.EndScrollView();
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
 	}
 }

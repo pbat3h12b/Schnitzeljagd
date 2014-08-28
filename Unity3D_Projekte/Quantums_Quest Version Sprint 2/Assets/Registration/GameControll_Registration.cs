@@ -10,6 +10,8 @@ public class GameControll_Registration : MonoBehaviour {
     public Texture2D Passwort;
     public Texture2D Regis;
     public Texture2D Cancel;
+    public Texture2D verlauf;
+    public Texture2D background;
 
     //private int screenWidth;
     //private int screenHeight;
@@ -39,6 +41,10 @@ public class GameControll_Registration : MonoBehaviour {
         styleCancel.normal.background = Cancel;
         stylePasswort.normal.background = Passwort;
         styleRegis.normal.background = Regis;
+        styleUser.alignment = TextAnchor.MiddleCenter;
+        stylePasswort.alignment = TextAnchor.MiddleCenter;
+        stylePasswort.fontSize = 35;
+        styleUser.fontSize = 35;
         //screenHeight = Screen.height;
         //screenWidth = Screen.width;
 
@@ -49,9 +55,10 @@ public class GameControll_Registration : MonoBehaviour {
 	// Oberfläche konstruieren
     void OnGUI()
     {
-        inputUsername = GUI.TextField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 25, 60, 10)), "", styleUser);
-        inputPassword = GUI.PasswordField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 40, 60, 10)), "", '*', stylePasswort);
-        inputPasswordRepetition = GUI.PasswordField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 55, 60, 10)), "", '*', stylePasswort);
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
+        inputUsername = GUI.TextField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 25, 60, 10)), inputUsername, styleUser);
+        inputPassword = GUI.PasswordField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 40, 60, 10)), inputPassword, '*', stylePasswort);
+        inputPasswordRepetition = GUI.PasswordField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 55, 60, 10)), inputPasswordRepetition, '*', stylePasswort);
 
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 70, 60, 10)), "", styleRegis))
         {
@@ -80,5 +87,6 @@ public class GameControll_Registration : MonoBehaviour {
         {
             Application.LoadLevel(0);
         }
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
     }
 }

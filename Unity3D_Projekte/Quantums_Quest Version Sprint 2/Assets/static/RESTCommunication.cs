@@ -169,7 +169,7 @@ class RESTCommunication : MonoBehaviour
         return null;
     }
 
-    public Response getAlleLogBookEntrys()
+    public ResponseCaches getAlleLogBookEntrys()
     {
         bool[] cache = new bool[5];
         bool[] puzzels = new bool[5];
@@ -187,7 +187,7 @@ class RESTCommunication : MonoBehaviour
         return null;
     }
 
-    public Response getTopScoreByUser(int gameID)
+    public int[] getTopScoreByUser()
     {
         int[] scores = new int[5];
         return null;
@@ -301,8 +301,6 @@ class RESTCommunication : MonoBehaviour
             sb.Append(bytehash[i].ToString("x2"));
         }
         token = sb.ToString();
-        Debug.Log(token);
-        Debug.Log(counter);
 
         //Der Counter wird nach jedem generieren eines Tokens um einen zähler hochgezählt da so nie das gleiche Token generiert wird
         counter++;
@@ -501,5 +499,30 @@ public class GuestbookEntry
         this.author = _author;
         this.message = _message;
         this.date = _date;
+    }
+}
+
+public class ResponseCaches
+{
+    bool[] cache = new bool[5];
+
+    public bool[] Cache
+    {
+        get { return cache; }
+        set { cache = value; }
+    }
+    bool[] puzzels = new bool[5];
+
+    public bool[] Puzzels
+    {
+        get { return puzzels; }
+        set { puzzels = value; }
+    }
+    string[] messages = new string[5];
+
+    public string[] Messages
+    {
+        get { return messages; }
+        set { messages = value; }
     }
 }
