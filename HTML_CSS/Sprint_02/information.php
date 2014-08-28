@@ -1,0 +1,221 @@
+<!doctype html>		<!-- Dokument erstellt von Lukas Ebbers-->
+<html>
+<head>
+
+<title>Vorprojekt</title>
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<!--Meta-->
+<meta charset="UTF-8">																		<!-- Charset für umlaute -->
+<meta name="viewport" content="width=device-width, initial-scale=1" /> 				<!--Für das Responsive Webdesign -->
+<!--Meta closed-->
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<!--Style-->
+<link rel="stylesheet" type="text/css" href="style.css" />									 <!-- Einbindung des CSS -->
+<!--Style closed-->
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+</head>
+<body>
+		
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->	
+<!--Header-->
+		<header id="mainHeader">														  <!-- Beinhaltet den Banner -->
+			<h1 class="wrapper">Quantums Quests</h1>									<!-- Titel der Internetseite -->
+
+
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<!--Navigation  Erstellt von Martin Dirkmorfeld-->			
+		<div id="naviBackground">												   <!-- Navigation der Internetseite -->
+	        <nav class="wrapper">
+	            <ul>				
+	                <li>
+	                    <a href="index.html">Home</a>
+	                </li>
+	                <li>
+	                    <a href="about.html">About</a>
+	                    <ul>						
+	                        <li><a href="about.html#theteam">The Team</a></li>
+	                        <li><a href="about.html#thegame">The Game</a></li>
+	                    </ul>						
+	                </li>
+	                <li id="active">
+	                     <a href="information.php">Information</a>
+	                     <ul>
+	                         <li><a href="information.php#statistiken">Stats</a></li>
+	                         <li><a href="information.php#livemap">LiveMap</a></li>
+	                     </ul>
+	                </li>
+	                <li>
+	                    <a href="contact.php">Contact</a>
+	                    <ul>
+	                        <li><a href="contact.php#mailkontakt">Email</a></li>
+	                        <li><a href="contact.php#gaestebuch">Guestbook</a></li>
+	                    </ul>
+	                </li>
+	            </ul>
+	        </nav>
+        </div>
+<!--Navigation closed-->
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+
+		</header>
+<!--Header closed-->
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+
+
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->	
+<!--Main-->
+		<div id="mainBackground">
+			<div class="wrapper main">			
+				<article>
+					<header class="articleHeader">
+						<h2>Statistiken</h2>
+					</header>
+					<footer>
+						<h3>extra information</h3>
+					</footer>
+					<content>
+					<p>				
+						<?php
+							date_default_timezone_set('Etc/GMT-4');
+							include('api.php');
+							$klasse = new apiWrapper;
+							$spielerArray = $klasse -> getUserList();
+							?>
+							
+						<form action='spieler.php' name="form" method='GET'>				
+						<select name='spielerListe' size='1'>
+						<?php
+							foreach ($spielerArray  as $option)
+							{?>
+							   <option><?PHP echo $option;?></option>
+							<?PHP }
+						?>
+						</select>
+						<input type='submit'>
+						</form>
+						
+					
+						<?php				
+						//connection	
+						$arr = $klasse -> getTopTenScoresForAllMinigamesByUsername($Username);						
+						$arr = $klasse -> getTopTenScoresForAllMinigames();
+						//var_dump($arr);
+						//var_dump($arr->{'Zukunftsmeile'});
+						
+						?><div class="tables"><?php
+						drawTable($arr->{'Zukunftsmeile'},'Zukunftsmeile');
+						drawTable($arr->{'HNF'},'HNF');
+						drawTable($arr->{'Fluss'},'Fluss');
+						drawTable($arr->{'Serverraum'},'Serverraum');
+						drawTable($arr->{'Wohnheim'},'Wohnheim');
+						drawTable($arr->{'bib-Eingang'},'bib-Eingang');
+						?></div><?php
+						
+						
+						function drawTable($array,$title)
+						{
+ 
+						
+							$counter = 0;
+							?>
+							<h2><?php echo $title?></h2>
+							
+							<table border="1">
+							
+							<thead>
+							<th>
+							Nummmer
+							</th>
+							<th>
+							Username
+							</th>
+							<th>
+							Punkte
+							</th>
+							<th>
+							Date
+							</th>
+							</thead>
+							<tbody>
+							<?php
+							for ($jdx=0;$jdx < sizeof($array);$jdx++)
+							{					
+							?>
+							<?php
+							  $counter ++;
+							  ?>
+							  <tr>
+							  <td> 
+							  <?php
+							  echo $counter;
+							  	?>					
+							  </td>
+							  <td>
+							  <?php 
+							  echo $array[$jdx]->{'username'};
+							  ?>
+							  </td>
+							  <td>
+							  <?php 
+							  echo $array[$jdx]->{'points'};
+							  ?>
+							  </td>
+							  <td>
+							  <?php 
+							  echo date("Y-m-d H:i:s", $array[$jdx]->{'date'});
+							 
+							  ?>
+							  </td>
+							  </tr>
+							  
+							 <?php  
+							}
+							?>
+							</tbody>
+							</table>
+							<br><br>
+							<?php 
+						}
+						?>
+						
+
+
+						
+						
+						
+
+					</p>
+					</content>
+				</article>
+
+
+				<article>
+					<header class="articleHeader">
+						<h2>Livemap</h2>
+					</header>
+					<footer>
+						<h3>extra information</h3>
+					</footer>
+					<content>
+						
+					</content>
+				</article>
+			</div>
+		</div>	
+<!--Main closed-->
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<!--Footer-->
+		<footer id="mainFooter" class="wrapper">			<!-- Footer der extra Informationen zur Seite beinhaltet -->
+			blablbla<a href="http://www.bib.de">b.i.b.</a>blablabla
+		</footer>
+<!--Footer closed-->
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->		
+</body>
+</html>
