@@ -1,78 +1,14 @@
-/* Scrollbar Settings */
-/* -------------------------------------------------------------------------- */
-
-/* Mozilla (Firefox) */
-/* -------------------------------------------------------------------------- */
-/* FF bietet derzeit keine Alternative in Gecko - Hilfe bietet jQuery */
-
-
-body {
-/* IE */
-/* -------------------------------------------------------------------------- */
-  scrollbar-arrow-color:rgba(250, 146, 14, 0.5);
-  scrollbar-base-color:rgba(169, 54, 5, 1);
-  scrollbar-face-color:rgba(250, 146, 14, 0.5);
-  scrollbar-3dlight-color:gold;
-  scrollbar-highlight-color:rgba(254, 224, 184, 1);
-  scrollbar-shadow-colorr:gba(35, 11, 1, 1);
-  scrollbar-darkshadow-color:rgba(21, 7, 1, 1);
+::-webkit-scrollbar {
+    width: 10px;
 }
-
-/* Chrome & Safari */
-/* -------------------------------------------------------------------------- */
-/*  Speziellen Pseudoelementen
-    allgemeien Einstellungen:     ::-webkit-scrollbar{} 
-    inaktiv:                      ::-webkit-scrollbar:disabled{}
-    horizintal:                   ::-webkit-scrollbar:horizontal{}
-    vertikal:                     ::-webkit-scrollbar:vertical{} 
-    Es gibt diverse weitere Pseudoelemente
-    (http://trac.webkit.org/export/41842/trunk/LayoutTests/scrollbars/overflow-scrollbar-combinations.html)
-*/
-::-webkit-scrollbar{
-  width: 16px;
-  height: 16px;
-  background:rgba(21, 7, 1, 0.5);
+ 
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(255,140,0,1); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
-::-webkit-scrollbar-button:start{
-  -webkit-border-image: url(resources/button_start.png) 0 8 0 8;
-  border-color: transparent;
-  border-width: 0 8px;
-  min-width: 12px;
-  background:rgba(21, 7, 1, 0.7);
+::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(255,140,0,1);
 }
-::-webkit-scrollbar-button:end{
-  -webkit-border-image: url(resources/button_end.png) 0 8 0 8;
-  border-color: transparent;
-  border-width: 0 8px;
-  min-width: 12px;
-  background:rgba(21, 7, 1, 0.7);
-}
-::-webkit-scrollbar-track{ 
-  background:rgba(128, 41, 4, 0.05);
-}
-::-webkit-scrollbar-track-piece:disabled{
-  ;
-}
-/*::-webkit-scrollbar-track-piece:vertival{
-  -webkit-border-image: url(resources/track.png) 0 16 0 16;
-  border-color: transparent;
-  border-width: 0 16px;
-  min-width: 16px;
-}*/
-
-/* Positinsanzeige - relativer mittiger Balken */
-/* Image-Angaben: oben, unten mit Rand/Größe (Rand 0=erhalten, 0-n=Pixel in das Bild)*/
-::-webkit-scrollbar-thumb{        
-  -webkit-border-image: url(resources/button.png) 0 8 0 8;
-  border-color: transparent;
-  border-width: 0 8px 0 8px;
-  min-width: 12px;
-}
-::-webkit-scrollbar-corner{
-  background-image:url();       
-  background-repeat: no-repeat;
-}
-::-webkit-resizer{                
-  ;
-} 
 
