@@ -9,7 +9,7 @@
 # when run against a server with active users.
 #
 
-__author__ = "space"
+__author__ = "Patrick Meyer"
 
 import unittest
 import random
@@ -24,8 +24,8 @@ logging.basicConfig(level=logging.WARNING) # INFO
 log = logging.getLogger(__name__)
 
 config = {
-#    "api_url" : "http://btcwash.de:8080/api/",
-	"api_url" : "http://localhost:8000/api/",
+    "api_url" : "http://btcwash.de:8080/api/",
+#	"api_url" : "http://localhost:8000/api/",
 	"existing_user" : "testUser",
 	"existing_users_password" : "foobar",
 	"new_user" : ("to_delete" + str(uuid.uuid4()))[0:30],
@@ -339,8 +339,8 @@ class GeoTests(unittest.TestCase, BaseFunctions):
 			user_sessions.append(session)
 
 		for i in xrange(len(user_sessions)*10):
- 			pos_payload   = {	'longitude' : ("%d.%d" %  (random.randint(1, 99), random.randint(100000, 999999))),
-								'latitude'  : ("%d.%d" %  (random.randint(1, 99), random.randint(100000, 999999))) }
+			pos_payload   = {	'longitude' : ("%s%d" %  ("51.7", random.randint(2903727, 3363555))),
+								'latitude'  : ("%s%d" %  ("8.7", random.randint (3138427, 4317526))) }
 
 			idx = random.randint(0, len(user_sessions)-1)
 			user_sessions[idx] = self.updatePosition(user_sessions[idx], pos_payload)
@@ -596,6 +596,6 @@ if __name__ == '__main__':
 	unittest.main()
 
 #	suite = unittest.TestSuite()
-#	suite.addTest(MinigameTests("testfoarwardSubmitAndRetrieveGameScores"))
+#	suite.addTest(GeoTests("testfoarwardUpdateAndGetPositionsMap"))
 #	runner = unittest.TextTestRunner()
 #	runner.run(suite)

@@ -5,6 +5,7 @@ import cherrypy
 
 from apps.api.apiPageHandler import Api
 
+__author__ = "Patrick Meyer"
 
 class Root():
 	def index(self):

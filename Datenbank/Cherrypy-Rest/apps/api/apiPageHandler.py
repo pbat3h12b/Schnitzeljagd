@@ -6,10 +6,8 @@
 # Implementation of the RestAPI
 #
 
-# sql injection
 
-
-__author__ = "space"
+__author__ = "Patrick Meyer"
 
 from IPython.core.debugger import Tracer
 
@@ -52,21 +50,34 @@ class Api(object):
 
 		#setup_db()
 
-# {{{ Unexposed Methods
+# {{{ Unexposed Methods - These methods are not exposed in the API.
 	def now(self):
+		"""
+		Returns UTC Unixtimestamp.
+		"""
 		return int(datetime.datetime.utcnow().strftime('%s'))
 
 	def generateRandomString(self, length=20):
+		"""
+		Returns random string with only printable ascii characters of the length, length.
+		This Function is used to generate session secrets or the password salt.
+		"""
 		character_set = string.digits + string.letters + string.punctuation
 		return ''.join(random.choice(character_set) for c in range(length))
 
 	def checkUserExists(self, username):
+		"""
+		Checks if username has account in database.
+		"""
 		if ( User.select().where(User.username == username).exists() ):
 			return (True)
 		else: 
 			return (False)
 
 	def checkToken(self, username, token):
+		"""
+		Checks if session is valid and updates session.
+		"""
 		if username not in self.session:
 			return (False)
 
@@ -80,6 +91,9 @@ class Api(object):
 		else: return (False)
 
 	def allLogbookEntriesByUser(self, username):
+		"""
+		Returns logbook entries from database by user.
+		"""		
 		logbook_select = """
 		SELECT *
 		FROM logbook
@@ -95,6 +109,10 @@ class Api(object):
 		return all_entries
 
 	def lastLogbookEntryByUser(self, username):
+		"""
+		Returns last logbook entry from database by user.
+		In case no cache was found yet, None is returned.
+		"""
 		all_entries = self.allLogbookEntriesByUser(username)
 		if all_entries == []:
 			return None
@@ -102,6 +120,9 @@ class Api(object):
 			return all_entries[-1]
 
 	def allCachesFoundByUser(self, username):
+		"""
+		Returns the caches from the logbook entries returned by allLogbookEntriesByUser.
+		"""
 		entries = self.allLogbookEntriesByUser(username)
 		caches = []
 		for e in entries:
@@ -110,7 +131,11 @@ class Api(object):
 		return caches
 
 	def nextCache(self, username):
-
+		"""
+		Returns the next cache after the last found cache by the specified user.
+		In case no cache was found yet, the first cache is returned.
+		In case the last cache was found, None is returned.
+		"""
 		lastLogbook = self.lastLogbookEntryByUser(username)
 
 		nextCache = None
@@ -125,7 +150,10 @@ class Api(object):
 		return nextCache
 
 	def html_escape(self, text):
-		"""Produce entities within text."""
+		"""
+		Mitigate HTML / JS / CSS / $Whatever in text string.
+		This method is used to sanitise guestbook entries.
+		"""
 
 		escape_table = {
 			"&": "&amp;",
@@ -141,9 +169,18 @@ class Api(object):
 
 # {{{ No Authentication required
 	def index(self):
+		"""
+		Exposed in API
+		"""
 		return ("You found the Rest-Api. Now try to actually use it...")
 
 	def register(self, username, password):
+		"""
+		Exposed in API
+		Creates user in database.
+		Fails if username is already taken.
+		Fails if username is too long.
+		"""
 		message = dict()
 		if ( self.checkUserExists(username) ):
 			log.warning("Could not register %s. Username already taken." % (username))
@@ -170,6 +207,12 @@ class Api(object):
 		return (json.dumps(message))
 
 	def login(self, username, password):
+		"""
+		Exposed in API
+		Returnes session secret in case the login succeeded.
+		Fails if username doesn't exist.
+		Fails if password is wrong.
+		"""
 		message = dict()		
 		if not ( self.checkUserExists(username) ):
 			message["success"] = False
@@ -195,7 +238,10 @@ class Api(object):
 		return (json.dumps(message))
 
 	def getUsers(self):
-
+		"""
+		Exposed in API
+		Returns a list of all registered users.
+		"""
 		message = dict()
 
 		users_select = """
@@ -212,6 +258,11 @@ class Api(object):
 		return (json.dumps(message))
 
 	def getPositionsMap(self):
+		"""
+		Exposed in API
+		Returns a dictionary, mapping usernames to their last known postitions.
+		Only position updates made during the last five minutes are taken into account.
+		"""
 
 		message = dict()
 
@@ -224,7 +275,7 @@ class Api(object):
 			GROUP BY user_id) AS a, positionlog p
 		WHERE p.recorded_date = a.recorded_date
 		AND p.user_id = a.user_id
-		AND p.recorded_date > %s""" # (recently)
+		AND p.recorded_date > %s"""
 
 		user_map = dict()
 		current_positions_query = PositionLog.raw(current_positions_select, recently)
@@ -235,7 +286,15 @@ class Api(object):
 		message["success"]  = True
 		return (json.dumps(message))
 
-	def getTopTenScoresForAllMinigames(self, username = None ):				
+	def getTopTenScoresForAllMinigames(self, username = None ):
+		"""
+		Exposed in API
+		Returns a dictionary, mapping each geocache-game to a list,
+		containing the the top ten scores and the responsible player.
+		The function can be limited to only take scores submitted by 
+		username into account.
+		Fails if username doesn't exist.		
+		"""			
 		message = dict()
 		if username != None and not ( self.checkUserExists(username) ):
 			message["success"] = False
@@ -285,6 +344,11 @@ class Api(object):
 		return (json.dumps(message))
 
 	def getAllLogbookEntriesByUser(self, username):
+		"""
+		Exposed in API
+		Returns a list, containing usernames logbook entries.
+		Fails if username doesn't exist.
+		"""			
 		message = dict()
 		if username != None and not ( self.checkUserExists(username) ):
 			message["success"] = False
@@ -304,6 +368,16 @@ class Api(object):
 		return (json.dumps(message))
 
 	def secretValidForNextCache(self, username, cache_secret):
+		"""
+		Exposed in API
+		Checks if cache_secret is indeed the needed secret to unlock the
+		next unfound cache by username.
+		This function can be used to validate a users entry before moving
+		on to the cachebook entry view in the app.
+		Fails if username doesn't exist.
+		Fails if all caches were already solved.
+		Fails if cache_secret is wrong.	
+		"""			
 		message = dict()
 		if username != None and not ( self.checkUserExists(username) ):
 			message["success"] = False
@@ -323,6 +397,12 @@ class Api(object):
 		return (json.dumps(message))
 
 	def makeGuestbookEntry(self, author, message_str):
+		"""
+		Exposed in API
+		Saves new guestbook entry in database.
+
+		Note that authors don't correlate to app users.
+		"""			
 		message = dict()
 
 		author      = self.html_escape(author)
@@ -338,6 +418,13 @@ class Api(object):
 		return (json.dumps(message))
 
 	def getGuestbookIndex(self):
+		"""
+		Exposed in API
+		Returns a list of all available guestbook entry ids.
+		This Function is supposed to be used in combination with
+		getGuestbookEntryById for paged retrival of as many guestbook
+		entries as needed.		
+		"""
 		message = dict()
 
 		index_select = """
@@ -355,6 +442,11 @@ class Api(object):
 		return (json.dumps(message))
 
 	def getGuestbookEntryById(self, id):
+		"""
+		Exposed in API
+		Returns the guestbook entry with the matching id.
+		Fails if no guestbook entry by that id exists.	
+		"""			
 		message = dict()
 
 		index_select = """
@@ -381,8 +473,15 @@ class Api(object):
 
 # {{{ Authentication required
 	def nop(self, username, token):
-		"""Diese Funktion demonstriert wie eine API Funktion mit Authentifizierung funktioniert.
-		   Sie zählt den Befehlszähler hoch und überprüft das token."""
+		"""
+		Exposed in API
+		Checks if the token is the valid token for username.
+		Fails if username is not logged in.
+		Fails if token is not valid for username.
+
+		This Function is meant to demonstrate the APIs
+		authentication scheme. 
+		"""
 
 		message = dict()
 		if not (self.checkToken(username, token)):
@@ -394,6 +493,13 @@ class Api(object):
 			return (json.dumps(message))
 
 	def updatePosition(self, username, token, longitude, latitude):
+		"""
+		Exposed in API
+		Adds a new position for username in the database.
+		Fails if username is not logged in.
+		Fails if token is not valid for username.
+		Fails if longitudes and/or latitudes data is flaky.
+		"""
 
 		message = dict()
 		if not (self.checkToken(username, token)):
@@ -419,6 +525,17 @@ class Api(object):
 		return (json.dumps(message))
 
 	def makeLogbookEntry(self, username, token, secret, message_str):
+		"""
+		Exposed in API
+		Adds a new logbook entry for username in the database.
+		Checks if token and secret are valid.
+		Fails if username is not logged in.
+		Fails if token is not valid for username.
+		Fails if secret is not the secret for the next cache.
+		Fails if the last caches puzzle was not yet solved.
+		Fails if all caches were already found.
+		"""
+
 		message = dict()
 		if not (self.checkToken(username, token)):
 			message["success"] = False
@@ -455,6 +572,13 @@ class Api(object):
 		return (json.dumps(message))
 
 	def markPuzzleSolved(self, username, token):
+		"""
+		Exposed in API
+		Marks the puzzle of the last cache as solved in the last
+		logbook entry.
+		Fails if username is not logged in.
+		Fails if token is not valid for username.
+		"""
 		message = dict()
 		if not (self.checkToken(username, token)):
 			message["success"] = False
@@ -473,7 +597,14 @@ class Api(object):
 		return (json.dumps(message))
 
 	def submitGameScore(self, username, token, points, cache):
-
+		"""
+		Exposed in API
+		Adds a new score entry for username in the database.
+		Fails if username is not logged in.
+		Fails if token is not valid for username.
+		Fails if cache is not in database.
+		Fails if user didn't find the cache whichs game the score relates to yet.
+		"""
 		message = dict()
 		if not (self.checkToken(username, token)):
 			message["success"] = False
@@ -508,9 +639,6 @@ class Api(object):
 class BaseModel(peewee.Model):
 	class Meta: 
 		database = db_conn
-
-#class Minigame(BaseModel):
-#	minigamename = CharField(primary_key=True)
 
 class User(BaseModel):
 	username      = CharField(primary_key=True)
@@ -559,7 +687,6 @@ class Guestbook(BaseModel):
 
 def setup_db():
 	User.create_table()
-	#Minigame.create_table()
 	Geocache.create_table()
 	Logbook.create_table()
 	Score.create_table()
