@@ -252,20 +252,25 @@ class Api(object):
 		for cache in geocache_query:
 			game[cache.cachename] = list()
 
-			if username != None:
-				player_restriction = "AND s.user_id = '%s'" % (username)
+			if username is not None:
+				top_ten_select = """
+				SELECT *
+				FROM geocache g, score s
+				WHERE g.cachename = '%s'
+				AND s.cache_id = g.cachename
+				AND s.user_id = '%s'
+				ORDER BY s.points DESC
+				LIMIT 10
+				""" % (cache.get_id(), username)
 			else:
-				player_restriction = ""
-
-			top_ten_select = """
-			SELECT *
-			FROM geocache g, score s
-			WHERE g.cachename = '%s'
-			AND s.cache_id = g.cachename
-			%s
-			ORDER BY s.points DESC
-			LIMIT 10
-			""" % (cache.get_id(), player_restriction)
+				top_ten_select = """
+				SELECT *
+				FROM geocache g, score s
+				WHERE g.cachename = '%s'
+				AND s.cache_id = g.cachename
+				ORDER BY s.points DESC
+				LIMIT 10
+				""" % (cache.get_id())
 
 			top_ten_query = Score.raw(top_ten_select)
 			for score in top_ten_query:
