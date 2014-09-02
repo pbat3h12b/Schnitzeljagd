@@ -68,14 +68,31 @@ public class PlayerInformation : MonoBehaviour {
         }
     }
 
-    void newScore(int SpielID, int Score)
+    public void newScore(string SpielID, int Score)
     {
-        if (highscores[SpielID - 1] < Score)
-        {
-            highscores[SpielID - 1] = Score;
-        }
+        //if (highscores[SpielID - 1] < Score)
+        //{
+        //    highscores[SpielID - 1] = Score;
+        //}
 
         GameObject.Find("GameController").GetComponent<RESTCommunication>().SubmitGameScore(Score, SpielID);
+    }
+
+    public bool checkCach(string secret)
+    {
+        if (GameObject.Find("GameController").GetComponent<RESTCommunication>().checkCacheSecret(secret).Success)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void markPuzzel()
+    {
+        GameObject.Find("GameController").GetComponent<RESTCommunication>().markPuzzelSolved();
     }
 
 

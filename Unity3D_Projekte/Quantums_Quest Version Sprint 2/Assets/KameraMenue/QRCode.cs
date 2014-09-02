@@ -39,14 +39,17 @@ public class QRCode : MonoBehaviour {
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 30, 20, 10)), "Bitte Code eingeben");
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(53, 35, 20, 10)), "", styleAbsenden))
         {
+            if (gameController.GetComponent<PlayerInformation>().checkCach(qrcode))
+            {
+                Debug.Log("yes got it");
+                gameController.GetComponent<PlayerInformation>().setCachSecret(qrcode);
+                Debug.Log(gameController.GetComponent<PlayerInformation>().getSecret());
+                Application.LoadLevel(6);
+            }
         }
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(25, 55, 20, 10)), "", styleZurueck))
         {
             Application.LoadLevel(4);
-        }
-        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 55, 20, 10)), "", styleWeiter))
-        {
-            Application.LoadLevel(6);
         }
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
 	}

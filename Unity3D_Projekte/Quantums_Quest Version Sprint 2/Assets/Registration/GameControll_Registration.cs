@@ -60,6 +60,7 @@ public class GameControll_Registration : MonoBehaviour {
         inputPassword = GUI.PasswordField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 40, 60, 10)), inputPassword, '*', stylePasswort);
         inputPasswordRepetition = GUI.PasswordField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 55, 60, 10)), inputPasswordRepetition, '*', stylePasswort);
 
+
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(20, 70, 60, 10)), "", styleRegis))
         {
 			if (inputPassword == inputPasswordRepetition && inputPassword != "")

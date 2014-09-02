@@ -37,11 +37,14 @@ public class LogbuchEintrag : MonoBehaviour {
 
             if (temp.Success == true)
             {
-
+                Debug.Log("yes");
+                gameController.GetComponent<PlayerInformation>().markPuzzel();
+                Application.LoadLevel(5);
             }
             else
             {
-
+                Debug.Log("no");
+                Application.LoadLevel(5);
             }
         }
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
