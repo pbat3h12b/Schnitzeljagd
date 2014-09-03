@@ -1,5 +1,11 @@
-﻿using UnityEngine;
+﻿/// <summary>
+/// Erstellt von Oliver Noll am 18.06.2014
+/// Zuletzt bearbeitet von Oliver Noll am 03.09.2014
+/// </summary>
+
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameControll_KartenMenue : MonoBehaviour {
 
@@ -7,12 +13,11 @@ public class GameControll_KartenMenue : MonoBehaviour {
     public Texture2D backgroundImage;
 	public Texture2D imageMap;
 	public Texture2D imageCurrentUser;
+    public Texture2D imageCurrentCache;
+
+    private List<CacheScript> caches = new List<CacheScript>();
 
 	private GameObject gameController;
-    public Texture2D verlauf;
-    public Texture2D background;
-
-    // new
     private Component staticScript;
 
     private float mapMinLatitude = 51.73178f;
@@ -20,16 +25,14 @@ public class GameControll_KartenMenue : MonoBehaviour {
     private float mapMaxLatitude = 51.72919f;
 	private float mapMaxLongitude = 8.73945f;
 	
-    // new
     private Rect backgroundTransform;
     private Rect mapTransform;
     private Rect userTransform;
     private Rect buttonScanTransform;
 	
 	private float timeBetweenUpdates = 5;
-	private float timeSinceLastUpdate = 0;
+	private float timeOnNextUpdate = 0;
 	
-	private string errorMessage = "";
 	private string buttonScanValue = "Scannen";
 	
 	/*
@@ -40,16 +43,19 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	{
 		gameController = GameObject.Find("GameController");
 
-        backgroundTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(-20, -20, 140, 140));
+        backgroundTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(-20, -20, 140, 140));
 
         // new
-        mapTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 90, 100));
+        mapTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(0, 0, 90, 100));
 
         // new
         userTransform.width = mapTransform.width / 20;
         userTransform.height = mapTransform.height / 20;
 
-        buttonScanTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(91, 2, 8, 8));
+        buttonScanTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(91, 2, 8, 8));
+
+        // Caches initialisieren
+        InitializeCaches();
 	}
 	
 	/*
@@ -59,47 +65,94 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	{
 
 	}
+
+    void InitializeCaches()
+    {
+        #region Caches
+        caches.Add(new CacheScript("b.i.b. Eingang",
+                            8.73707f,
+                            51.73075f,
+                            new Rect(GetLongitudePosition(8.73707f, userTransform),
+                                GetLatitudePosition(51.73075f, userTransform),
+                                userTransform.width,
+                                userTransform.height)));
+
+        caches.Add(new CacheScript("Zukunftsmeile",
+                                    8.73807f,
+                                    51.73057f,
+                                    new Rect(GetLongitudePosition(8.73807f, userTransform),
+                                        GetLatitudePosition(51.73057f, userTransform),
+                                        userTransform.width,
+                                        userTransform.height)));
+
+        caches.Add(new CacheScript("Heinz Nixdorf Forum",
+                                    8.73618f,
+                                    51.73147f,
+                                    new Rect(GetLongitudePosition(8.73618f, userTransform),
+                                        GetLatitudePosition(51.73147f, userTransform),
+                                        userTransform.width,
+                                        userTransform.height)));
+
+        caches.Add(new CacheScript("Wohnheim",
+                                    8.73740f,
+                                    51.72956f,
+                                    new Rect(GetLongitudePosition(8.73740f, userTransform),
+                                        GetLatitudePosition(51.72956f, userTransform),
+                                        userTransform.width,
+                                        userTransform.height)));
+
+        caches.Add(new CacheScript("Fluss",
+                                    8.73554f,
+                                    51.73064f,
+                                    new Rect(GetLongitudePosition(8.73554f, userTransform),
+                                        GetLatitudePosition(51.73064f, userTransform),
+                                        userTransform.width,
+                                        userTransform.height)));
+
+        caches.Add(new CacheScript("b.i.b. Serverraum",
+                                    8.73635f,
+                                    51.73106f,
+                                    new Rect(GetLongitudePosition(8.73635f, userTransform),
+                                        GetLatitudePosition(51.73106f, userTransform),
+                                        userTransform.width,
+                                        userTransform.height))); 
+        #endregion
+    }
 	
 	/*
 	 * Oberfläche pro Frame konstruieren
 	 */
 	void OnGUI()
 	{
-        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
         /*
          * Karten-Textur auf GUI wiedergeben
          */
 		GUI.DrawTexture (mapTransform, 
                             imageMap);
 
-        /*
-         * Fehlermeldung auf GUI wiedergeben
-         */
-        GUI.Label(new Rect(mapTransform.x,
-                            mapTransform.y - 50,
-                            mapTransform.width,
-                            mapTransform.height), 
-                            errorMessage);
-
-		if (timeSinceLastUpdate <= 0 && CheckGeoStatus())
+        if (Time.time >= timeOnNextUpdate && CheckGeoStatus())
 		{
 			Input.location.Start ();
 
+            float userLongitude = Input.location.lastData.longitude;
+            userTransform.x = GetLongitudePosition(userLongitude, userTransform);
 			float userLatitude = Input.location.lastData.latitude;
-            userTransform.y = GetLatitudePosition(userLatitude);
-			float userLongitude = Input.location.lastData.longitude;
-            userTransform.x = GetLongitudePosition(userLongitude);
-			timeSinceLastUpdate = timeBetweenUpdates;
+            userTransform.y = GetLatitudePosition(userLatitude, userTransform);
+            timeOnNextUpdate = Time.time + timeBetweenUpdates;
 
+            gameController.GetComponent<PlayerInformation>().updateGeoData(userLongitude, userLatitude);
+            Debug.Log(Time.time);
 			Input.location.Stop ();
-		}
-		else
-		{
-			timeSinceLastUpdate -= Time.deltaTime;
 		}
 
         GUI.DrawTexture(userTransform, 
                         imageCurrentUser);
+
+        foreach(CacheScript cache in caches)
+        {
+            GUI.DrawTexture(cache.Transform,
+                            imageCurrentCache);
+        }
 		
 		if (GUI.Button(buttonScanTransform,
                         buttonScanValue))
@@ -112,7 +165,6 @@ public class GameControll_KartenMenue : MonoBehaviour {
          */
         GUI.DrawTexture(backgroundTransform,
                             backgroundImage);
-        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
 	}
 	
 	/*
@@ -125,23 +177,15 @@ public class GameControll_KartenMenue : MonoBehaviour {
 		{
 			if (Input.location.status != LocationServiceStatus.Failed)
 			{
-				if(Input.location.status != LocationServiceStatus.Running)
-				{
-					Input.location.Start ();
-				}
-				
-				errorMessage = "";
 				return true;
 			}
 			else
 			{
-				errorMessage = "Unable to determine device location";
 				return false;
 			}
 		}
 		else
 		{
-			errorMessage = "Location-Service not enabled";
 			return false;
 		}
 	}
@@ -149,7 +193,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	/*
 	 * Breitengrad relativ zur Kartenskalierung zurückgeben
 	 */
-	float GetLatitudePosition(float latitute)
+	float GetLatitudePosition(float latitute, Rect objectTransform)
 	{
 		/*float latitudePosition = mapTransform.x + (mapTransform.width * 
 		                                         ((mapMinLatitude - latitute) * 100) / 
@@ -157,14 +201,14 @@ public class GameControll_KartenMenue : MonoBehaviour {
         float latitudePosition = ((latitute - mapMinLatitude) * 100) / (mapMaxLatitude - mapMinLatitude);
         latitudePosition = mapTransform.y + ((mapTransform.height * latitudePosition) / 100);
         latitudePosition = Mathf.Clamp(latitudePosition, mapTransform.y, mapTransform.y + mapTransform.height);
-        latitudePosition -= userTransform.height / 2;
+        latitudePosition -= objectTransform.height / 2;
 		return latitudePosition;
 	}
 	
 	/*
 	 * Längengrad relativ zur Kartenskalierung zurückgeben
 	 */
-	float GetLongitudePosition(float longitude)
+    float GetLongitudePosition(float longitude, Rect objectTransform)
 	{
        /* float longitudePosition = mapTransform.y + (mapTransform.height *
                                                   ((mapMinLongitude - longitude) * 100) /
@@ -172,7 +216,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
         float longitudePosition = ((longitude - mapMinLongitude) * 100) / (mapMaxLongitude - mapMinLongitude);
         longitudePosition = mapTransform.x + ((mapTransform.width * longitudePosition) / 100);
         longitudePosition = Mathf.Clamp(longitudePosition, mapTransform.x, mapTransform.x + mapTransform.width);
-        longitudePosition -= userTransform.width / 2;
+        longitudePosition -= objectTransform.width / 2;
 		return longitudePosition;
 	}
 }
