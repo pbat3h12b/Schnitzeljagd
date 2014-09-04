@@ -310,7 +310,7 @@ class Api(object):
 		positions = list()
 		positions_query = PositionLog.raw(positions_select, username, recently)
 		for pos in positions_query:
-			positions[pos.user.username] = (pos.longitude, pos.latitude)
+			positions.append( (pos.longitude, pos.latitude) )
 
 		message["positions"] = positions
 		message["success"]  = True
