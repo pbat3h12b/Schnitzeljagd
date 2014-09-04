@@ -286,6 +286,36 @@ class Api(object):
 		message["success"]  = True
 		return (json.dumps(message))
 
+	def getUserPath(self, username):
+		"""
+		Exposed in API
+		Returns a list of usernames postions during the last 20 Minutes.
+		Fails if username doesn't exist.
+		"""
+
+		message = dict()
+		if username != None and not ( self.checkUserExists(username) ):
+			message["success"] = False
+			message["error"]   = "Username doesn't exist."
+			return (json.dumps(message))
+
+		recently = (datetime.datetime.utcnow()-datetime.timedelta(minutes=20)).strftime('%s')
+		positions_select = """
+		SELECT p.id, p.latitude, p.longitude, p.recorded_date, p.user_id
+		FROM positionlog p
+		WHERE p.user_id = '%s'
+		AND p.recorded_date > %s
+		ORDER BY p.recorded_date"""
+
+		positions = list()
+		positions_query = PositionLog.raw(positions_select, username, recently)
+		for pos in current_positions_query:
+			positions[pos.user.username] = (pos.longitude, pos.latitude)
+
+		message["positions"] = positions
+		message["success"]  = True
+		return (json.dumps(message))		
+
 	def getTopTenScoresForAllMinigames(self, username = None ):
 		"""
 		Exposed in API

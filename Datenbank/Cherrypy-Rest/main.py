@@ -32,6 +32,7 @@ if __name__ == '__main__':
 	d.connect(name='api',		action='login',								controller=api_controller,	route='/api/login')	
 	d.connect(name='api',		action='getUsers',							controller=api_controller,	route='/api/getUsers')
 	d.connect(name='api',		action='getPositionsMap',					controller=api_controller,	route='/api/getPositionsMap')
+	d.connect(name='api',		action='getUserPath',						controller=api_controller,	route='/api/getUserPath')
 	d.connect(name='api',		action='getTopTenScoresForAllMinigames',	controller=api_controller,	route='/api/getTopTenScoresForAllMinigames')
 	d.connect(name='api',		action='getAllLogbookEntriesByUser',		controller=api_controller,	route='/api/getAllLogbookEntriesByUser')
 	d.connect(name='api',		action='secretValidForNextCache',			controller=api_controller,	route='/api/secretValidForNextCache')
