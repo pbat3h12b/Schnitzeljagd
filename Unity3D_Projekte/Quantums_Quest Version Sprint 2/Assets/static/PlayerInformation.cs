@@ -41,12 +41,15 @@ public class PlayerInformation : MonoBehaviour {
 
     void getUserData()
     {
-        List<Logbookentry> temp = GameObject.Find("GameController").GetComponent<RESTCommunication>().getAlleLogBookEntrys();
+        List<Logbookentry> temp = GameObject.Find("GameController").GetComponent<RESTCommunication>().getAllLogBookEntrys();
 
         for (int i = 0; i < temp.Count; i++)
         {
             caches[i] = temp[i].Puzzlesolved;
-            games[i] = true;
+            if (temp[i].Puzzlesolved)
+            {
+                games[i] = true;
+            }4
         }
 
         for (int i = 0; i < highscores.Length; i++)
