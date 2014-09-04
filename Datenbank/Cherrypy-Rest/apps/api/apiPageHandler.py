@@ -309,7 +309,7 @@ class Api(object):
 
 		positions = list()
 		positions_query = PositionLog.raw(positions_select, username, recently)
-		for pos in current_positions_query:
+		for pos in positions_query:
 			positions[pos.user.username] = (pos.longitude, pos.latitude)
 
 		message["positions"] = positions
