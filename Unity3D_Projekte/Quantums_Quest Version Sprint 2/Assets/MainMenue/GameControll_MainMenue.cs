@@ -56,5 +56,7 @@ public class GameControll_MainMenue : MonoBehaviour {
             Application.LoadLevel(3);
         }
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
+
+        GUI.Label(new Rect(10, 10, 200, 30), PlayerPrefs.GetString("errorMsg"));
     }
 }

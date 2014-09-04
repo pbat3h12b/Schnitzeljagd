@@ -34,6 +34,8 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	private float timeOnNextUpdate = 0;
 	
 	private string buttonScanValue = "Scannen";
+
+    private CacheScript nextCache;
 	
 	/*
 	 * Noch nicht vordefinierte Variablen werden abhängig
@@ -63,7 +65,10 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	 */
 	void Update()
 	{
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.LoadLevel(1);
+        }
 	}
 
     void InitializeCaches()
@@ -72,51 +77,66 @@ public class GameControll_KartenMenue : MonoBehaviour {
         caches.Add(new CacheScript("b.i.b. Eingang",
                             8.73707f,
                             51.73075f,
-                            new Rect(GetLongitudePosition(8.73707f, userTransform),
-                                GetLatitudePosition(51.73075f, userTransform),
+                            new Rect(GetLongitudePosition(8.73707f),
+                                GetLatitudePosition(51.73075f),
                                 userTransform.width,
                                 userTransform.height)));
 
         caches.Add(new CacheScript("Zukunftsmeile",
                                     8.73807f,
                                     51.73057f,
-                                    new Rect(GetLongitudePosition(8.73807f, userTransform),
-                                        GetLatitudePosition(51.73057f, userTransform),
+                                    new Rect(GetLongitudePosition(8.73807f),
+                                        GetLatitudePosition(51.73057f),
                                         userTransform.width,
                                         userTransform.height)));
 
         caches.Add(new CacheScript("Heinz Nixdorf Forum",
                                     8.73618f,
                                     51.73147f,
-                                    new Rect(GetLongitudePosition(8.73618f, userTransform),
-                                        GetLatitudePosition(51.73147f, userTransform),
+                                    new Rect(GetLongitudePosition(8.73618f),
+                                        GetLatitudePosition(51.73147f),
                                         userTransform.width,
                                         userTransform.height)));
 
         caches.Add(new CacheScript("Wohnheim",
                                     8.73740f,
                                     51.72956f,
-                                    new Rect(GetLongitudePosition(8.73740f, userTransform),
-                                        GetLatitudePosition(51.72956f, userTransform),
+                                    new Rect(GetLongitudePosition(8.73740f),
+                                        GetLatitudePosition(51.72956f),
                                         userTransform.width,
                                         userTransform.height)));
 
         caches.Add(new CacheScript("Fluss",
                                     8.73554f,
                                     51.73064f,
-                                    new Rect(GetLongitudePosition(8.73554f, userTransform),
-                                        GetLatitudePosition(51.73064f, userTransform),
+                                    new Rect(GetLongitudePosition(8.73554f),
+                                        GetLatitudePosition(51.73064f),
                                         userTransform.width,
                                         userTransform.height)));
 
         caches.Add(new CacheScript("b.i.b. Serverraum",
                                     8.73635f,
                                     51.73106f,
-                                    new Rect(GetLongitudePosition(8.73635f, userTransform),
-                                        GetLatitudePosition(51.73106f, userTransform),
+                                    new Rect(GetLongitudePosition(8.73635f),
+                                        GetLatitudePosition(51.73106f),
                                         userTransform.width,
                                         userTransform.height))); 
         #endregion
+
+        bool[] cachesStatus = gameController.GetComponent<PlayerInformation>().GetCacheStatus();
+
+        bool foundNextCache = false;
+        for (int i = 0; i < caches.Count; i++)
+        {
+            if (cachesStatus[i])
+                caches[i].Founded = true;
+
+            if (!foundNextCache && !cachesStatus[i])
+            {
+                nextCache = caches[i];
+                foundNextCache = true;
+            }
+        }
     }
 	
 	/*
@@ -135,24 +155,26 @@ public class GameControll_KartenMenue : MonoBehaviour {
 			Input.location.Start ();
 
             float userLongitude = Input.location.lastData.longitude;
-            userTransform.x = GetLongitudePosition(userLongitude, userTransform);
+            userTransform.x = GetLongitudePosition(userLongitude);
 			float userLatitude = Input.location.lastData.latitude;
-            userTransform.y = GetLatitudePosition(userLatitude, userTransform);
+            userTransform.y = GetLatitudePosition(userLatitude);
             timeOnNextUpdate = Time.time + timeBetweenUpdates;
 
             gameController.GetComponent<PlayerInformation>().updateGeoData(userLongitude, userLatitude);
             Debug.Log(Time.time);
 			Input.location.Stop ();
 		}
+        else if (!CheckGeoStatus())
+        {
+            PlayerPrefs.SetString("errorMsg", "Keine GPS-Verbindung verfügbar!");
+            Application.LoadLevel(1);
+        }
 
         GUI.DrawTexture(userTransform, 
                         imageCurrentUser);
 
-        foreach(CacheScript cache in caches)
-        {
-            GUI.DrawTexture(cache.Transform,
-                            imageCurrentCache);
-        }
+        GUI.DrawTexture(nextCache.Transform,
+                        imageCurrentCache);
 		
 		if (GUI.Button(buttonScanTransform,
                         buttonScanValue))
@@ -193,7 +215,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	/*
 	 * Breitengrad relativ zur Kartenskalierung zurückgeben
 	 */
-	float GetLatitudePosition(float latitute, Rect objectTransform)
+	float GetLatitudePosition(float latitute)
 	{
 		/*float latitudePosition = mapTransform.x + (mapTransform.width * 
 		                                         ((mapMinLatitude - latitute) * 100) / 
@@ -201,14 +223,14 @@ public class GameControll_KartenMenue : MonoBehaviour {
         float latitudePosition = ((latitute - mapMinLatitude) * 100) / (mapMaxLatitude - mapMinLatitude);
         latitudePosition = mapTransform.y + ((mapTransform.height * latitudePosition) / 100);
         latitudePosition = Mathf.Clamp(latitudePosition, mapTransform.y, mapTransform.y + mapTransform.height);
-        latitudePosition -= objectTransform.height / 2;
+        latitudePosition -= userTransform.height / 2;
 		return latitudePosition;
 	}
 	
 	/*
 	 * Längengrad relativ zur Kartenskalierung zurückgeben
 	 */
-    float GetLongitudePosition(float longitude, Rect objectTransform)
+    float GetLongitudePosition(float longitude)
 	{
        /* float longitudePosition = mapTransform.y + (mapTransform.height *
                                                   ((mapMinLongitude - longitude) * 100) /
@@ -216,7 +238,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
         float longitudePosition = ((longitude - mapMinLongitude) * 100) / (mapMaxLongitude - mapMinLongitude);
         longitudePosition = mapTransform.x + ((mapTransform.width * longitudePosition) / 100);
         longitudePosition = Mathf.Clamp(longitudePosition, mapTransform.x, mapTransform.x + mapTransform.width);
-        longitudePosition -= objectTransform.width / 2;
+        longitudePosition -= userTransform.width / 2;
 		return longitudePosition;
 	}
 }

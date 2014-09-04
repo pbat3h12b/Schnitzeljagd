@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PlayerInformation : MonoBehaviour {
 
     private static string userName = "";
-    private static bool[] caches = {false,false,false,false,false,false};
+    private static bool[] caches = { false, false, false, false, false, false };
     private static string[] logBook = new string[5];
     private static string[] cachnamen = { "Zukunftsmeile", "HNF", "Wohnheim", "Fluss", "Serverraum" };
     private static string[] gameNames = { "Lookpick", "Galaxy Invaders", "Wohnheim Spiel", "Angel Spiel", "Endkapmf Spiel" };
@@ -102,6 +102,12 @@ public class PlayerInformation : MonoBehaviour {
     public string getSecret()
     {
         return lastFoundSecret;
+    }
+
+    public bool[] GetCacheStatus()
+    {
+        getUserData();
+        return caches;
     }
 
     public Rect GetRelativeRect(Rect oldRect)
