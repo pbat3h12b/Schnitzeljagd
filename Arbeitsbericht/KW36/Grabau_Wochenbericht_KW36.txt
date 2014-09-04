@@ -1,0 +1,19 @@
+Datum: 04. August 2014
+Wochenbericht KW 20
+
+Name: Florens Grabau
+Organisationsgruppe: O3 Qualitätsmanagement
+Spezialistengruppe:	S5 GUI/Story
+
+Wochen Arbeitsbericht:
+- Implementierung von allen Scripts in ein Unity Projekt => 1h
+- Beteiligte Personen: Florens Grabau/Fabian Meise
+
+- FineTuning/Auskommentieren des Codes => 4 1/2h
+- Beteiligte Personen: Florens Grabau
+
+Was werde ich noch tun?
+- Grafiken die von Fabian Meise erstellt wurden implementieren und die Spielerbewegung auf Android testen
+
+Was hindert mich an meiner Arbeit?
+-
