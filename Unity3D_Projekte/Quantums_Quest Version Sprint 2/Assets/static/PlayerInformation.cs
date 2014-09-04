@@ -57,7 +57,7 @@ public class PlayerInformation : MonoBehaviour {
 
     public void updateGeoData(float longitude, float latitude)
     {
-        if (timeSinceUpdate > 5 && userName != "")
+        if (userName != "")
         {
 			GameObject.Find("GameController").GetComponent<RESTCommunication>().UpdatePosition(longitude,latitude);
             timeSinceUpdate = 0;
@@ -66,10 +66,7 @@ public class PlayerInformation : MonoBehaviour {
 
     public void newScore(string SpielID, int Score)
     {
-        //if (highscores[SpielID - 1] < Score)
-        //{
-        //    highscores[SpielID - 1] = Score;
-        //}
+
 
         GameObject.Find("GameController").GetComponent<RESTCommunication>().SubmitGameScore(Score, SpielID);
     }
