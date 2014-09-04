@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\KameraMenue\QRCode.cs" />
+     <Compile Include="Assets\KartenMenue\CacheScript.cs" />
      <Compile Include="Assets\KartenMenue\GameControll_KartenMenue.cs" />
      <Compile Include="Assets\LogBuchEintrag\LogbuchEintrag.cs" />
      <Compile Include="Assets\LogIn\GameControll_LogIn.cs" />
@@ -64,7 +65,7 @@
  <HintPath>A:/Unity3d_4_6/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>C:/Users/Niclas/Documents/GitHub/Schnitzel/Schnitzeljagd/Unity3D_Projekte/Quantums_Quest Version Sprint 2/Assets/PlugIns/ICSharpCode.SharpZipLib.dll</HintPath>
+ <HintPath>C:/Users/Niclas/Desktop/Schnitzeljagd/Unity3D_Projekte/Quantums_Quest Version Sprint 2/Assets/PlugIns/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -158,14 +158,14 @@ class RESTCommunication : MonoBehaviour
         }
     }
 
-    public Response SubmitGameScore(int score, int gameID)
+    public Response SubmitGameScore(int score, string gameID)
     {
         string strgameid = Convert.ToString(gameID);
         string strscore = Convert.ToString(score);
         List<Parameter> parameter = new List<Parameter>();
         parameter.Add(new Parameter("username", username));
         parameter.Add(new Parameter("token", GenrateToken()));
-        parameter.Add(new Parameter("score", strscore));
+        parameter.Add(new Parameter("points", strscore));
         parameter.Add(new Parameter("cache", strgameid));
 
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/submitGameScore", GetPostDatafromString(parameter)));
@@ -234,11 +234,11 @@ class RESTCommunication : MonoBehaviour
     public Response MakeLogBookEntry(string message, string secret)
     {
         List<Parameter> parameter = new List<Parameter>();
-        parameter.Add(new Parameter("message", message));
+        parameter.Add(new Parameter("message_str", message));
         parameter.Add(new Parameter("token", GenrateToken()));
         parameter.Add(new Parameter("username", username));
         parameter.Add(new Parameter("secret", secret));
-        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/makeLogbookentry", GetPostDatafromString(parameter)));
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/makeLogbookEntry", GetPostDatafromString(parameter)));
         if (response["success"].AsBool)
         {
             return new Response(response["success"].AsBool, "");

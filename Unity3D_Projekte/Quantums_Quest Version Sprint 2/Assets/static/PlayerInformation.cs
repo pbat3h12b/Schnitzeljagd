@@ -5,8 +5,6 @@ using System.Collections.Generic;
 public class PlayerInformation : MonoBehaviour {
 
     private static string userName = "";
-    private static float longitude;
-    private static float latitude;
     private static bool[] caches = {false,false,false,false,false,false};
     private static string[] logBook = new string[5];
     private static string[] cachnamen = { "Zukunftsmeile", "HNF", "Wohnheim", "Fluss", "Serverraum" };
@@ -24,12 +22,10 @@ public class PlayerInformation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Input.location.Start();
-        longitude = Input.location.lastData.longitude;
-        latitude = Input.location.lastData.latitude;
-        timeSinceUpdate += Time.deltaTime;
-        updateGeoData();
-        Input.location.Stop();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.LoadLevel(1);
+        }
 	}
 
     public string getUsername()
@@ -59,23 +55,37 @@ public class PlayerInformation : MonoBehaviour {
         }
     }
 
-    void updateGeoData()
+    public void updateGeoData(float longitude, float latitude)
     {
-        if (timeSinceUpdate > 5 && userName != "")
+        if (userName != "")
         {
 			GameObject.Find("GameController").GetComponent<RESTCommunication>().UpdatePosition(longitude,latitude);
             timeSinceUpdate = 0;
         }
     }
 
-    void newScore(int SpielID, int Score)
+    public void newScore(string SpielID, int Score)
     {
-        if (highscores[SpielID - 1] < Score)
-        {
-            highscores[SpielID - 1] = Score;
-        }
+
 
         GameObject.Find("GameController").GetComponent<RESTCommunication>().SubmitGameScore(Score, SpielID);
+    }
+
+    public bool checkCach(string secret)
+    {
+        if (GameObject.Find("GameController").GetComponent<RESTCommunication>().checkCacheSecret(secret).Success)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void markPuzzel()
+    {
+        GameObject.Find("GameController").GetComponent<RESTCommunication>().markPuzzelSolved();
     }
 
 
@@ -92,6 +102,22 @@ public class PlayerInformation : MonoBehaviour {
     public string getSecret()
     {
         return lastFoundSecret;
+    }
+
+    public Rect GetRelativeRect(Rect oldRect)
+    {
+        Rect newRect = new Rect();
+
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        newRect.width = (oldRect.width * screenWidth) / 100;
+        newRect.height = (oldRect.height * screenHeight) / 100;
+
+        newRect.x = (oldRect.x * screenWidth) / 100;
+        newRect.y = (oldRect.y * screenHeight) / 100;
+
+        return newRect;
     }
 }
 

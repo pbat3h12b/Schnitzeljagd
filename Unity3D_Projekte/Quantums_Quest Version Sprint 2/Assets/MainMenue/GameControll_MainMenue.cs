@@ -39,6 +39,12 @@ public class GameControll_MainMenue : MonoBehaviour {
 
     void OnGUI()
     {
+
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(00, 00, 10, 10)), ""))
+        {
+            gameController.GetComponent<PlayerInformation>().newScore("Zukunftsmeile", 1000);
+        }
+
         GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(15, 40, 30, 15)), "", styleKarteAnzeigen))
         {
