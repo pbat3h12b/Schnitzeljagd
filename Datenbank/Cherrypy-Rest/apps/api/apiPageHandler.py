@@ -301,11 +301,11 @@ class Api(object):
 
 		recently = (datetime.datetime.utcnow()-datetime.timedelta(minutes=20)).strftime('%s')
 		positions_select = """
-		SELECT p.id, p.latitude, p.longitude, p.recorded_date, p.user_id
-		FROM positionlog p
-		WHERE p.user_id = '%s'
-		AND p.recorded_date > %s
-		ORDER BY p.recorded_date"""
+		SELECT *
+		FROM positionlog
+		WHERE user_id = %s
+		AND recorded_date > %s
+		ORDER BY recorded_date"""
 
 		positions = list()
 		positions_query = PositionLog.raw(positions_select, username, recently)
