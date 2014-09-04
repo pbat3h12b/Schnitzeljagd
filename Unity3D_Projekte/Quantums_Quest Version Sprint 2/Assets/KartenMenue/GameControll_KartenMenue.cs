@@ -6,6 +6,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 
 public class GameControll_KartenMenue : MonoBehaviour {
 
@@ -14,8 +15,6 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	public Texture2D imageMap;
 	public Texture2D imageCurrentUser;
     public Texture2D imageCurrentCache;
-
-    private List<CacheScript> caches = new List<CacheScript>();
 
 	private GameObject gameController;
     private Component staticScript;
@@ -33,7 +32,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	private float timeBetweenUpdates = 5;
 	private float timeOnNextUpdate = 0;
 
-    private CacheScript nextCache;
+    private CacheScript _nextCache;
 
     public GUISkin guiSkin;
 	
@@ -57,8 +56,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
         buttonScanTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(90, 0, 10, 10));
         buttonScanTransform.height = buttonScanTransform.width;
 
-        // Caches initialisieren
-        InitializeCaches();
+        _nextCache = gameController.GetComponent<PlayerInformation>().GetNextCache();
 	}
 	
 	/*
@@ -71,74 +69,6 @@ public class GameControll_KartenMenue : MonoBehaviour {
             Application.LoadLevel(1);
         }
 	}
-
-    void InitializeCaches()
-    {
-        #region Caches
-        caches.Add(new CacheScript("b.i.b. Eingang",
-                            8.73707f,
-                            51.73075f,
-                            new Rect(GetLongitudePosition(8.73707f),
-                                GetLatitudePosition(51.73075f),
-                                userTransform.width,
-                                userTransform.height)));
-
-        caches.Add(new CacheScript("Zukunftsmeile",
-                                    8.73807f,
-                                    51.73057f,
-                                    new Rect(GetLongitudePosition(8.73807f),
-                                        GetLatitudePosition(51.73057f),
-                                        userTransform.width,
-                                        userTransform.height)));
-
-        caches.Add(new CacheScript("Heinz Nixdorf Forum",
-                                    8.73618f,
-                                    51.73147f,
-                                    new Rect(GetLongitudePosition(8.73618f),
-                                        GetLatitudePosition(51.73147f),
-                                        userTransform.width,
-                                        userTransform.height)));
-
-        caches.Add(new CacheScript("Wohnheim",
-                                    8.73740f,
-                                    51.72956f,
-                                    new Rect(GetLongitudePosition(8.73740f),
-                                        GetLatitudePosition(51.72956f),
-                                        userTransform.width,
-                                        userTransform.height)));
-
-        caches.Add(new CacheScript("Fluss",
-                                    8.73554f,
-                                    51.73064f,
-                                    new Rect(GetLongitudePosition(8.73554f),
-                                        GetLatitudePosition(51.73064f),
-                                        userTransform.width,
-                                        userTransform.height)));
-
-        caches.Add(new CacheScript("b.i.b. Serverraum",
-                                    8.73635f,
-                                    51.73106f,
-                                    new Rect(GetLongitudePosition(8.73635f),
-                                        GetLatitudePosition(51.73106f),
-                                        userTransform.width,
-                                        userTransform.height))); 
-        #endregion
-
-        bool[] cachesStatus = gameController.GetComponent<PlayerInformation>().GetCacheStatus();
-
-        bool foundNextCache = false;
-        for (int i = 0; i < caches.Count; i++)
-        {
-            if (cachesStatus[i])
-                caches[i].Founded = true;
-
-            if (!foundNextCache && !cachesStatus[i])
-            {
-                nextCache = caches[i];
-                foundNextCache = true;
-            }
-        }
-    }
 	
 	/*
 	 * Oberfläche pro Frame konstruieren
@@ -162,7 +92,6 @@ public class GameControll_KartenMenue : MonoBehaviour {
             timeOnNextUpdate = Time.time + timeBetweenUpdates;
 
             gameController.GetComponent<PlayerInformation>().updateGeoData(userLongitude, userLatitude);
-            Debug.Log(Time.time);
 			Input.location.Stop ();
 		}
         else if (!CheckGeoStatus())
@@ -174,7 +103,13 @@ public class GameControll_KartenMenue : MonoBehaviour {
         GUI.DrawTexture(userTransform, 
                         imageCurrentUser);
 
-        GUI.DrawTexture(nextCache.Transform,
+        // Draw next Cache
+        Rect nextCacheTransform = new Rect(0, 0, 0, 0);
+        nextCacheTransform.x = GetLongitudePosition(_nextCache.Longitude);
+        nextCacheTransform.y = GetLatitudePosition(_nextCache.Latitude);
+        nextCacheTransform.width = userTransform.width;
+        nextCacheTransform.height = userTransform.height;
+        GUI.DrawTexture(nextCacheTransform,
                         imageCurrentCache);
 		
 		if (GUI.Button(buttonScanTransform,

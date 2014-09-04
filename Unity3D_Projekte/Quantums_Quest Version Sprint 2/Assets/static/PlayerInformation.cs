@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 
 public class PlayerInformation : MonoBehaviour {
 
     private static string userName = "";
-    private static bool[] caches = { false, false, false, false, false, false };
+    private static bool[] cacheStatus = { false, false, false, false, false, false };
     private static string[] logBook = new string[5];
     private static string[] cachnamen = { "Zukunftsmeile", "HNF", "Wohnheim", "Fluss", "Serverraum" };
     private static string[] gameNames = { "Lookpick", "Galaxy Invaders", "Wohnheim Spiel", "Angel Spiel", "Endkapmf Spiel" };
@@ -14,6 +15,7 @@ public class PlayerInformation : MonoBehaviour {
     private static float timeSinceUpdate = 0;
     private static string lastFoundSecret = "";
 
+    private List<CacheScript> _caches = new List<CacheScript>();
 
 	// Use this for initialization
 	void Start () {
@@ -45,7 +47,7 @@ public class PlayerInformation : MonoBehaviour {
 
         for (int i = 0; i < temp.Count; i++)
         {
-            caches[i] = temp[i].Puzzlesolved;
+            cacheStatus[i] = temp[i].Puzzlesolved;
             if (temp[i].Puzzlesolved)
             {
                 games[i] = true;
@@ -107,10 +109,42 @@ public class PlayerInformation : MonoBehaviour {
         return lastFoundSecret;
     }
 
-    public bool[] GetCacheStatus()
+    void ReadCacheList()
     {
-        getUserData();
-        return caches;
+        XmlDocument document = new XmlDocument();
+        document.Load("Assets/CacheList.xml");
+        XmlNode cacheListXml = document.DocumentElement;
+
+        foreach(XmlNode cacheXml in cacheListXml.ChildNodes)
+        {
+            string description = cacheXml.Attributes["description"].Value;
+            float longitude = float.Parse(cacheXml.Attributes["longitude"].Value);
+            float latitude = float.Parse(cacheXml.Attributes["latitude"].Value);
+
+            _caches.Add(new CacheScript(description, longitude, latitude));
+        }
+    }
+
+    public CacheScript GetNextCache()
+    {
+        ReadCacheList();
+
+        bool foundNextCache = false;
+        CacheScript nextCache = null;
+
+        for (int i = 0; i < _caches.Count; i++)
+        {
+            if (cacheStatus[i])
+                _caches[i].Founded = true;
+
+            if (!foundNextCache && !cacheStatus[i])
+            {
+                nextCache = _caches[i];
+                foundNextCache = true;
+            }
+        }
+
+        return nextCache;
     }
 
     public Rect GetRelativeRect(Rect oldRect)
