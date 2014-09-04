@@ -1,0 +1,38 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Footer> Erstellt von Lukas Ebbers*/
+
+	/*Design*/
+	
+	#mainFooter
+	{
+		background-color: #363F48;
+		/*background-color: #444248;*/
+		color: white;
+		padding:0.5%;
+		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+		border-top: 1px dashed rgba(255,140,0,1);
+		position: fixed;
+		bottom:0;
+
+	}
+	
+	#mainFooter a
+	{
+		color: #64a8d1;
+	}
+	/*Functionality*/	
+	
+	#mainFooter
+	{
+		height: 1.5%;
+		bottom: 0;
+		left: 10%;
+		text-align: center;
+	}
+	
+
+	
+/*</Footer>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
+

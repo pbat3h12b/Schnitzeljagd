@@ -1,0 +1,108 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Main> Erstellt von Lukas Ebbers*/
+
+	/*Design*/
+	
+	#mainBackground
+	{
+		background-color:#363F48; /*#52596B;*/		/*#37353a;*/	
+
+	}
+	
+	.main
+	{
+		background-color:#363F48;			/*#52596B;*/		/*#444248;*/
+		padding:3%;
+		font-family: "gotham-light",helvetica,arial,san-serif;
+		/*font-family: "Lato",Arial,"Helvetica Neue",Helvetica,sans-serif;*/
+	}
+	
+	/*Functionality*/
+	
+	#mainBackground
+	{
+		height: auto;
+	}
+	
+	article
+	{
+		text-align: center;
+		padding: 1% 5%;
+		color: #E5E5E5;
+		font-size:1.1em;
+		font-weight:normal;
+		line-height: 140%;
+		
+	}
+	
+	a  h2
+	{
+		color: rgba(255,140,0,1);	
+		font-family: 'Ubuntu', sans-serif;
+	}
+	
+	article header
+	{
+		color: rgba(255,140,0,1);
+		font-size: 1.25em;
+		border-bottom: 2px dashed rgba(255,140,0,1);
+	}
+	
+	.main
+	{
+		min-height:650px;	
+	}	
+	
+	form input, form textarea
+	{
+	width: 20%;
+	min-width: 20%;
+	max-width: 20%;
+	}
+	
+		.leftcontent
+	{
+	width:100%;
+	clear:both;
+	padding:20px;
+	}
+	
+	.leftcontent img
+	{
+	float: left;
+	width:10%;
+	height:auto;
+	}
+	
+	.leftcontent p
+	{
+	margin-left: 15%;
+	text-align:left;
+	clear: right;
+	}
+	
+	.rightcontent
+	{
+	width:100%;
+	clear:both;
+	text-align:right;
+	padding:20px;
+	}
+	
+	.rightcontent img
+	{
+	float: right;
+	width:10%;
+	height:auto;
+	}
+	
+	.rightcontent p
+	{
+	margin-right: 15%;
+	text-align:left;
+	clear: left;
+	}
+
+/*</Main>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+

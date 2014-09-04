@@ -1,0 +1,30 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Buttons>*/
+
+	.btn_download 
+	{
+		background: none repeat scroll 0% 0% transparent;
+		color: #FFF;
+		border:2px solid #FFF;
+		text-shadow: none;
+		margin: 10px;
+		box-shadow: 2px 2px 0px rgba(255,140,0,1);
+		text-decoration: none;
+		display: inline-block;
+		text-align: center;
+		padding: 10px 30px 10px 30px;
+		font-family: "brandon_grotesquebold" !important;
+		font-size:1.5em;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		font-weight:bold;
+	}
+	
+	.btn_download:hover 
+	{
+		background-color: orange;		/*Farbe   dunkler */
+		box-shadow: 2px 2px 0px rgba(0,0,0,1);
+	}	
+	
+/*</Buttons>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/

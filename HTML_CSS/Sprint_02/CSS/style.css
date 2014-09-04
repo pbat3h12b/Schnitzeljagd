@@ -1,0 +1,73 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/* <General Settings> Erstellt von Martin Dirkmorfeld*/	
+
+	@import url(content.css);
+	@import url(footer.css);
+	@import url(navi.css);
+	@import url(responsive.css);
+	@import url(scrollbars.css);
+	@import url(header.css);
+	@import url(button.css);	
+	@import url(table.css);
+	
+	/*Design*/
+
+	body
+	{
+		font-size: 100%;
+		font-family: "Trebuchet MS", Helvetica, sans-serif;
+		background-color: #363F48;
+		line-height: 1.35em;
+		color:#181818;
+	}
+	
+	a
+	{
+		text-decoration: none;
+		color: red;
+	}
+	/*Functionality*/
+	
+	body
+	{
+		padding: 0;
+		width: 100%;
+		height:100%:
+	}
+
+	/*<Zero Margin>*/
+	
+	h1, body
+	{
+		margin: 0;
+	}
+	
+	/*</Zero Margin>*/
+	
+	.wrapper
+	{
+		width: 80%;
+		margin: 0 auto;
+	}
+
+/*</General Settings>*/
+
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
+
+
+
+	#newtag:hover
+	{
+	color: green;
+	}
+	
+	.shadow
+	{
+	box-shadow:inset 0px 0px 8px 4px rgba(61, 154, 209, .2); 
+	}
+	
+
+	
+
+

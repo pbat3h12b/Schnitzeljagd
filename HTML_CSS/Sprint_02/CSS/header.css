@@ -1,0 +1,39 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Header> Erstellt von Martin Dirkmorfeld*/
+
+	/*Design*/
+	
+	header#mainHeader
+	{
+		background-image: url(../images/banner.png);     										   /* der Hauptbanner */
+	}
+	
+	#mainHeader img
+	{
+		opacity: 0.7;
+	}
+	
+	#mainHeader h1
+	{
+		font-size: 3.3em;
+		color: rgba(255,140,0,1);	/*Farbe???    Textshadow*/
+		text-align: center;
+		background-color:rgba(0,0,0,0.3);
+		margin:2% auto;
+		font-family:sans-serif;
+		line-height:150%;
+	}
+	
+	
+	/*Functionality*/
+	
+	header#mainHeader
+	{
+		width: 100%;
+		background-size: 100% auto;
+		padding: 5% 0 4% 0;
+		border-bottom: 5px solid #1b1b1b;
+	}
+
+/*</Header>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
