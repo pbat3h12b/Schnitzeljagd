@@ -49,7 +49,7 @@ public class PlayerInformation : MonoBehaviour {
             if (temp[i].Puzzlesolved)
             {
                 games[i] = true;
-            }4
+            }
         }
 
         for (int i = 0; i < highscores.Length; i++)

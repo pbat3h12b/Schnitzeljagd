@@ -1,9 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\static\PlayerInformation.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\..\Desktop\Galaxy Invaders\Assets\EnemyControl.cs">
     <Files>
-      <File FileName="D:\Game\Project\Assets\Scripts\treeScript.cs" Line="18" Column="4" />
-      <File FileName="Assets\static\PlayerInformation.cs" Line="1" Column="1" />
+      <File FileName="..\..\..\..\Desktop\Galaxy Invaders\Assets\EnemyControl.cs" Line="16" Column="45" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -32,10 +32,10 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	
 	private float timeBetweenUpdates = 5;
 	private float timeOnNextUpdate = 0;
-	
-	private string buttonScanValue = "Scannen";
 
     private CacheScript nextCache;
+
+    public GUISkin guiSkin;
 	
 	/*
 	 * Noch nicht vordefinierte Variablen werden abhängig
@@ -54,7 +54,8 @@ public class GameControll_KartenMenue : MonoBehaviour {
         userTransform.width = mapTransform.width / 20;
         userTransform.height = mapTransform.height / 20;
 
-        buttonScanTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(91, 2, 8, 8));
+        buttonScanTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(90, 0, 10, 10));
+        buttonScanTransform.height = buttonScanTransform.width;
 
         // Caches initialisieren
         InitializeCaches();
@@ -177,7 +178,8 @@ public class GameControll_KartenMenue : MonoBehaviour {
                         imageCurrentCache);
 		
 		if (GUI.Button(buttonScanTransform,
-                        buttonScanValue))
+                        "",
+                        guiSkin.button))
 		{
 			Application.LoadLevel(5);
 		}
