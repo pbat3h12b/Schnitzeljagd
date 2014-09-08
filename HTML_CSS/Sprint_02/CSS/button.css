@@ -3,26 +3,27 @@
 
 	.btn_download 
 	{
-		background: none repeat scroll 0% 0% transparent;
-		color: #FFF;
-		border:2px solid #FFF;
+		/*Buttons für den Download*/
+		background-color: transparent; /*Buttons sind durchsichtig*/
+		color: #FFF;	
+		border:2px solid #FFF; /*Weißer Rand*/
 		text-shadow: none;
 		margin: 10px;
-		box-shadow: 2px 2px 0px rgba(255,140,0,1);
-		text-decoration: none;
+		box-shadow: 2px 2px 0px rgba(255,140,0,1); /*Oranger Box-Shadow unten und rechts*/
 		display: inline-block;
 		text-align: center;
-		padding: 10px 30px 10px 30px;
-		font-family: "brandon_grotesquebold" !important;
+		padding: 10px 30px 10px 30px;  /*Innenabstände*/
+		font-family: "brandon_grotesquebold";
 		font-size:1.5em;
 		letter-spacing: 0.2em;
-		text-transform: uppercase;
+		text-transform: uppercase; /*Transformiert in Großbuchstaben*/
 		font-weight:bold;
 	}
 	
 	.btn_download:hover 
 	{
-		background-color: orange;		/*Farbe   dunkler */
+		/*Mouseover bei dem Download Button*/
+		background-color: rgba(255,140,0,1);		
 		box-shadow: 2px 2px 0px rgba(0,0,0,1);
 	}	
 	

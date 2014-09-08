@@ -1,104 +1,109 @@
 <!doctype html>     <!-- Dokument erstellt von Lukas Ebbers-->
 <html>
-<head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<style type="text/css">
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
       #map_canvas { height: 500px; }
     </style>
     <script type="text/javascript"
       src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAqr9LPH1ryoaN2gky0bBIq-QnT3Pm1HFs&sensor=true">//verbindung zu google mit api key
     </script>
     <script type="text/javascript">
-var markersArray = [];//array mit gps daten der user
-var map;
-    
-function addMarker(location,title) //funktion die die User zur LiveMap hinzufügt
-{
-  marker = new google.maps.Marker({
-  position: location,
-  title: title
-  });
 
-  markersArray.push(marker);
-}
+    /*Javascript und php erstellt von Andre Münstermann
+    Dieser Javascript Code greift auf die Datenbank zu und lässt die User auf der Map erscheinen
+    */
+
+        var markersArray = [];//array mit gps daten der user
+        var map;
+            
+        function addMarker(location,title) //funktion die die User zur LiveMap hinzufügt
+        {
+          marker = new google.maps.Marker({
+          position: location,
+          title: title
+          });
+
+          markersArray.push(marker);
+        }
 
 
-function initialize() //wird beim laden der Seite ausgeführt
-{
-    var bib = new google.maps.LatLng(51.7307805133534, 8.7374138832092294);//Koordinaten des bibs
-    var mapOptions = {
-    center: bib,//karte soll anfangs überm bib zentriert werden
-    zoom: 18,
-    mapTypeId: google.maps.MapTypeId.HYBRID
-    };
+        function initialize() //wird beim laden der Seite ausgeführt
+        {
+            var bib = new google.maps.LatLng(51.7307805133534, 8.7374138832092294);//Koordinaten des bibs
+            var mapOptions = {
+            center: bib,//karte soll anfangs überm bib zentriert werden
+            zoom: 18,
+            mapTypeId: google.maps.MapTypeId.HYBRID
+            };
 
-    var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
+            var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
 
-	<?PHP
-      function stringToColorCode($str) 
-      {
-        $code = dechex(crc32($str));
-        $code = substr($code, 0, 6);
-        return $code;
-      }
+        	<?PHP
+              function stringToColorCode($str) 
+              {
+                $code = dechex(crc32($str));
+                $code = substr($code, 0, 6);
+                return $code;
+              }
 
-      function drawLine($path,$username)
-      {
-          $count = 0;
-          echo "var koorArr = [\n";
-          foreach ($path as $key) //array erzeugen
-          {
-            if($count != 0)
+              function drawLine($path,$username)
+              {
+                  $count = 0;
+                  echo "var koorArr = [\n";
+                  foreach ($path as $key) //array erzeugen
+                  {
+                    if($count != 0)
+                    {
+                      echo ",\n";
+                    }
+                    echo "new google.maps.LatLng(".$key[1].", ".$key[0].")";
+                    $count++;
+                  }
+                  echo "];\n";
+
+                  $color = stringToColorCode($username);
+
+                  ?>var flightPath = new google.maps.Polyline({
+                  path: koorArr,
+                  strokeColor: <?PHP echo "'#".$color."',"?>// USER BEKOMMT eigene color
+                  strokeOpacity: 1.0,
+                  strokeWeight: 2
+                });
+
+                flightPath.setMap(map);<?PHP
+
+
+              }
+
+
+
+        	    include('api.php');
+        	   $klasse = new apiWrapper;//neues objekt zur Datenbankverbindung
+        		$posArr = $klasse -> getPositionsMap();//hohlt array mit usernamen und gps daten
+        		$count = 0;
+
+        	    foreach ($posArr as $key => $value) //schreibt javascript code
+        	    {
+        	        echo "var pos".$count." = new google.maps.LatLng(".$value[1].",".$value[0].");\n";
+        	        echo "addMarker(pos".$count.",'".$key."');\n";
+        	        $count++;
+
+                  $path = $klasse -> getUserPath($key);
+
+                  drawLine($path,$key);
+                  
+        	    }
+                                  
+        	?>
+
+
+            for (i in markersArray) 
             {
-              echo ",\n";
+                markersArray[i].setMap(map);
             }
-            echo "new google.maps.LatLng(".$key[1].", ".$key[0].")";
-            $count++;
-          }
-          echo "];\n";
 
-          $color = stringToColorCode($username);
-
-          ?>var flightPath = new google.maps.Polyline({
-          path: koorArr,
-          strokeColor: <?PHP echo "'#".$color."',"?>// USER BEKOMMT eigene color
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-
-        flightPath.setMap(map);<?PHP
-
-
-      }
-
-
-
-	    include('api.php');
-	   $klasse = new apiWrapper;//neues objekt zur Datenbankverbindung
-		$posArr = $klasse -> getPositionsMap();//hohlt array mit usernamen und gps daten
-		$count = 0;
-
-	    foreach ($posArr as $key => $value) //schreibt javascript code
-	    {
-	        echo "var pos".$count." = new google.maps.LatLng(".$value[1].",".$value[0].");\n";
-	        echo "addMarker(pos".$count.",'".$key."');\n";
-	        $count++;
-
-          $path = $klasse -> getUserPath($key);
-
-          drawLine($path,$key);
-          
-	    }
-                          
-	?>
-
-
-    for (i in markersArray) 
-    {
-        markersArray[i].setMap(map);
-    }
-
-}
+        }
 
 </script>
 
@@ -113,7 +118,15 @@ function initialize() //wird beim laden der Seite ausgeführt
 
 <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 <!--Style-->
-<link rel="stylesheet" type="text/css" href="CSS/style.css" />	                                 <!-- Einbindung des CSS -->
+<link rel="stylesheet" type="text/css" href="CSS/style.css" />								 <!-- Einbindung des CSS -->
+<link rel="stylesheet" type="text/css" href="CSS/content.css" />
+<link rel="stylesheet" type="text/css" href="CSS/footer.css" />
+<link rel="stylesheet" type="text/css" href="CSS/navi.css" />
+<link rel="stylesheet" type="text/css" href="CSS/responsive.css" />
+<link rel="stylesheet" type="text/css" href="CSS/scrollbars.css" />
+<link rel="stylesheet" type="text/css" href="CSS/header.css" />
+<link rel="stylesheet" type="text/css" href="CSS/button.css" />
+<link rel="stylesheet" type="text/css" href="CSS/table.css" />
 <!--Style closed-->
 <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 
@@ -213,7 +226,6 @@ function initialize() //wird beim laden der Seite ausgeführt
                         drawTable($arr->{'Fluss'},'Fluss');
                         drawTable($arr->{'Serverraum'},'Serverraum');
                         drawTable($arr->{'Wohnheim'},'Wohnheim');
-                        drawTable($arr->{'bib-Eingang'},'bib-Eingang');
                         ?></div><?php
                         
                         
@@ -282,17 +294,8 @@ function initialize() //wird beim laden der Seite ausgeführt
                             <?php 
                         }
                         ?>
-                        
-
-
-                        
-                        
-                        
-
+                                      
                     </p>
-
-
-
 
                     </content>
                 </article>
@@ -303,7 +306,7 @@ function initialize() //wird beim laden der Seite ausgeführt
                         <h2>Livemap</h2>
 
 
-                    <div id="livemap" style="height:500px;">
+                    <div id="livemap" style="height:500px;"><!-- Live Map erstellt von Andre Münstermann-->
                         <div id="map_canvas" style="width:100%; height:100%"></div>
 
                     </div>

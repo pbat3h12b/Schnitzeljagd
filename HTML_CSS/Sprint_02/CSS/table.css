@@ -11,28 +11,25 @@ th:after {
 
 th {
     font-weight: normal;
-    background-color: #B9C9FE;
-    border-top: 4px solid #AABCFE;
+    background-color: rgba(255, 179, 87, 1);
+    border-top: 4px solid #ff8c00;
     border-bottom: 1px solid #FFF;
     color: #039;
     padding: 8px;
 }
 
 td {
-    background-color:#E8EDFF;
+    background-color:rgba(255, 214, 163, 1);
     border-bottom: 1px solid #FFF;
     color: #669;
     border-top: 1px solid transparent;
-    padding: 8px;
+    padding: 0.5%;
 	vertical-align: top;
 }
 
 
  tbody:hover tr:hover td{
 	color: #444;
-	background-color:gray;
-}
-
-table tbody:hover td {
-	
+	box-shadow:inset 0px 0px 10px 5px rgba(255, 140, 0, 0.6);
+	background-color:rgba(255, 140, 0, 0.6);
 }

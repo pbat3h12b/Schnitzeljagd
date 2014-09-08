@@ -1,38 +1,38 @@
 /*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
 /* <General Settings> Erstellt von Martin Dirkmorfeld*/	
 
-	@import url(content.css);
-	@import url(footer.css);
-	@import url(navi.css);
-	@import url(responsive.css);
-	@import url(scrollbars.css);
-	@import url(header.css);
-	@import url(button.css);	
-	@import url(table.css);
+	/*Laden der Genutzen Schriftarten über die Google Fonts API*/
+	
+	@import url(https://fonts.googleapis.com/css?family=Sarpanch:400,700);
+	@import url(http://fonts.googleapis.com/css?family=Raleway);
+	@import url(http://fonts.googleapis.com/css?family=Audiowide);
+	@import url(https://fonts.googleapis.com/css?family=Play);
+	
+	/*Die Weiteren CSS Dateien könnten auch mit einem @import url(); geladen werden,
+	jedoch kann es bei zu vielen @import zu fehler kommen, deswegen werden diese im html geladen*/
 	
 	/*Design*/
 
 	body
 	{
-		font-size: 100%;
-		font-family: "Trebuchet MS", Helvetica, sans-serif;
-		background-color: #363F48;
-		line-height: 1.35em;
+		font-size: 100%; /*default wert*/
+		background-color: #363F48; 
+		line-height: 1.35em; /*Zeilenabstand*/
 		color:#181818;
 	}
 	
 	a
 	{
-		text-decoration: none;
-		color: red;
+		text-decoration: none; /*entfernt den Unterstrich bei Links*/
+		color: rgba(255,140,0,1);
 	}
 	/*Functionality*/
 	
 	body
 	{
-		padding: 0;
-		width: 100%;
-		height:100%:
+		padding: 0;	
+		width: 100%; /*default wert muss gesetzt werden, denn dies behebt öfters fehler*/
+		height:100%: /*default wert*/
 	}
 
 	/*<Zero Margin>*/
@@ -46,8 +46,8 @@
 	
 	.wrapper
 	{
-		width: 80%;
-		margin: 0 auto;
+		width: 80%;  /**/
+		margin: 0 auto; /*Zentriert die Seite*/
 	}
 
 /*</General Settings>*/
@@ -55,8 +55,10 @@
 /*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
 
 
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*Testing*/
 
-
+/*Bereich zum austesten von Design Ideen*/
 	#newtag:hover
 	{
 	color: green;
