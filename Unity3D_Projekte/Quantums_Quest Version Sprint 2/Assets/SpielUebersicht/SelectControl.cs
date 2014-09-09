@@ -46,7 +46,7 @@ public class SelectControl : MonoBehaviour {
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 30, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[1]) 
 		{
-            Application.LoadLevel(10);
+            Application.LoadLevel(9);
 		}
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 15, 20, 10)), "" + gameNames[0] + "          Score :" +
             gameController.GetComponent<PlayerInformation>().getHighscores()[0]);
@@ -60,7 +60,7 @@ public class SelectControl : MonoBehaviour {
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 80, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[2])
         {
-            Application.LoadLevel(11);
+            Application.LoadLevel(10);
         }
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 65, 20, 10)), "" + gameNames[1] + "          Score :" + 
             gameController.GetComponent<PlayerInformation>().getHighscores()[1]);
@@ -74,7 +74,7 @@ public class SelectControl : MonoBehaviour {
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 130, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[3])
         {
-            Application.LoadLevel(8);
+            Application.LoadLevel(7);
         }
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 115, 20, 10)), "" + gameNames[2] + "          Score :" + 
             gameController.GetComponent<PlayerInformation>().getHighscores()[2]);
@@ -88,7 +88,7 @@ public class SelectControl : MonoBehaviour {
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 180, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[4])
         {
-            Application.LoadLevel(7);
+            Application.LoadLevel(4);
         }
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 165, 20, 10)), "" + gameNames[3] + "          Score :" + 
             gameController.GetComponent<PlayerInformation>().getHighscores()[3]);
@@ -102,7 +102,7 @@ public class SelectControl : MonoBehaviour {
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 230, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[5])
         {
-            Application.LoadLevel(9);
+            Application.LoadLevel(8);
         }
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 215, 20, 10)), "" + gameNames[4] + "          Score :" + 
             gameController.GetComponent<PlayerInformation>().getHighscores()[4]);

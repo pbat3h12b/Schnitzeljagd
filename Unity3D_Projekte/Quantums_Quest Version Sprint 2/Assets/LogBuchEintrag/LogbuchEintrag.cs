@@ -52,13 +52,11 @@ public class LogbuchEintrag : MonoBehaviour {
             //API gibt True zurück
             if (temp.Success == true)
             {
-                Debug.Log("yes");
                 gameController.GetComponent<PlayerInformation>().markPuzzel();
                 Application.LoadLevel(5);
             }
             else
             {
-                Debug.Log("no");
                 Application.LoadLevel(5);
             }
         }

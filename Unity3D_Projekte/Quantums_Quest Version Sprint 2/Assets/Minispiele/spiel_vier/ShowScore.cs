@@ -8,7 +8,7 @@ public class ShowScore : MonoBehaviour {
 	
 	#region Attribute
 	//erreichte Punkte
-	int score=0;
+	public int score=0;
 	#endregion
 	
 	
