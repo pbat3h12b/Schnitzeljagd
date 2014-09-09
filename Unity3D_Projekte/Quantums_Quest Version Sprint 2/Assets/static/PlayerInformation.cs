@@ -109,6 +109,11 @@ public class PlayerInformation : MonoBehaviour {
         return lastFoundSecret;
     }
 
+    public bool[] getGames()
+    {
+        return games;
+    }
+
     void ReadCacheList()
     {
         XmlDocument document = new XmlDocument();
