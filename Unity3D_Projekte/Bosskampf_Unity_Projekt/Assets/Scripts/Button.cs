@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Dieses Script wurde von Kai Bursmeier erstellt.
+
 public class Button : MonoBehaviour {
 
 	public int id;	//Die id des jeweiligen Buttons
