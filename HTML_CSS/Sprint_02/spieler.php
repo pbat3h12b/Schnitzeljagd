@@ -12,7 +12,15 @@
 
 <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 <!--Style-->
-<link rel="stylesheet" type="text/css" href="style.css" />									 <!-- Einbindung des CSS -->
+<link rel="stylesheet" type="text/css" href="CSS/style.css" />								 <!-- Einbindung des CSS -->
+<link rel="stylesheet" type="text/css" href="CSS/content.css" />
+<link rel="stylesheet" type="text/css" href="CSS/footer.css" />
+<link rel="stylesheet" type="text/css" href="CSS/navi.css" />
+<link rel="stylesheet" type="text/css" href="CSS/responsive.css" />
+<link rel="stylesheet" type="text/css" href="CSS/scrollbars.css" />
+<link rel="stylesheet" type="text/css" href="CSS/header.css" />
+<link rel="stylesheet" type="text/css" href="CSS/button.css" />
+<link rel="stylesheet" type="text/css" href="CSS/table.css" />
 <!--Style closed-->
 <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 
@@ -102,7 +110,6 @@
 						drawTable($arr->{'Fluss'},'Fluss');
 						drawTable($arr->{'Serverraum'},'Serverraum');
 						drawTable($arr->{'Wohnheim'},'Wohnheim');
-						drawTable($arr->{'bib-Eingang'},'bib-Eingang');
 						?></div><?php
 						
 						

@@ -1,0 +1,14 @@
+This is the testprotocol from test nr.31
+
+Test_RegisterNewUser_success                 	successfull
+Test_RegisterNewUser_username_already_taken  	successfull
+Test_RegisterNewUser_username_too_long       	successfull
+Test_Login_success                           	successfull
+Test_Login_username_does_not_exist           	successfull
+Test_Login_password_is_wrong                 	successfull
+Test_Update_Position_successfull             	successfull
+Test_Submit_Score                            	User didn't find that cache yet.
+Test_Score_for_User                          	Score is different
+Test_All_top_ten_scores                      	successfull
+
+8 from 10 Tests where successfull!

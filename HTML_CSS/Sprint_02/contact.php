@@ -13,7 +13,15 @@
 
 <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 <!--Style-->
-<link rel="stylesheet" type="text/css" href="style.css" />									 <!-- Einbindung des CSS -->
+<link rel="stylesheet" type="text/css" href="CSS/style.css" />								 <!-- Einbindung des CSS -->
+<link rel="stylesheet" type="text/css" href="CSS/content.css" />
+<link rel="stylesheet" type="text/css" href="CSS/footer.css" />
+<link rel="stylesheet" type="text/css" href="CSS/navi.css" />
+<link rel="stylesheet" type="text/css" href="CSS/responsive.css" />
+<link rel="stylesheet" type="text/css" href="CSS/scrollbars.css" />
+<link rel="stylesheet" type="text/css" href="CSS/header.css" />
+<link rel="stylesheet" type="text/css" href="CSS/button.css" />
+<link rel="stylesheet" type="text/css" href="CSS/table.css" />
 <!--Style closed-->
 <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 
@@ -76,11 +84,10 @@
 					<header class="articleHeader">
 						<h2>Kontaktdaten</h2>
 					</header>
-					<footer>
-					<br>
-						Unsere Kontaktdaten:
+					<footer>						
 					</footer>
 					<content>
+						Unsere Kontaktdaten:<br>
 						Ansprechpartner: XYZ<br>
 						b.i.b. International College Paderborn<br>
 						Klasse: PBAT3H12B<br>
@@ -113,9 +120,9 @@
 						<br>
 						<a href="guestbook.html" id="newtag">Neuen Eintrag schreiben &raquo;</a>
 					</footer>
-					<content>
+					<content class="alignLeft">
 					
-					<?php
+					<?php /*Erstellt von Martin Dirkmorfeld und André Münstermann*/
 							include('api.php');
 							$klasse = new apiWrapper;
 							$idList= $klasse -> getGuestbookIndex();
@@ -143,7 +150,9 @@
 								<?php
 							}
 							
-					/*
+					/*  Erstellt von Lukas Ebbers
+						Erster Versuch eines Gästebuches mit einer normalen Datenbankverbindung
+					
 						$verbindung = mysql_connect("localhost", "user", "pw")
 						or die ("Fehler im System");
 
@@ -207,8 +216,7 @@
 						<a href="index.php?page=<?php echo ($page + 1); ?>">Weiter</a>
 						<?php
 						}
-				*/	?>
-					
+				*/	?>				
 					</content>
 				</article>
 			</div>

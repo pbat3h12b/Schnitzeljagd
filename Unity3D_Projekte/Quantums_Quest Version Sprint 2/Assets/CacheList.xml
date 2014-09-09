@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE CacheList SYSTEM "CacheList.dtd">
+<CacheList>
+  <Cache description="b.i.b. Eingang" longitude="8.73707" latitude="51.73075"></Cache>
+  <Cache description="Zukunftsmeile" longitude="8.73807" latitude="51.73057"></Cache>
+  <Cache description="Heinz Nixdorf Forum" longitude="8.73618" latitude="51.73147"></Cache>
+  <Cache description="Wohnheim" longitude="8.73740" latitude="51.72956"></Cache>
+  <Cache description="Fluss" longitude="8.73554" latitude="51.73064"></Cache>
+  <Cache description="b.i.b. Serverraum" longitude="8.73635" latitude="51.73106"></Cache>
+</CacheList>

@@ -144,6 +144,35 @@ class apiWrapper
 		}
 	}
 	
+
+	function getUserPath($username)
+	{
+		$functionurl ="";
+		$functionName = 'getUserPath';
+		
+		$functionurl .= $this->baseurl;
+		$functionurl .= $functionName;
+
+
+
+		$data = array('username' => $username);
+		$obj = $this->postData($data,$functionurl);
+		//var_dump($obj);
+		if(isset($obj->{'success'}))
+		{
+			if($obj->{'success'}==true)
+			{
+
+				return $obj->{'positions'};
+			}
+			else
+			{
+				return $obj->{'error'};
+			}
+		}
+		
+	}
+
 	
 	/*
 	Diese Funktion bietet den username und die zugehörigen GPS daten

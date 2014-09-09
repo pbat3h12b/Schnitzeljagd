@@ -93,47 +93,99 @@ class RESTCommunication : MonoBehaviour
 
         //Wenn die aktualisierung des Standortes erfolgreich war, wird ein true zurück gegeben, anderen falls ein false
         if (response["success"].AsBool)
+        {
             return new Response(response["success"].AsBool, "");
+        }
         else
+        {
+            if (response["message"].Value == "Invalid Authentication Token.")
+            {
+                LoginUser(username, password);
+            }
             return new Response(response["success"].AsBool, response["message"].Value);
+        }
     }
 
     //Die Funktion GetPositionMap gibt eine Liste von allen aktiven Benutzern zurück, welche die Positionen und 
     //und Namen der Benutzer enthällt
     public List<Position> GetPositionMap()
     {
+        //Die Funktion gibt eine Liste an Personen zurück, die zuerst initialisiert wird
         List<Position> positionen = new List<Position>();
+        //Da diese Funktion keine Parameter braucht, wird einfach ein Emptyarry an Bytes übergeben
         byte[] emptyarray = new byte[0];
+        //Abrufen der Positionen
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/getPositionsMap", emptyarray));
+        /*JSON Bespiel
+        {
+            "success": true,
+            "user_map": {
+                "olli": [8.735941, 51.73075]
+            }
+        }*/
 
         if (response["success"].AsBool)
         {
+            //Jede empfangene Position wird ausgewerted und in die Liste eingefügt
             for (int i = 0; i < response["uder_map"].Count; i++)
             {
                 positionen.Add(new Position((response["User_map"][i][0].AsFloat), response["User_map"][i][1].AsFloat, response["User_map"][i].Value));
             }
         }
+        //Die Komplette Liste wird zurück gegeben
         return positionen;
     }
 
-
-
+    //Dies Funktion gibt für jedes Minigame die top 10 Scores zurück
     public GameScoreListResponse GetTopTenScoresForAllMinigames()
     {
+        //Da diese Funktino keine Parameter braucht ,wird einfach ein Emptyarray an Bytes übergeben
         byte[] emptyarray = new byte[0];
+        //Abrufen der Scores
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/getTopTenScoresForAllMinigames", emptyarray));
+        /*JSON Beispiel
+        {
+            "game": {
+                "Zukunftsmeile": [{
+                    "username": "to_delete75cc737c-7173-4620-ab",
+                    "date": 1409212652,
+                    "points": 984870
+                }, {
+                    "username": "to_delete96fe2a29-ef23-4890-89",
+                    "date": 1409640521,
+                    "points": 966482
+                }],
+                "HNF": [{
+                    "username": "to_delete75cc737c-7173-4620-ab",
+                    "date": 1409212653,
+                    "points": 996279
+                }, {
+                    "username": "to_delete96fe2a29-ef23-4890-89",
+                    "date": 1409640520,
+                    "points": 984009
+                }]
+            },
+            "success": true
+        }*/
+
         if (response["success"].AsBool)
         {
+            //Zuerst wird ein GameScoreListResponse erstellt. dieser enthält die verschieden Scores
+            //wie auch das success-Feld aus dem Response
             GameScoreListResponse gslr = new GameScoreListResponse(response["success"].AsBool);
             for (int i = 0; i < response["game"].Count; i++)
             {
+                //Der GameScoreListResponse ennhält eine Liste an Games, dieses Ogjekt enthält eine Liste an Scores.
                 Game newgame = new Game(response["game"][i].Value);
                 for (int x = 0; x < response["game"][i].Count; x++)
                 {
+                    //Die Liste an Scores wird mit dem Username, den Punkten die erzieltwurden und der zeit an dem der Score gamcht wurde
                     newgame.AddScore(response["game"][i][x]["username"].Value, (int)response["game"][i][x]["points"].AsFloat, (int)response["game"][i][x]["date"].AsFloat);
                 }
+                //Wenn ein Spiel alle Scores hat wird es in die Gameliste im GameScoreListResponse angefügt
                 gslr.AddGame(newgame);
             }
+            //wenn alle Spiele angefügt sind wird der GameScoreListResponse zurück gegeben
             return gslr;
         }
         else
@@ -143,10 +195,15 @@ class RESTCommunication : MonoBehaviour
         }
     }
 
+    //Mit dieser Funktion wird ein Gästebuch Eintrag gemacht
+    //Parameter ist die Nachricht die in das Gästebuch geschrieben werdenn soll
     public Response MakeGuestbookEntry(string message)
     {
+        //Zuerst wird eine Liste an Parametern erstellt
         List<Parameter> parameter = new List<Parameter>();
+        //Die Parameter werden angefügt
         parameter.Add(new Parameter("message", message));
+        //Abrufen des Response und anschließende Rückgabe
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/makeGuestbookEntry", GetPostDatafromString(parameter)));
         if (response["success"].AsBool)
         {
@@ -154,20 +211,30 @@ class RESTCommunication : MonoBehaviour
         }
         else
         {
+             if(response["message"].Value=="Invalid Authentication Token."){
+                LoginUser(username,password);
+            }
             return new Response(response["success"].AsBool, response["message"].Value);
         }
     }
 
+    //Mit der Funktion SubmitGameScore wird ein Gamescore für ein Bstimmtes Spiel eingetragen
+    //Parameter:
+    //          -score : Die erreichten punkte
+    //          -gameID: Die gameID zu identifizierung des Spiels
     public Response SubmitGameScore(int score, string gameID)
     {
+        //Da für die Parameter einen String brauchen und es sich bei score um einen int haldelt wird
+        //der wert erst in einen String geschrieben
         string strgameid = Convert.ToString(gameID);
-        string strscore = Convert.ToString(score);
+        //Danach wird eine Liste an Parametern angelegt
         List<Parameter> parameter = new List<Parameter>();
         parameter.Add(new Parameter("username", username));
-        parameter.Add(new Parameter("token", GenrateToken()));
-        parameter.Add(new Parameter("points", strscore));
+        parameter.Add(new Parameter("points", score.ToString()));
         parameter.Add(new Parameter("cache", strgameid));
-
+        //Neben dem Username,dem Score und der GameID wird auch ein Token generiert da sonst jeder beliebig scores erstellen könnte
+        parameter.Add(new Parameter("token", GenrateToken()));
+        //Abrufen des Response und anschließende Rückgabe
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/submitGameScore", GetPostDatafromString(parameter)));
         if (response["success"].AsBool)
         {
@@ -175,16 +242,22 @@ class RESTCommunication : MonoBehaviour
         }
         else
         {
+            if(response["message"].Value=="Invalid Authentication Token."){
+                LoginUser(username,password);
+            }
             return new Response(response["success"].AsBool, response["message"].Value);
         }
     }
 
+    //Die Funktion markPuzzleSolved wird aufgerufen wenn ein Pozzle gelöst wurde
     public Response markPuzzelSolved()
     {
+        //Zuerst wird eine Liste an Parametern erstellt
         List<Parameter> parameter = new List<Parameter>();
+        //Danach werden die Parameter angefügt
         parameter.Add(new Parameter("username", username));
         parameter.Add(new Parameter("token", GenrateToken()));
-
+        //Abrufen des Response und anschließende Rückgabe
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/markPuzzleSolved", GetPostDatafromString(parameter)));
         if (response["success"].AsBool)
         {
@@ -192,17 +265,25 @@ class RESTCommunication : MonoBehaviour
         }
         else
         {
+            if(response["message"].Value=="Invalid Authentication Token."){
+                LoginUser(username,password);
+            }
             return new Response(response["success"].AsBool, response["message"].Value);
         }
     }
-
-    public List<Logbookentry> getAlleLogBookEntrys()
+    //Die Funktion getAllLogBookEntrys Holt sich alle Logbucheinträge des Users
+    public List<Logbookentry> getAllLogBookEntrys()
     {
+        //Zuerst wird eine Liste an Logbucheinträgen erstellt
         List<Logbookentry> logbookentries = new List<Logbookentry>();
+        //Es wird eine Liste an Parametern erstellt
         List<Parameter> parameter = new List<Parameter>();
+        //Danach wird der Username als Parameter angefügt
         parameter.Add(new Parameter("username", username));
 
+        //Abrufen der Logbucheinträge
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/getAllLogbookEntriesByUser", GetPostDatafromString(parameter)));
+        //Die Logbucheintrage werdn dann aus den JSON gelesen und in die Liste eingfügt
         if (response["success"].AsBool && response["entries"].Count > 0)
         {
             for (int i = 0; i < response["entries"].Count; i++)
@@ -210,16 +291,20 @@ class RESTCommunication : MonoBehaviour
                 logbookentries.Add(new Logbookentry(response["entries"][i]["cache"].Value, response["entries"][i]["message"].Value, response["entries"][i]["puzzle_solved"].AsBool, response["entries"][i]["found_date"].AsInt));
             }
         }
+        //Anschließend werden die Logbucheinträge zurück gegeben
         return logbookentries;
     }
 
-
+    //Die Funktion checkCacheSecret überprüft die Richtigkeit des Eingegebenen Cache Secrets
+    //Parameter ist der eingegebene Chache
     public Response checkCacheSecret(string userCachInput)
     {
+        //Zuerst wird eine List an Parametern erstellt
         List<Parameter> parameter = new List<Parameter>();
         parameter.Add(new Parameter("cache_secret", userCachInput));
         parameter.Add(new Parameter("username", username));
 
+        //Abruf des Response und anschließende Rückgabe
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/secretValidForNextCache", GetPostDatafromString(parameter)));
         if (response["success"].AsBool)
         {
@@ -231,13 +316,20 @@ class RESTCommunication : MonoBehaviour
         }
     }
 
+    //Die Funktion MakteLogBookEntry funktioniert ähnlich wie der Guestbookentry nur das er einen Logbuch eintrag macht
+    //Parameter :
+    //          -message: die eingegebene Nachricht
+    //          -secret : das Secret zu dem der Logbuch eintrag gemacht werden soll
     public Response MakeLogBookEntry(string message, string secret)
     {
+        //Zuerst wird eine Liste an Parametern erstellt
         List<Parameter> parameter = new List<Parameter>();
+        //Anschließend werden alle Parameter angefügt
         parameter.Add(new Parameter("message_str", message));
         parameter.Add(new Parameter("token", GenrateToken()));
         parameter.Add(new Parameter("username", username));
         parameter.Add(new Parameter("secret", secret));
+        //Abruf des Response und anschließende Rückgabe
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/makeLogbookEntry", GetPostDatafromString(parameter)));
         if (response["success"].AsBool)
         {
@@ -245,20 +337,27 @@ class RESTCommunication : MonoBehaviour
         }
         else
         {
+            if(response["message"].Value=="Invalid Authentication Token."){
+                LoginUser(username,password);
+            }
             return new Response(response["success"].AsBool, response["message"].Value);
         }
     }
 
+    //Die Funktion GetTopScorebyUser gibt dehn Besten Score für ein bestimmtes Spiel zurück
     public Score getTopScoreByUser(string gameID)
     {
+        //Zuerst wird eine Liste an Parametern erstellt
         List<Parameter> parameter = new List<Parameter>();
+        //Anschließend werden die Parameter angefügt
         parameter.Add(new Parameter("username", username));
-
+        //Abruf des Response und anschließende Rückgabe
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/getTopTenScoresForAllMinigames", GetPostDatafromString(parameter)));
         if (response["success"].AsBool && response["game"][gameID].Count > 0)
         {
             return new Score(username, response["game"][gameID][0]["points"].AsInt, response["game"][0][gameID]["date"].AsInt);
         }
+        //wenn der Abruf fehlerhaft war wird ein leerer Score zurück gegeben
         return new Score(username, 0, 0);
     }
 
@@ -277,18 +376,17 @@ class RESTCommunication : MonoBehaviour
     //    return indexlist.ToArry();
     //}
 
-    public List<GuestbookEntry> GetlastGuestbookentries()
-    {
-        List<GuestbookEntry> name = new List<GuestbookEntry>();
-        byte[] emptyarray = new byte[0];
-        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/", emptyarray));
-        if (response["success"].AsBool)
-        {
+    //public List<GuestbookEntry> GetlastGuestbookentries()
+    //{
+    //List<GuestbookEntry> name = new List<GuestbookEntry>();
+    //byte[] emptyarray = new byte[0];
+    //var response = JSON.Parse(Communication("http://btcwash.de:8080/api/", emptyarray));
+    //if (response["success"].AsBool)
+    //{
+    //}
 
-        }
-
-        return null;
-    }
+    //return null;
+    //}
 
     //private String[] GetUsers()
     //{
@@ -323,7 +421,7 @@ class RESTCommunication : MonoBehaviour
 
         //Anschließend wird ein Datenstream geöffnet dehn wir über den Request öffnen
         Stream datastream = request.GetRequestStream();
-        //Wenn wir den Datastream geöffnet haben scheiben wird die Parameter hinein und schließen ihn wieder
+        //Wenn wir den Datastream geöffnet haben schreiben wir die Parameter hinein und schließen ihn wieder
         datastream.Write(postdata, 0, postdata.Length);
         datastream.Close();
 
@@ -376,6 +474,7 @@ class RESTCommunication : MonoBehaviour
         counter++;
 
         return token;
+        
     }
 }
 
@@ -388,17 +487,31 @@ public class Parameter
     //name bekommt den Namen des Parameters da dieser an der Server-Seite identisch sein muss
     string name;
 
+    //Eigenschaftem
     public string Name
     {
-        get { return name; }
-        set { name = value; }
+        get 
+        { 
+            return name; 
+        }
+        set
+        {
+            name = value; 
+        }
     }
 
     public string Content
     {
-        get { return content; }
-        set { content = value; }
+        get 
+        {
+            return content; 
+        }
+        set 
+        { 
+            content = value; 
+        }
     }
+    //Konstruktor
     public Parameter(String name, String content)
     {
         this.name = name;
@@ -413,21 +526,31 @@ public class Position
     float longitude;
     string userid;
 
+    //Eigenschaften
     public float Latitude
     {
-        get { return latitude; }
+        get 
+        { 
+            return latitude; 
+        }
     }
 
     public float Longitude
     {
-        get { return longitude; }
+        get 
+        { 
+            return longitude; 
+        }
     }
 
     public string Userid
     {
-        get { return userid; }
+        get 
+        { 
+            return userid; 
+        }
     }
-
+    //Konstruktor
     public Position(float longitude, float latitude, string userid)
     {
         this.latitude = latitude;
@@ -435,102 +558,130 @@ public class Position
         this.userid = userid;
     }
 }
-
+//Die Klasse Response wir bei Jeder funktion zurück gegeben bei der kein Spezeller Datentyp benutzt wird
 public class Response
 {
     bool success;
     string message;
-
+    //Eigenschaften
     public bool Success
     {
-        get { return success; }
+        get 
+        { 
+            return success; 
+        }
     }
 
     public string Message
     {
-        get { return message; }
+        get 
+        { 
+            return message; 
+        }
     }
-
+    //Konstruktor
     public Response(bool _success, string _message)
     {
         this.success = _success;
         this.message = _message;
     }
 }
-
+//Bei GameScoreListResponse handelt es sich um einen Speziellen Resopnse der von der Funktion GetTopTenScoresForAllMinigames
+//benutzt wird
 public class GameScoreListResponse
 {
     bool success;
     List<Game> gameslist;
-
+    //Eigenschaften
     public bool Success
     {
-        get { return success; }
+        get 
+        { 
+            return success; 
+        }
     }
 
     public List<Game> GamesList
     {
-        get { return gameslist; }
+        get 
+        { 
+            return gameslist; 
+        }
     }
-
+    //Konstruktor
     public GameScoreListResponse(bool _success)
     {
         this.success = _success;
         this.gameslist = new List<Game>();
     }
-
+    //Die Funktion AddGame fügt ein neues Spiel in die Liste ein
     public void AddGame(Game _game)
     {
         gameslist.Add(_game);
     }
 }
-
+//Die Klasse Game wird von der Klasse GameScoreListbenutzt
 public class Game
 {
     string name;
     List<Score> toptenScore;
-
+    //Eigenschaften
     public string Name
     {
-        get { return name; }
+        get 
+        { 
+            return name; 
+        }
     }
 
     public List<Score> ToptenScore
     {
-        get { return toptenScore; }
+        get 
+        { 
+            return toptenScore; 
+        }
     }
-
+    //Konstruktor
     public Game(string _name)
     {
         this.name = _name;
         toptenScore = new List<Score>();
     }
-
+    //Die Funktion AddScore fügt einen neuen Score zum Spiel hinzu
     public void AddScore(string _user, int _points, int _time)
     {
         toptenScore.Add(new Score(_user, _points, _time));
     }
 }
-
+//Die Klasse Score wird von der Klasse Game und der Funktion getTopScoreByUser benutzt
 public class Score
 {
     string user;
     int points;
     int time;
-
+    //Eigenschaften
     public string User
     {
-        get { return user; }
+        get 
+        { 
+            return user; 
+        }
     }
     public int Points
     {
-        get { return points; }
+        get 
+        { 
+            return points; 
+        }
     }
     public int Time
     {
-        get { return time; }
+        get 
+        { 
+            return time; 
+        }
     }
-
+    //Konstruktor
     public Score(string _user, int _points, int _time)
     {
         this.user = _user;
@@ -538,31 +689,43 @@ public class Score
         this.time = _time;
     }
 }
-
+//Die Klasse Guestbookentry ist eine Fachklasse
 public class GuestbookEntry
 {
     int id;
     string author;
     string message;
     int date;
-
+    //Eigenschaften
     public int Id
     {
-        get { return id; }
+        get 
+        { 
+            return id; 
+        }
     }
     public string Author
     {
-        get { return author; }
+        get 
+        { 
+            return author; 
+        }
     }
     public string Message
     {
-        get { return message; }
+        get 
+        { 
+            return message; 
+        }
     }
     public int Date
     {
-        get { return date; }
+        get 
+        { 
+            return date; 
+        }
     }
-
+    //konstruktor
     public GuestbookEntry(int _id, string _author, string _message, int _date)
     {
         this.id = _id;
@@ -571,32 +734,36 @@ public class GuestbookEntry
         this.date = _date;
     }
 }
-
+//Die Klasse Logbookentry ist eine Fachklasse
 public class Logbookentry
 {
     string cache;
-
+    string message;
+    bool puzzlesolved;
+    int founddate;
+    //Eigenschaften
     public string Cache
     {
-        get { return cache; }
-        set { cache = value; }
+        get 
+        { 
+            return cache; 
+        }
     }
-    string message;
-
     public string Message
     {
-        get { return message; }
-        set { message = value; }
+        get 
+        {
+            return message; 
+        }
     }
-    bool puzzlesolved;
-
     public bool Puzzlesolved
     {
-        get { return puzzlesolved; }
-        set { puzzlesolved = value; }
+        get 
+        { 
+            return puzzlesolved; 
+        }
     }
-    int founddate;
-
+    //Konstruktor
     public Logbookentry(string _cache, string _message, bool _puzzlesolved, int _date)
     {
         this.cache = _cache;

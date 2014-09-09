@@ -1,0 +1,41 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Footer> Erstellt von Lukas Ebbers*/
+
+	/*Design*/
+	
+	#mainFooter
+	{
+		
+		/*background-color: #444248;*/
+		color: white;
+		padding:0.5%;
+		font-family: "Raleway",arial,san-serif;
+		border-top: 1px dashed rgba(255,140,0,1);
+		
+		/*Farbverlauf für alle browser*/
+		background-image:-webkit-linear-gradient(left, rgba(0,0,0,0), rgba(255,140,0,0.5), rgba(0,0,0,0));
+		background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(255,140,0,0.5), rgba(0,0,0,0));
+		background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(255,140,0,0.5), rgba(0,0,0,0));
+		background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(255,140,0,0.5), rgba(0,0,0,0)); 	
+	}
+	
+	#mainFooter a
+	{
+	 color: black;		 
+	}
+	
+	/*Functionality*/	
+	
+	#mainFooter
+	{
+		height: 1.5%;
+		position: fixed; /*Feste Position*/
+		bottom:0;	
+		left:10%;		/*Setzt den Footer in die Mitte*/
+		text-align: center; /*Setzt den Text mittig*/
+	}	
+	
+/*</Footer>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
+
