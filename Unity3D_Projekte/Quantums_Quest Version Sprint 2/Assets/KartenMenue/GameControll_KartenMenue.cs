@@ -10,33 +10,49 @@ using System.Xml;
 
 public class GameControll_KartenMenue : MonoBehaviour {
 
-    [HideInInspector]
+    // Hintergrund-Bild
     public Texture2D backgroundImage;
+    // Bild der Karte
 	public Texture2D imageMap;
+    // Bild des Benutzers
 	public Texture2D imageCurrentUser;
+    // Bild des nächsten Caches
     public Texture2D imageCurrentCache;
+    // Zurück-Button-Bild
     public Texture2D backgroundBack;
+    // GUI-Style für Zurück-Button
     public GUIStyle styleBack = new GUIStyle();
 
     //Ein Objekt des GameControllers
 	private GameObject gameController;
-    private Component staticScript;
 
+    // Mindest-Breitengrad
     private float mapMinLatitude = 51.73178f;
+    // Mindest-Längengrad
     private float mapMinLongitude = 8.73458f;
+    // Maximaler Breitengrad
     private float mapMaxLatitude = 51.72919f;
+    // Maximaler Längengrad
 	private float mapMaxLongitude = 8.73945f;
 	
+    // Rechteck (x, y, Breite, Höhe) für Hintergrund
     private Rect backgroundTransform;
+    // Rechteck (x, y, Breite, Höhe) für die Karte
     private Rect mapTransform;
+    // Rechteck (x, y, Breite, Höhe) für den Benutzer
     private Rect userTransform;
+    // Rechteck (x, y, Breite, Höhe) für das Scan-Bild
     private Rect buttonScanTransform;
 	
+    // Zeit zwischen Updates der Geo-Daten
 	private float timeBetweenUpdates = 5;
+    // Zeit des nächsten Updates
 	private float timeOnNextUpdate = 0;
 
+    // Cachescript für den nächsten Script
     private CacheScript _nextCache;
 
+    // GUI-Skin
     public GUISkin guiSkin;
 	
 	/*
@@ -45,34 +61,31 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	 */
 	void Start ()
 	{
+        // Fehlermeldung zurücksetzen
+        PlayerPrefs.SetString("errorMsg", "");
+
+        // Den Game-Manager suchen
 		gameController = GameObject.Find("GameController");
 
+        // Die Background-Größe und -Position festlegen
         backgroundTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(-20, -20, 140, 140));
 
-        // new
+        // Die Karten-Größe und -Position festlegen
         mapTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 90, 100));
 
-        // new
+        // Größe des Benutzer-Bildes festlegen
         userTransform.width = mapTransform.width / 20;
         userTransform.height = mapTransform.height / 20;
 
+        // Größe und Position des "Scan"-Buttons festlegen
         buttonScanTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(90, 0, 10, 10));
         buttonScanTransform.height = buttonScanTransform.width;
 
+        // Den nächsten Cache festlegen
         _nextCache = gameController.GetComponent<PlayerInformation>().GetNextCache();
 
+        // Den Button Hintergrund vom Zurück-Button festlegen
         styleBack.normal.background = backgroundBack;
-	}
-	
-	/*
-	 * Aktion pro Frame durchführen (z.Z. keine Aufgabe)
-	 */
-	void Update()
-	{
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.LoadLevel(1);
-        }
 	}
 	
 	/*
@@ -86,41 +99,63 @@ public class GameControll_KartenMenue : MonoBehaviour {
 		GUI.DrawTexture (mapTransform, 
                             imageMap);
 
+        /* Ausführen, wenn die Zeit des nächsten Updates erreicht wurde 
+         * und die GPS-Verbindung keine Fehler aufweist
+         */
         if (Time.time >= timeOnNextUpdate && CheckGeoStatus())
 		{
+            // GPS-Service starten
 			Input.location.Start ();
 
+            // Längengrad auslesen
             float userLongitude = Input.location.lastData.longitude;
+            // x-Position des Benutzers festlegen
             userTransform.x = GetLongitudePosition(userLongitude);
+            // Breitengrad festlegen
 			float userLatitude = Input.location.lastData.latitude;
+            // y-Position des Benutzers festlegen
             userTransform.y = GetLatitudePosition(userLatitude);
+            // Zeitpunkt des nächsten Updates festlegen
             timeOnNextUpdate = Time.time + timeBetweenUpdates;
 
+            // Die GPS-Koordinaten im PlayerScript updaten
             gameController.GetComponent<PlayerInformation>().updateGeoData(userLongitude, userLatitude);
+
+            // GPS-Service beenden
 			Input.location.Stop ();
 		}
+            // Ausführen, wenn die GPS-Verbindung fehlschlägt
         else if (!CheckGeoStatus())
         {
+            // Setzt neue Fehlermeldung fest
             PlayerPrefs.SetString("errorMsg", "Keine GPS-Verbindung verfügbar!");
+            // Benutzer zum Hauptmenü zurück schicken
             Application.LoadLevel(1);
         }
 
+        // Benutzer-Bild auf der GUI anzeigen
         GUI.DrawTexture(userTransform, 
                         imageCurrentUser);
 
-        // Draw next Cache
+        // Größe & Position vom nächsten Cache im Rechteck
         Rect nextCacheTransform = new Rect(0, 0, 0, 0);
+        // Position-x vom Cache
         nextCacheTransform.x = GetLongitudePosition(_nextCache.Longitude);
+        // Position-y vom Cache
         nextCacheTransform.y = GetLatitudePosition(_nextCache.Latitude);
+        // Höhe und Breite vom Cache
         nextCacheTransform.width = userTransform.width;
         nextCacheTransform.height = userTransform.height;
+        // Nächsten Cache auf GUI anzeigen
         GUI.DrawTexture(nextCacheTransform,
                         imageCurrentCache);
 		
+        // Wenn "Scan"-Button geklickt wurde
 		if (GUI.Button(buttonScanTransform,
                         "",
                         guiSkin.button))
 		{
+            // Code-Eingabe-GUI laden
 			Application.LoadLevel(5);
 		}
 
@@ -144,8 +179,10 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	 */
 	bool CheckGeoStatus()
 	{
+        // Wenn GPS vom Benutzer aktiviert wurde
 		if (Input.location.isEnabledByUser)
 		{
+            // Wenn die GPS-Verbindung keine Fehler aufweist
 			if (Input.location.status != LocationServiceStatus.Failed)
 			{
 				return true;
