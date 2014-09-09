@@ -40,6 +40,20 @@ Beispiel Antwort:
     }
 }
 
+getUserPath:
+Bekommt username
+Antwort bei "success" == True:
+"positions": Liste mit Positionen der letzten 20 Minuten von username.
+Beispiel Antwort:
+{
+    "success": true,
+    "positions": [
+        [2.3453456, 43.234523],
+        [2.345347, 43.23458],
+        [2.3553456, 43.234623]
+    ]
+}
+
 getTopTenScoresForAllMinigames:
 Optionales Attribut username
 Antwort bei "success" == True:
@@ -70,12 +84,10 @@ Beispiel Antwort:
     "success": true
 }
 
-
-
 getAllLogbookEntriesByUser:
 Bekommt username
 Antwort bei "success" == True:
-"":
+"entries": Ist eine Liste mit Dictionaries. Jedes Dictionary stellt ein Logbucheintrag dar.
 Beispiel Antwort:
 {
     "success": true,
