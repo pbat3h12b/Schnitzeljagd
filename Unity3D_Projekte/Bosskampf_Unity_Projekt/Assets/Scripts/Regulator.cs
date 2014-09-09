@@ -3,14 +3,15 @@ using System.Collections;
 
 public class Regulator : MonoBehaviour {
 
-	public int id;
-	public Camera camera;
-	CommandManager cm;
+	public int id;		//Die ID des Regulator
+	public Camera camera;	//Die Kamera die im Spiel verwendet wird
+	CommandManager cm;	//Einbindung des CommandManagers
 
 	// Use this for initialization
 	void Start () 
 	{
-		cm = GameObject.FindGameObjectWithTag ("GameController").GetComponent<CommandManager> ();
+		//Hier wird der CommandManager eingebunden
+		cm = GameObject.FindGameObjectWithTag ("GameController").GetComponent<CommandManager> ();	
 	}
 	
 	// Update is called once per frame
@@ -46,7 +47,7 @@ public class Regulator : MonoBehaviour {
 			}
 			transform.position = position;
 
-
+			//Wenn die Maustaste losgelassen wird oder wenn der Finger vom Screen genommen wird
 			if(Input.GetMouseButtonUp(0) || Input.touchCount == 0)
 			{
 				PositionChecker ();
