@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//Dieses Skript wurde von Markus Baars erstellt.
+
 public class CommandManager : MonoBehaviour {
 
 	public List<string> Commands = new List<string>(); //Liste der Anweisungen
