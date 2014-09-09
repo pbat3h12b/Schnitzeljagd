@@ -3,14 +3,18 @@ using System.Collections;
 
 public class GameControll_MainMenue : MonoBehaviour {
     [HideInInspector]
+    //Ein Objekt des GameControllers
     private GameObject gameController;
+
+    //Texturen, werden im Inspector gesetzt
     public Texture2D verlauf;
     public Texture2D background;
-
     public Texture2D KarteAnzeigen;
     public Texture2D SpieleAnzeigen;
 
+    //GUI Style für zum setzen des Hintergrundes und der Schriftgröße
     GUIStyle styleKarteAnzeigen = new GUIStyle();
+    //GUI Style für zum setzen des Hintergrundes und der Schriftgröße
     GUIStyle styleSpieleAnzeigen = new GUIStyle();
 
     //private int screenWidth;
@@ -20,9 +24,12 @@ public class GameControll_MainMenue : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        //sucht das Gameobjekt mit dem Namen "GameController"
         gameController = GameObject.Find("GameController");
 
+        //Setzt den Hintergrund des buttons
         styleKarteAnzeigen.normal.background = KarteAnzeigen;
+        //Setzt den Hintergrund des buttons
         styleSpieleAnzeigen.normal.background = SpieleAnzeigen;
 
         //screenHeight = Screen.width;
@@ -39,24 +46,21 @@ public class GameControll_MainMenue : MonoBehaviour {
 
     void OnGUI()
     {
-
-        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(00, 00, 10, 10)), ""))
-        {
-            gameController.GetComponent<PlayerInformation>().newScore("Zukunftsmeile", 1000);
-        }
-
+        //Zeichnet den Hintergrund
         GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
+        //Zeichnet den Button zum KarteAnzeigen
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(15, 40, 30, 15)), "", styleKarteAnzeigen))
         {
+            //Lädt das Kartenmenü
             Application.LoadLevel(4);
         }
-
+        //Zeichnet den Button zum Spiele anzeigen
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 40, 30, 15)), "", styleSpieleAnzeigen))
         {
+            //Lädt das Spiele Menü
             Application.LoadLevel(3);
         }
+        //Zeichnet den Hintergrundverlauf
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
-
-        GUI.Label(new Rect(10, 10, 200, 30), PlayerPrefs.GetString("errorMsg"));
     }
 }
