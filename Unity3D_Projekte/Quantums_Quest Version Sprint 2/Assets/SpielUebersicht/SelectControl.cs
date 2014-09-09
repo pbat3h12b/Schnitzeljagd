@@ -56,7 +56,7 @@ public class SelectControl : MonoBehaviour {
 
         //zweites
         GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 60, 70, 35)), "");
-        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 65, 20, 25)), texture1);
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 65, 20, 25)), texture2);
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 80, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[2])
         {
@@ -70,7 +70,7 @@ public class SelectControl : MonoBehaviour {
 
         //drites
         GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 110, 70, 35)), "");
-        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 115, 20, 25)), texture1);
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 115, 20, 25)), texture3);
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 130, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[3])
         {
@@ -84,7 +84,7 @@ public class SelectControl : MonoBehaviour {
 
         //virtes
         GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 160, 70, 35)), "");
-        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 165, 20, 25)), texture1);
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 165, 20, 25)), texture4);
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 180, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[4])
         {
@@ -98,7 +98,7 @@ public class SelectControl : MonoBehaviour {
 
         //fünftes
         GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 210, 70, 35)), "");
-        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 215, 20, 25)), texture1);
+        GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 215, 20, 25)), texture5);
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 230, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[5])
         {
