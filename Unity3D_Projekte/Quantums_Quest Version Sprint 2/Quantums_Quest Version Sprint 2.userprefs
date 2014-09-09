@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\..\Desktop\Galaxy Invaders\Assets\EnemyControl.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\KameraMenue\QRCode.cs">
     <Files>
-      <File FileName="..\..\..\..\Desktop\Galaxy Invaders\Assets\EnemyControl.cs" Line="16" Column="45" />
+      <File FileName="Assets\KameraMenue\QRCode.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

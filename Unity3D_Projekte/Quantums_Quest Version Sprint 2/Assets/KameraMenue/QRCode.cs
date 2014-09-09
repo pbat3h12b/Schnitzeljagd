@@ -18,7 +18,7 @@ public class QRCode : MonoBehaviour
     //GUI Style für zum setzen des Hintergrundes und der Schriftgröße
     GUIStyle styleWeiter = new GUIStyle();
     //GUI Style für zum setzen des Hintergrundes und der Schriftgröße
-    GUIStyle styleZurueck = new GUIStyle();
+    GUIStyle styleBack = new GUIStyle();
     //GUI Style für zum setzen des Hintergrundes und der Schriftgröße
     GUIStyle styleAbsenden = new GUIStyle();
 
@@ -36,7 +36,7 @@ public class QRCode : MonoBehaviour
         //Setzt den Hintergrund des buttons
         styleWeiter.normal.background = Weiter;
         //Setzt den Hintergrund des buttons
-        styleZurueck.normal.background = Zurueck;
+        styleBack.normal.background = Zurueck;
     }
 
     // Update is called once per frame
@@ -67,13 +67,14 @@ public class QRCode : MonoBehaviour
                 Application.LoadLevel(6);
             }
         }
-        // Abfrage ob der Zurück Button gedrückt wird
-        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(25, 55, 20, 10)), "", styleZurueck))
-        {
-            //Springt eine Szene zurück
-            Application.LoadLevel(4);
-        }
         //Zeichnet einen Verlauf über die komplette Szene
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
+
+        // Wird ausgeführt, wenn Zurück-Button oben links oder der Zurück-Button von Endgeräten mit Android gedrückt wurde
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(1, 1, 20, 10)), "", styleBack) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            //Springt eine Szene zurück
+            Application.LoadLevel(1);
+        }
     }
 }

@@ -41,7 +41,7 @@ public class LogbuchEintrag : MonoBehaviour {
         // Zeichnet das eingabefeld und fängt die eingabe ab
         lgeintrag = GUI.TextField(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(15, 15, 50, 70)), lgeintrag);
         // Gibt eine Nachricht für den Nutzer aus
-        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(70, 15, 10, 10)), "Hier können Sie eine Nachricht hinterlassen");
+        GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(70, 15, 15, 10)), "Hier können Sie eine Nachricht hinterlassen");
         // Zeichnet den Senden Button und prüft ob eine eingabe statt fand
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(67, 30, 20, 10)), "", styleWeiter) && lgeintrag != "")
         {

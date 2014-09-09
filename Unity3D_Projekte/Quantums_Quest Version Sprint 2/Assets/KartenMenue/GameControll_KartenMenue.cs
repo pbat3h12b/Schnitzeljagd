@@ -15,6 +15,8 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	public Texture2D imageMap;
 	public Texture2D imageCurrentUser;
     public Texture2D imageCurrentCache;
+    public Texture2D backgroundBack;
+    public GUIStyle styleBack = new GUIStyle();
 
     //Ein Objekt des GameControllers
 	private GameObject gameController;
@@ -58,6 +60,8 @@ public class GameControll_KartenMenue : MonoBehaviour {
         buttonScanTransform.height = buttonScanTransform.width;
 
         _nextCache = gameController.GetComponent<PlayerInformation>().GetNextCache();
+
+        styleBack.normal.background = backgroundBack;
 	}
 	
 	/*
@@ -125,6 +129,13 @@ public class GameControll_KartenMenue : MonoBehaviour {
          */
         GUI.DrawTexture(backgroundTransform,
                             backgroundImage);
+
+        // Wird ausgeführt, wenn Zurück-Button oben links oder der Zurück-Button von Endgeräten mit Android gedrückt wurde
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(1, 1, 20, 10)), "", styleBack) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            //Springt eine Szene zurück
+            Application.LoadLevel(1);
+        }
 	}
 	
 	/*

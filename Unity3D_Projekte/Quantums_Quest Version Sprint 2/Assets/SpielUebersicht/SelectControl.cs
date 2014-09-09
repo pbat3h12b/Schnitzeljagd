@@ -10,8 +10,10 @@ public class SelectControl : MonoBehaviour {
 	public Texture2D texture4;
 	public Texture2D texture5;
     public Texture2D playButton;
+    public Texture2D backButton;
     public Texture2D verlauf;
     public Texture2D background;
+    private GUIStyle styleBack = new GUIStyle();
     private GUIStyle stylePlay = new GUIStyle();
     private static string[] gameNames = { "Lookpick", "Galaxy Invaders", "Wohnheim Spiel", "Angel Spiel", "Endkapmf Spiel" };
     private static bool[] games = { false, false, false, false, false, false };
@@ -24,7 +26,7 @@ public class SelectControl : MonoBehaviour {
 	void Start () {
         gameController = GameObject.Find("GameController");
         stylePlay.normal.background = playButton;
-        
+        styleBack.normal.background = backButton;
 	}
 	
 	// Update is called once per frame
@@ -35,9 +37,10 @@ public class SelectControl : MonoBehaviour {
 	void OnGUI()
 	{
         GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
+
         scrollPosition = GUI.BeginScrollView(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(5, 5, 90, 90)), scrollPosition, 
             gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(5, 5, 85, 250)));
-        
+
         // erstes
         GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 10, 70, 35)), "" );
         GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 15, 20, 25)), texture1);
@@ -124,6 +127,14 @@ public class SelectControl : MonoBehaviour {
         //GUI.Label (new Rect (160, 710, 100, 50), "Spielbar");
 
 		GUI.EndScrollView();
+
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), verlauf);
+
+        // Wird ausgeführt, wenn Zurück-Button oben links oder der Zurück-Button von Endgeräten mit Android gedrückt wurde
+        if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(1, 1, 20, 10)), "", styleBack) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            //Springt eine Szene zurück
+            Application.LoadLevel(1);
+        }
 	}
 }
