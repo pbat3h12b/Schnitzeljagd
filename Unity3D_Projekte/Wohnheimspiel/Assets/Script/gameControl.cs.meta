@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 4ab5d10d00af5054bbcbe6ac1260e6b3
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - arrowUp: {fileID: 2800000, guid: ab732aad4585bef4fa3b59009607ba56, type: 3}
+  - arrowDown: {fileID: 2800000, guid: a19ce0581a1e4444a9cf63c6c7987f61, type: 3}
+  - arrowLeft: {fileID: 2800000, guid: de6423a84c75efe47921c2c75c631399, type: 3}
+  - arrowRight: {fileID: 2800000, guid: 5ea77b11aaee23745a45782e898fe243, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
