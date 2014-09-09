@@ -16,6 +16,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	public Texture2D imageCurrentUser;
     public Texture2D imageCurrentCache;
 
+    //Ein Objekt des GameControllers
 	private GameObject gameController;
     private Component staticScript;
 
@@ -44,16 +45,16 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	{
 		gameController = GameObject.Find("GameController");
 
-        backgroundTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(-20, -20, 140, 140));
+        backgroundTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(-20, -20, 140, 140));
 
         // new
-        mapTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(0, 0, 90, 100));
+        mapTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 90, 100));
 
         // new
         userTransform.width = mapTransform.width / 20;
         userTransform.height = mapTransform.height / 20;
 
-        buttonScanTransform = gameController.GetComponent<PlayerInformation>().GetRelativeRect(new Rect(90, 0, 10, 10));
+        buttonScanTransform = gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(90, 0, 10, 10));
         buttonScanTransform.height = buttonScanTransform.width;
 
         _nextCache = gameController.GetComponent<PlayerInformation>().GetNextCache();

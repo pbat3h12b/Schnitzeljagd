@@ -6,6 +6,7 @@ public class CacheScript : MonoBehaviour
     private string _description;
 
     private float _longitude;
+
     public float Longitude
     {
         get { return _longitude; }
