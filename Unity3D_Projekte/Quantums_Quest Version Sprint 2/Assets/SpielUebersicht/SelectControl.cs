@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Klasse erstell von Niclas Hüppmeier
+/// </summary>
+
 public class SelectControl : MonoBehaviour {
 
     private GameObject gameController;

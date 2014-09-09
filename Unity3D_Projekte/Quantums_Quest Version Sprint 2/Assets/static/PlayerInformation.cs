@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
+/// <summary>
+/// Klasse erstell von Niclas Hüppmeier
+/// </summary>
+
 public class PlayerInformation : MonoBehaviour {
 
     private static string userName = "";

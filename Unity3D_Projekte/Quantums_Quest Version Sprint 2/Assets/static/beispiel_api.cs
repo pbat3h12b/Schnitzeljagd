@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Klasse erstell von Niclas Hüppmeier
+/// </summary>
+
 public class beispiel_api : MonoBehaviour {
 
 	// Use this for initialization

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Klasse erstellt von Niclas Hüppmeier
+/// </summary>
 public class QRCode : MonoBehaviour
 {
 

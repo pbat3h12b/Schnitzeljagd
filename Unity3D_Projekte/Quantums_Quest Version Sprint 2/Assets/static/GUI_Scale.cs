@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Klasse erstell von Oliver Noll
+/// </summary>
+
 public class GUI_Scale : MonoBehaviour {
 
 	// Use this for initialization

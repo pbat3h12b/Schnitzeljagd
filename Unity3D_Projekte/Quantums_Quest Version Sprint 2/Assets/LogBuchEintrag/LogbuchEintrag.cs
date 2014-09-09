@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Klasse erstell von Niclas Hüppmeier
+/// </summary>
+
 public class LogbuchEintrag : MonoBehaviour {
 
     [HideInInspector]
