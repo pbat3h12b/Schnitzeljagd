@@ -1,0 +1,126 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Responsive Settings>  Erstellt von Martin Dirkmorfeld und Lukas Ebbers*/
+@media only screen and (max-width: 560px) 
+{
+/*<Navigation>*/
+									 												  /*Accordion Menu*/
+	/*Design*/
+		
+	nav ul li a 
+	{
+		text-align: left;
+	}
+	
+	/*Functionality*/
+	
+	nav
+	{
+		width: auto;
+	}
+	
+    nav ul li
+	{
+	    float:none;
+		width: auto;
+	}
+	
+	nav ul li ul 
+	{
+	    position: relative;
+	    display: none;
+	    visibility: hidden;
+		height: 0;
+	}
+	
+	nav ul li:hover > ul 
+	{
+	    visibility: visible;
+		height: auto;
+	}
+	
+	nav ul li:active > ul 
+	{
+	    visibility: visible;
+		height: auto;
+	}
+	
+	nav ul:after 
+	{
+		clear: both;
+		content: " ";
+		display: block;
+		font-size: 0;
+		height: 0;
+		visibility: hidden;
+	}
+	
+	nav ul li a 
+	{
+		text-decoration: none;
+		display: block;
+	}
+	
+	nav ul li ul
+	{
+    display: block;
+    padding: 0px;
+	position: relative;
+	}
+	
+	nav ul li ul li
+	{
+		float: none;
+		display: block;
+		border: none;
+	}
+	
+	nav ul li ul li a 
+	{
+    padding-left: 44px;
+    color: #FAFAFA;
+	}
+	
+/*</Navigation>*/
+
+	body
+	{
+		font-size:75%;		/*Die Standartschriftgröße ist zu größ fürs Smartphone*/
+	}
+	
+	table
+	{
+	width:120%; /*100% breite damit man auf dem smartphone mehr erkennt*/	
+	word-break:break-all;
+	word-wrap:break-word;
+	padding:0;
+	}
+	
+	td
+	{
+	overflow:hidden; /*Zulange Werte werden nur teilweise angepasst*/
+	}
+	
+	header#mainHeader
+	{
+		/*Banneranpassungen*/
+	}
+	
+	
+	#mainFooter
+	{
+		position: relative;
+		left: 0;
+		width: 100%;
+		clear:both;
+	}
+	
+	form input, form textarea
+	{
+	/*Vergrößerung, damit auf dem Smartphone mehr erkennbar ist*/
+	width: 80%;
+	min-width: 80%;
+	max-width: 80%;
+	}
+}
+/*</Responsive Settings>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/

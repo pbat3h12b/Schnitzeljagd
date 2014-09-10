@@ -1,0 +1,131 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Main> Erstellt von Lukas Ebbers und Martin Dirkmorfeld*/
+
+	/*Design*/
+	
+	#mainBackground
+	{
+		
+		/*Haupthintergrundfarbe*/
+		background-color:#444248; /*#52596B;*/	/*#37353a;*/	
+	}
+	
+	.main
+	{
+		/**/
+		background-color:#444248;	/*#52596B;*/ /*#363F48;	*/		
+		padding:3%;
+		font-family: 'Raleway',arial,san-serif;
+	}
+	
+	/*Functionality*/
+	
+	#mainBackground
+	{
+		height: auto;
+	}
+	
+	article
+	{
+		text-align: center;  /*Setzt den Text mittig*/
+		padding: 1% 5%;
+		color: #E5E5E5;
+		font-size:1.1em;
+		font-weight:normal;
+		line-height: 140%;
+		
+	}
+	
+	a  h2
+	{
+		color: rgba(255,140,0,1);	
+	}
+	
+	h2
+	{
+	font-family: 'Play', sans-serif;
+	text-align:center;
+	}
+	
+	hr
+	{
+		border: 0;
+		height: 2px;
+		
+		/*Farbverlauf für alle browser*/
+		background-image:-webkit-linear-gradient(left, rgba(0,0,0,0), rgba(255,140,0,1), rgba(0,0,0,0));
+		background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(255,140,0,1), rgba(0,0,0,0));
+		background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(255,140,0,1), rgba(0,0,0,0));
+		background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(255,140,0,1), rgba(0,0,0,0)); 
+	}
+	
+	.alignLeft
+	{
+		text-align:left; /*Setz den Text linksbündig*/
+	}
+	
+	article header
+	{
+		color: rgba(255,140,0,1);
+		font-size: 1.25em;
+		border-bottom: 2px dashed rgba(255,140,0,1); /*gestrichelte Trennlinien Unter einer Überschrift*/
+	}
+	
+	.main
+	{
+		min-height:650px;	
+	}	
+	
+	form input, form textarea
+	{
+	width: 20%;
+	min-width: 20%;
+	max-width: 20%;
+	}
+	
+	.leftcontent
+	{
+	width:100%;
+	clear:both;
+	padding:20px;
+	}
+	
+	.leftcontent img
+	{
+	float: left;
+	width:200px; /*Feste Größe, da die Bilder sonst zu klein werden*/
+	height:auto;
+	}
+	
+	.leftcontent p
+	{
+	margin-left: 15%;
+	text-align:left;/*Linksbündig*/
+	clear: right;
+	}
+	
+	.rightcontent
+	{
+	width:100%;
+	clear:both;
+	text-align:right;/*Rechtsbündig*/
+	padding:20px;
+	}
+	
+	.rightcontent img
+	{
+	float: right; 
+	width:200px; /*Feste Größe, da die Bilder sonst zu klein werden*/
+	height:auto;
+	}
+	
+	.rightcontent p
+	{
+	margin-right: 15%;
+	text-align:left;
+	clear: left;
+	}
+
+/*</Main>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
