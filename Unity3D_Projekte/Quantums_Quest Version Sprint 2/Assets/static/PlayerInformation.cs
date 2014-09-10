@@ -70,7 +70,7 @@ public class PlayerInformation : MonoBehaviour {
     }
 
     //fragt Userdaten vom Server ab
-    void getUserData()
+    public void getUserData()
     {
         //Holt alle Informationen vom Sever ab
         List<Logbookentry> temp = GameObject.Find("GameController").GetComponent<RESTCommunication>().getAllLogBookEntrys();

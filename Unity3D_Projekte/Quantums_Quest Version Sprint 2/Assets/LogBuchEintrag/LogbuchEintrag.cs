@@ -58,6 +58,7 @@ public class LogbuchEintrag : MonoBehaviour {
             {
                 Debug.Log("yes");
                 gameController.GetComponent<PlayerInformation>().markPuzzel();
+                gameController.GetComponent<PlayerInformation>().getUserData();
                 Application.LoadLevel(5);
             }
             else
