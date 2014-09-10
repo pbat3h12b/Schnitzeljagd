@@ -117,6 +117,7 @@
 						
 						
 						?><div class="tables"><?php
+						/* •	/IS105/ Als Spieler möchte ich auf Statistiken einzelner Spieler zugreifen können */
 						drawTable($arr->{'Zukunftsmeile'},'Zukunftsmeile');
 						drawTable($arr->{'HNF'},'HNF');
 						drawTable($arr->{'Fluss'},'Fluss');

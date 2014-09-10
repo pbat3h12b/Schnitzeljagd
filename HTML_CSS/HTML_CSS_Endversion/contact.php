@@ -140,6 +140,7 @@
 							
 							function showEintrag($eintragArr)
 							{
+								/*•	/IS106/ Als Spieler möchte ich Gästebucheinträge auf der Seite hinzufügen und abrufen können*/
 								?>
 								<h3><?php echo $eintragArr->{'author'}; ?>&nbsp;<small style="color:grey;">schrieb:</small></h3>
 								<p class="nachricht">

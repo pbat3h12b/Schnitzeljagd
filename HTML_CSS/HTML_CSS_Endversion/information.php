@@ -220,6 +220,7 @@
                         //var_dump($arr->{'Zukunftsmeile'});
                         
                         ?><div class="tables"><?php
+						/* •	•	/IS104/ Als Spieler möchte ich auf der Internetseite auf allgemeine Statistiken zugreifen können */
                         drawTable($arr->{'Zukunftsmeile'},'Zukunftsmeile');
                         drawTable($arr->{'HNF'},'HNF');
                         drawTable($arr->{'Fluss'},'Fluss');
@@ -307,6 +308,7 @@
                     <footer>
                     </footer>
                     <content>
+					<!--  •	/IS107/ Als Spieler möchte ich eine LiveMap der Spieler einsehen-->
                         <div id="livemap" style="height:500px;"><!-- Live Map erstellt von Andre Münstermann-->
 							<div id="map_canvas" style="width:100%; height:100%"></div>
 
