@@ -29,56 +29,72 @@ public class PlayerInformation : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        //lässt den Bildschirm nicht in den Sperrmodus gehen
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.LoadLevel(1);
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    Application.LoadLevel(1);
+        //}
 	}
 
+    //gibt den Usernamen zurück
     public string getUsername()
     {
         return userName;
     }
 
+    //Loggt den Spieler ein
     public void logIn(string name)
     {
+        //Speichert den Usernamen
         userName = name;
+        //Holt alle relevanten Userdaten vom Sever
         getUserData();
     }
 
+    //fragt Userdaten vom Server ab
     void getUserData()
     {
+        //Holt alle Informationen vom Sever ab
         List<Logbookentry> temp = GameObject.Find("GameController").GetComponent<RESTCommunication>().getAllLogBookEntrys();
 
+        //läuft die ganze Liste durch
         for (int i = 0; i < temp.Count; i++)
         {
+            //Holt sich den Status der einzelnden Caches ab
             cacheStatus[i] = temp[i].Puzzlesolved;
+            //falls das Puzzle true ist wird auch das Spiel freigeschaltet
             if (temp[i].Puzzlesolved)
             {
                 games[i] = true;
             }
         }
-
+        //Holt sich alle Highscores ab
         for (int i = 0; i < highscores.Length; i++)
         {
+            //holt den highscore zu einem bestimmten Spiel
             highscores[i] = GameObject.Find("GameController").GetComponent<RESTCommunication>().getTopScoreByUser(cachnamen[i]).Points;
         }
     }
 
+    //Updated die Position des Spielers
     public void updateGeoData(float longitude, float latitude)
     {
+        //falls der User eingeloggt ist
         if (userName != "")
         {
+            //gibt der API die warte
 			GameObject.Find("GameController").GetComponent<RESTCommunication>().UpdatePosition(longitude,latitude);
+            //setzt die Zeit wieder auf 0 bis zum nächsten Update
             timeSinceUpdate = 0;
         }
     }
 
+    //
     public void newScore(string SpielID, int Score)
     {
 
