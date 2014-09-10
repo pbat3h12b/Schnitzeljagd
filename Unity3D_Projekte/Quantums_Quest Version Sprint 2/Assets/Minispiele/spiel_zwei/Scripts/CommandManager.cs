@@ -146,6 +146,10 @@ public class CommandManager : MonoBehaviour {
 	void OnGUI()
 	{
 		GUI.Label (new Rect((Screen.width-50)/2,Screen.height/15,50,100),text,guiStyle);
+        if (GUI.Button(GameObject.Find("GameController").GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 20, 15)), "kill"))
+        {
+            Application.Quit();
+        }
 
 	}
 }

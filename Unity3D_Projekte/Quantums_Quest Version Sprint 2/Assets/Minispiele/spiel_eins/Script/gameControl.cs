@@ -69,6 +69,10 @@ public class gameControl : MonoBehaviour {
 		//Hier wird die größe des GUI-Rechtecks an die Größe des Bildschirms angepasst
 		GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity,new Vector3(rx,ry,1));
 		
+        if ( GUI.Button(GameObject.Find("GameController").GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0,0,20,15)),"kill"))
+        {
+            Application.Quit();
+        }
 		//PFEIL-BUTTONS
 		
 		//Hier werden die Bewegungs-Buttons eingerichtet mit welchen der Spieler sich am Ende bewegt.

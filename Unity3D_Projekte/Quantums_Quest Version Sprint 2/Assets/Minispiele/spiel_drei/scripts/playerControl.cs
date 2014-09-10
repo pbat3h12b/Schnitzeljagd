@@ -13,6 +13,14 @@ public class playerControl : MonoBehaviour {
 	
 	}
 
+    void OnGUI()
+    {
+        if (GUI.Button(GameObject.Find("GameController").GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 20, 15)), "kill"))
+        {
+            Application.Quit();
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
 
