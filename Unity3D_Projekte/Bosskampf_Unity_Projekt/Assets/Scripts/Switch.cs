@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Dieses Script wurde von Markus Baars erstellt.
 public class Switch : MonoBehaviour {
 
 	public Texture2D switchOn;		//Die Textur wenn der Schalter an ist
