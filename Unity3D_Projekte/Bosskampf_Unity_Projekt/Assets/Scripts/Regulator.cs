@@ -40,7 +40,7 @@ public class Regulator : MonoBehaviour {
 			}
 			if(Input.GetMouseButton(0))
 			{
-				position = camera.ScreenToWorldPoint(Input.mousePosition);	//Die Position des Fingers auf dem Screen wird in die Spielweltposition konvertiert
+				position = camera.ScreenToWorldPoint(Input.mousePosition);	//Die Position der Maus auf dem Screen wird in die Spielweltposition konvertiert
 				position.x = 1.938336f;
 				position.z = -1;
 				position.y = Mathf.Clamp (position.y, -3.755138f, 2.190039f);		//Die Regler kann sich nur in einem bestimmten Bereich bewegen
@@ -48,7 +48,7 @@ public class Regulator : MonoBehaviour {
 			transform.position = position;
 
 			//Wenn die Maustaste losgelassen wird oder wenn der Finger vom Screen genommen wird
-			if(Input.GetMouseButtonUp(0) || Input.touchCount == 0)
+			if(Input.GetMouseButtonUp(0))
 			{
 				PositionChecker ();
 			}

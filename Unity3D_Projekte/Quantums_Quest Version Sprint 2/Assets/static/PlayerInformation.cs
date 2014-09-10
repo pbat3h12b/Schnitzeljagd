@@ -8,15 +8,21 @@ using System.Xml;
 /// </summary>
 
 public class PlayerInformation : MonoBehaviour {
-
+    //Benutzer name
     private static string userName = "";
+    //Der status der caches des angemeldeten Spielers
     private static bool[] cacheStatus = { false, false, false, false, false, false };
-    private static string[] logBook = new string[5];
+    //Die Namen aller Caches zugleich auch die ID's der Spiele
     private static string[] cachnamen = { "Zukunftsmeile", "HNF", "Wohnheim", "Fluss", "Serverraum" };
+    //Die Namen aller Spiele
     private static string[] gameNames = { "Lookpick", "Galaxy Invaders", "Wohnheim Spiel", "Angel Spiel", "Endkapmf Spiel" };
+    //Ob ein Spiel freigeschaltet ist oder nicht
     private static bool[] games = { false, false, false, false, false, false };
+    //Speichert die besten scores des Angemeldeten Spielers
     private static int[] highscores = new int[5];
+    //Zeit seit des letzten Updates
     private static float timeSinceUpdate = 0;
+    //Das letzte secret was vom Spieler gefunden wurde
     private static string lastFoundSecret = "";
 
     private List<CacheScript> _caches = new List<CacheScript>();

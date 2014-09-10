@@ -11,7 +11,7 @@ public class CommandManager : MonoBehaviour {
 	public int counter = 0;		//Counter wie oft eine Anweisung befolgt wurde
 	public GUIStyle guiStyle;	//Formatierung des Textes
 	public GameObject timeline;	//Zeitlinie für das Spiel
-	public float time = 10;		//Die verbliebene Zeit
+	public float time = 20;		//Die verbliebene Zeit
 
 	private int currentIndex;
 	private int ranRange;		//Zufallsbereich des Indexes der Kommandos
@@ -49,7 +49,7 @@ public class CommandManager : MonoBehaviour {
 			} 
 			else 
 			{
-				text = "You won!";
+				text = "Du hast Gewonnen!";
 				Time.timeScale = 0;
 				if (Input.GetKeyDown (KeyCode.Space))
 					Application.LoadLevel (Application.loadedLevel);
@@ -58,7 +58,7 @@ public class CommandManager : MonoBehaviour {
 		else
 		{
 			Time.timeScale = 0;
-			text = "You Lost!";
+			text = "Du hast verloren!";
 			if (Input.GetKeyDown (KeyCode.Space))
 				Application.LoadLevel (Application.loadedLevel);
 		}
@@ -78,7 +78,7 @@ public class CommandManager : MonoBehaviour {
 			time -= Time.deltaTime;
 		}
 
-		timeline.transform.localScale = new Vector3 (time / 2, 0.5f, 1);
+		timeline.transform.localScale = new Vector3 (time / 4, 0.5f, 1);
 	}
 
 	//Diese Methode wird in Script "Button.cs" ausgeführt, sie sorgt bei einem Fall einer 
@@ -98,7 +98,7 @@ public class CommandManager : MonoBehaviour {
 		}
 		else
 		{
-			time -= 0.5f;
+			time -= 1f;
 		}
 	}
 
@@ -119,7 +119,7 @@ public class CommandManager : MonoBehaviour {
 		}
 		else
 		{
-			time -= 0.5f;
+			time -= 1f;
 		}
 	}
 
@@ -146,6 +146,8 @@ public class CommandManager : MonoBehaviour {
 	void OnGUI()
 	{
 		GUI.Label (new Rect((Screen.width-50)/2,Screen.height/15,50,100),text,guiStyle);
+		if(time == 0)
+			GUI.Label (new Rect((Screen.width-50)/2,Screen.height/15+50,50,100),"Du hast " + counter + " von 10 geschafft",guiStyle);
 
 	}
 }
