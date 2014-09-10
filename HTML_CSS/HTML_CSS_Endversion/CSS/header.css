@@ -1,0 +1,46 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*<Header> Erstellt von Martin Dirkmorfeld*/
+
+	/*Design*/
+
+	
+	header#mainHeader
+	{
+		background-image: url(../images/banner.png);  /* der Hauptbanner */
+	}
+	
+	#mainHeader img
+	{
+		/*Entfällt, da es kein Logo zum Spiel gibt*/
+		opacity: 0.7; 
+	}
+	
+	#mainHeader h1
+	{
+		/*Titel der Internetseite*/
+		font-size: 3.3em;			/**/
+		color: rgba(255,140,0,1);	/*Orange farbe der Schrift des Titels*/
+		text-align: center;
+		background-color:rgba(0,0,0,0.3);	/*Durchsichtiger */
+		margin:2% auto;						/*Außenabstände des Titels*/
+		line-height:150%;  				/*Bestimmt die höhe des Containers*/
+	}
+	
+	h1{
+	font-family: "Audiowide";
+	}
+	
+	
+	/*Functionality*/
+	
+	header#mainHeader
+	{
+		width: 100%; /*Banner nimmt die volle Breite ein*/
+		background-size: 100% auto;	/*Der Banner passt sich automatisch an die Breite an*/
+		background-repeat: no-repeat; /*Der Banner wiederholt sich nicht*/
+		padding: 5% 0 4% 0;
+		border-bottom: 5px solid #1b1b1b; /*Dunkler Rand am Unteren Ende des Banners*/
+	}
+
+/*</Header>*/
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
