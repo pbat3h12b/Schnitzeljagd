@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+	Erstellt am 02.09.2014 von Oliver Noll
+	Zuletzt bearbeitet am 05.09.2014 von Oliver Noll
+-->
 <!DOCTYPE CacheList SYSTEM "CacheList.dtd">
 <CacheList>
   <Cache description="b.i.b. Eingang" longitude="8.73707" latitude="51.73075"></Cache>
