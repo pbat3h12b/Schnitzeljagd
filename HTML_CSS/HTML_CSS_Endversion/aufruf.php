@@ -1,3 +1,4 @@
+<!-- Dokument erstellt von Andre Münstermann-->
 <?PHP
 include('api.php');
 $klasse = new apiWrapper;

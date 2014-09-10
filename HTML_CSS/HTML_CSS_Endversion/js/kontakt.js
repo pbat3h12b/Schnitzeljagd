@@ -25,9 +25,7 @@ function fields_check(){
 // 1.1 alle Felder zum Kontaktformular
 	err_id = summary_must_check(arr_knoten_kf); 
 
-// 2. spezielle Feld-Prüfungen (entfällt hier)
-
-// 3. Fehler-Status Auswertung
+// 2. Fehler-Status Auswertung
 	if (err_id == 1)
 	{
 	return false;
