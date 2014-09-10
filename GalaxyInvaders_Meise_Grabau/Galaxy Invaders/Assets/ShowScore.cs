@@ -3,8 +3,8 @@ using System.Collections;
 
 public class ShowScore : MonoBehaviour {
 	//Klasse zur Lebensverwaltung von Objekten
-	//Erstellt von Fabian Meise
-	//!!!Klasse unter Bearbeitung"
+	//Erstellt von Fabian Meise/Florens Grabau
+	//Änderungen von F. Grabau
 	
 	#region Attribute
 	//erreichte Punkte
