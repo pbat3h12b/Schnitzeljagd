@@ -62,33 +62,45 @@ public class Regulator : MonoBehaviour {
 	{
 		Movement ();
 	}
-
+	
+	//Diese Methode überprüft wo sich der Regulator befindet und ob er sich im richtigen Feld befindet.
+	//Zusätzlich wird er automatisch auf das Feld gelegt die am nächsten ist.
 	void PositionChecker()
 	{
-		Vector3 position = transform.position;
+		//Die aktuelle Position des Regulators wird aufgefangen.
+		Vector3 position = transform.position;	
+		
+		//Wenn sich der Regulator im oberen Bereich befindet setzt er sich auf Feld 3.
 		if(transform.position.y <= 2.190039f && transform.position.y >= 1.5f)
 		{
-			position.y = 2.190039f;
+			position.y = 2.190039f;	//Die Y-Position wird hierbei gesetzt.
 		}
+		//Wenn sich der Regulator im mittleren Bereich befindet setzt er sich auf Feld 2.
 		if(transform.position.y <= -0.05f && transform.position.y >= -1.5f)
 		{
-			position.y = -0.77686f;
+			position.y = -0.77686f; //Die Y-Position wird hierbei gesetzt.
 		}
+		//Wenn sich der Regulator im unteren Bereich befindet setzt er sich auf Feld 1.
 		if(transform.position.y <= -3 && transform.position.y >= -3.755138f)
 		{
-			position.y = -3.755138f;
+			position.y = -3.755138f; //Die Y-Position wird hierbei gesetzt.
 		}
 
-		transform.position = position;
+		//Die veränderten Werte werden auf die Position des Regulators übertragen
+		transform.position = position;	
 		
+		//Hier wird überprüft im welchen Feld sich der Regulator befindet.
+		//Feld 1
 		if(transform.position.y == 2.190039f)
 		{
 			cm.ChangeRegulator(id+1);
 		}
+		//Feld 2
 		else if(transform.position.y == -0.77686f)
 		{
 			cm.ChangeRegulator(id + 2);
 		}
+		//Feld 3
 		else if(transform.position.y == -3.755138f)
 		{
 			cm.ChangeRegulator(id + 3);
