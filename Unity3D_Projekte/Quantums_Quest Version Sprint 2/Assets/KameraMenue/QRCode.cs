@@ -77,7 +77,7 @@ public class QRCode : MonoBehaviour
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(1, 1, 20, 10)), "", styleBack) || Input.GetKeyDown(KeyCode.Escape))
         {
             //Springt eine Szene zurück
-            Application.LoadLevel(1);
+            Application.LoadLevel(4);
         }
     }
 }

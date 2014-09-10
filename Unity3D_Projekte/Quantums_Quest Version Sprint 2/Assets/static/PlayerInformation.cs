@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
 
 /// <summary>
 /// Klasse erstell von Niclas Hüppmeier
@@ -166,18 +165,13 @@ public class PlayerInformation : MonoBehaviour {
     /// </summary>
     void ReadCacheList()
     {
-        XmlDocument document = new XmlDocument();
-        document.Load("Assets/CacheList.xml");
-        XmlNode cacheListXml = document.DocumentElement;
-
-        foreach(XmlNode cacheXml in cacheListXml.ChildNodes)
-        {
-            string description = cacheXml.Attributes["description"].Value;
-            float longitude = float.Parse(cacheXml.Attributes["longitude"].Value);
-            float latitude = float.Parse(cacheXml.Attributes["latitude"].Value);
-
-            _caches.Add(new CacheScript(description, longitude, latitude));
-        }
+        // Muss einzeln erstellt werden, da XML-Dateien nicht auf Smartphones gelesen werden können
+        _caches.Add(new CacheScript("b.i.b. Eingang", 8.73707f, 51.73075f));
+        _caches.Add(new CacheScript("Zukunftsmeile", 8.73807f, 51.73057f));
+        _caches.Add(new CacheScript("Heinz Nixdorf Forum", 8.73618f, 51.73147f));
+        _caches.Add(new CacheScript("Wohnheim", 8.73740f, 51.72956f));
+        _caches.Add(new CacheScript("Fluss", 8.73554f, 51.73064f));
+        _caches.Add(new CacheScript("b.i.b. Serverraum", 8.73635f, 51.73106f));
     }
 
     /// <summary>
