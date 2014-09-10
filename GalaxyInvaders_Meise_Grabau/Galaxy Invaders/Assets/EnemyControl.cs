@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class EnemyControl : MonoBehaviour {
-
+	//Erstellt von Florens Grabau
+	//Variablendeklarierung
 	public GameObject parent;
 	float movementTimer = 1.0f;
+	//Timer der dazu da ist den Spawnintervall der Gegner
+	//zu bestimmen
 	float spawnTimer = 1.0f;
+	//Varibale um die Geschwindigkeit der Gegner zu bestimmen
 	int speedY = 1;
+	//Benutzt zur Positionsänderung des Gegners
 	Vector3 position;
 	float bottom = Screen.height - (Screen.height - 1);
 	float top = Screen.height;
