@@ -8,6 +8,8 @@ using System.Collections;
 public class SelectControl : MonoBehaviour {
 
     private GameObject gameController;
+
+    //Texturen
 	public Texture2D texture1;
 	public Texture2D texture2;
 	public Texture2D texture3;
@@ -17,8 +19,12 @@ public class SelectControl : MonoBehaviour {
     public Texture2D backButton;
     public Texture2D verlauf;
     public Texture2D background;
+
+    //GUI Styles
     private GUIStyle styleBack = new GUIStyle();
     private GUIStyle stylePlay = new GUIStyle();
+
+    //Namen der Spiele
     private static string[] gameNames = { "Lookpick", "Galaxy Invaders", "Wohnheim Spiel", "Angel Spiel", "Endkapmf Spiel" };
 
 
@@ -26,7 +32,9 @@ public class SelectControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        //Sucht den GameController
         gameController = GameObject.Find("GameController");
+        //Hintergrund setzen
         stylePlay.normal.background = playButton;
         styleBack.normal.background = backButton;
 	}
@@ -38,23 +46,29 @@ public class SelectControl : MonoBehaviour {
 
 	void OnGUI()
 	{
+        //Hintergrund zeichnen
         GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 100, 100)), background);
-
+        //Scrollbar machen
         scrollPosition = GUI.BeginScrollView(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(5, 5, 90, 90)), scrollPosition, 
             gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(5, 5, 85, 250)));
 
         // erstes
-        //Bereich für das Spiel, 
+        //Bereich für das Spiel, Umrandungs Box
         GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 10, 70, 35)), "" );
+        //Zeichnet das Bild des spiels
         GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 15, 20, 25)), texture1);
+        //Button zum starten des Spiels
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 30, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[1]) 
 		{
-            Application.LoadLevel(10);
+            //Lädt das Spiel
+            Application.LoadLevel(9);
 		}
+        //Label mit dem Score das Spielers
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 15, 20, 10)), "" + gameNames[0] + "          Score :" +
             gameController.GetComponent<PlayerInformation>().getHighscores()[0]);
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 25, 10, 10)), "Spielbar :");
+        //Zeigt an ob das Spiel Spielbar oder nciht ist
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(45, 25, 20, 10)),
             getTrueFalseJaNein(gameController.GetComponent<PlayerInformation>().getGames()[1]));
 
@@ -64,7 +78,7 @@ public class SelectControl : MonoBehaviour {
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 80, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[2])
         {
-            Application.LoadLevel(11);
+            Application.LoadLevel(10);
         }
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 65, 20, 10)), "" + gameNames[1] + "          Score :" + 
             gameController.GetComponent<PlayerInformation>().getHighscores()[1]);
@@ -78,7 +92,7 @@ public class SelectControl : MonoBehaviour {
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 130, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[3])
         {
-            Application.LoadLevel(8);
+            Application.LoadLevel(7);
         }
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 115, 20, 10)), "" + gameNames[2] + "          Score :" + 
             gameController.GetComponent<PlayerInformation>().getHighscores()[2]);
@@ -106,7 +120,7 @@ public class SelectControl : MonoBehaviour {
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 230, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[5])
         {
-            Application.LoadLevel(9);
+            Application.LoadLevel(8);
         }
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 215, 20, 10)), "" + gameNames[4] + "          Score :" + 
             gameController.GetComponent<PlayerInformation>().getHighscores()[4]);
@@ -151,6 +165,7 @@ public class SelectControl : MonoBehaviour {
         }
 	}
 
+    //Übersetzung von True auf Ja und false auf Nein
     string getTrueFalseJaNein(bool state)
     {
         if (state == false)

@@ -39,6 +39,7 @@ public class PlayerInformation : MonoBehaviour {
         //{
         //    Application.LoadLevel(1);
         //}
+        
 	}
 
     //gibt den Usernamen zurück
@@ -54,6 +55,19 @@ public class PlayerInformation : MonoBehaviour {
         userName = name;
         //Holt alle relevanten Userdaten vom Sever
         getUserData();
+
+        Input.location.Start();
+
+        // Längengrad auslesen
+        float userLongitude = Input.location.lastData.longitude;
+        // Breitengrad festlegen
+        float userLatitude = Input.location.lastData.latitude;
+        //Updated die Spielerposition
+        updateGeoData(userLongitude, userLatitude);
+
+        // GPS-Service beenden
+        Input.location.Stop();
+        
     }
 
     //fragt Userdaten vom Server ab
@@ -85,7 +99,7 @@ public class PlayerInformation : MonoBehaviour {
     public void updateGeoData(float longitude, float latitude)
     {
         //falls der User eingeloggt ist
-        if (userName != "")
+        if (userName != "" && timeSinceUpdate > 5)
         {
             //gibt der API die warte
 			GameObject.Find("GameController").GetComponent<RESTCommunication>().UpdatePosition(longitude,latitude);
@@ -94,16 +108,18 @@ public class PlayerInformation : MonoBehaviour {
         }
     }
 
-    //
+    //Gibt neuen Score och
     public void newScore(string SpielID, int Score)
     {
 
-
+        //Übergibt der API dem den Score zum Spiel
         GameObject.Find("GameController").GetComponent<RESTCommunication>().SubmitGameScore(Score, SpielID);
     }
 
+    //Überprüft die Gültigkeit des eingegebenen secrets
     public bool checkCach(string secret)
     {
+        //Fragt API ob es möglich is
         if (GameObject.Find("GameController").GetComponent<RESTCommunication>().checkCacheSecret(secret).Success)
         {
             return true;
@@ -114,32 +130,40 @@ public class PlayerInformation : MonoBehaviour {
         }
     }
 
+    //Spieler hat Spiel geschafft
     public void markPuzzel()
     {
+        //Sagt der API das der Spieler das Spiel für den nächsten Cache geschafft hat
         GameObject.Find("GameController").GetComponent<RESTCommunication>().markPuzzelSolved();
     }
 
-
+    //Gibt die Highscores zurück
     public int[] getHighscores()
     {
         return highscores;
     }
 
+    //Setzt das zu letzt gefundene Secret
     public void setCachSecret(string secret)
     {
         lastFoundSecret = secret;
     }
 
+    //Gibt secret zurück
     public string getSecret()
     {
         return lastFoundSecret;
     }
 
+    //gibt game Sats zurück
     public bool[] getGames()
     {
         return games;
     }
 
+    /// <summary>
+    /// Methode von Oliver Noll
+    /// </summary>
     void ReadCacheList()
     {
         XmlDocument document = new XmlDocument();
@@ -156,6 +180,10 @@ public class PlayerInformation : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Methode von Oliver Noll
+    /// </summary>
+    /// <returns></returns>
     public CacheScript GetNextCache()
     {
         ReadCacheList();

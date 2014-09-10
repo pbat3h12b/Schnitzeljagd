@@ -119,7 +119,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
             timeOnNextUpdate = Time.time + timeBetweenUpdates;
 
             // Die GPS-Koordinaten im PlayerScript updaten
-            gameController.GetComponent<PlayerInformation>().updateGeoData(userLongitude, userLatitude);
+            //gameController.GetComponent<PlayerInformation>().updateGeoData(userLongitude, userLatitude);
 
             // GPS-Service beenden
 			Input.location.Stop ();
