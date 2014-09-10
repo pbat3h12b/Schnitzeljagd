@@ -1,4 +1,4 @@
-/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+﻿/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
 /* <General Settings> Erstellt von Martin Dirkmorfeld*/	
 
 	/*Laden der Genutzen Schriftarten über die Google Fonts API*/
@@ -67,6 +67,11 @@
 	.shadow
 	{
 	box-shadow:inset 0px 0px 8px 4px rgba(61, 154, 209, .2); 
+	}
+	.nachricht
+	{
+	word-break:break-all;
+	word-wrap:break-word;
 	}
 	
 

@@ -142,7 +142,7 @@
 							{
 								?>
 								<h3><?php echo $eintragArr->{'author'}; ?>&nbsp;<small style="color:grey;">schrieb:</small></h3>
-								<p>
+								<p class="nachricht">
 								<?php echo $eintragArr->{'message'}; ?>
 								</p>
 								<h5 style="color:grey;"><?php echo date("Y-m-d H:i:s",$eintragArr->{'date'}); ?></h5>  
