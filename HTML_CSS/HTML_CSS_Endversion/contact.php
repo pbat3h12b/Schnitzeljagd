@@ -104,9 +104,9 @@
 					</footer>
 					<content>
 						<form action="mailsenden.php" onsubmit="return fields_check()" method="post">
-						Dein Name:<br /><input type="text" id="i_name" /><br /><br />
-						Dein Mail:<br /><input type="text" id="i_mail" /><br /><br />
-						Dein Text:<br /><textarea id="area" id="i_nachricht"></textarea>
+						Dein Name:<br /><input type="text" id="i_name" name="i_name" /><br /><br />
+						Dein Mail:<br /><input type="text" id="i_mail" name="i_mail"/><br /><br />
+						Dein Text:<br /><textarea id="area" id="i_nachricht" name="i_nachricht"></textarea>
 						<br /><br />
 						<input type="submit">
 						</form>
