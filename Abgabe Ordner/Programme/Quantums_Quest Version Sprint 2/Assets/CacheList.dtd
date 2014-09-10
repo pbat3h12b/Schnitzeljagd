@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Erstellt am 02.09.2014 von Oliver Noll
+	Zuletzt bearbeitet am 05.09.2014 von Oliver Noll
+-->
+<!ELEMENT CacheList (Cache*)>
+<!ELEMENT Cache (#PCDATA)>
+<!ATTLIST Cache description CDATA #REQUIRED
+  longitude CDATA #REQUIRED
+  latitude CDATA #REQUIRED>
