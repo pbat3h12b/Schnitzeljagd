@@ -92,7 +92,23 @@
 							$klasse = new apiWrapper;
 
 							?>
-										
+						                        <?php 
+                            date_default_timezone_set('Etc/GMT-4');
+
+                            $spielerArray = $klasse -> getUserList();
+                            ?>
+                            
+                        <form action='spieler.php' name="form" method='GET'>                
+                        <select name='spielerListe' size='1'>
+                        <?php
+                            foreach ($spielerArray  as $option)
+                            {?>
+                               <option><?PHP echo $option;?></option>
+                            <?PHP }
+                        ?>
+                        </select>
+                        <input type='submit'>
+                        </form>				
 						<?php			
 						//connection	
 						$arr = $klasse -> getTopTenScoresForAllMinigamesByUsername($_GET['spielerListe']);						
