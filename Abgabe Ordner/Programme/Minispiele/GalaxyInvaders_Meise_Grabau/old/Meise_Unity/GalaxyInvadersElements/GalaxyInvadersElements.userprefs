@@ -1,0 +1,18 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Skripte\Projectil\ProjectilController.cs">
+    <Files>
+      <File FileName="Assets\Skripte\Character\HealthController.cs" Line="26" Column="5" />
+      <File FileName="Assets\Skripte\Character\FireProjectil.cs" Line="18" Column="28" />
+      <File FileName="Assets\Skripte\Character\SendDamageCollider.cs" Line="18" Column="18" />
+      <File FileName="Assets\Skripte\Projectil\ProjectilController.cs" Line="10" Column="19" />
+      <File FileName="Assets\Skripte\Character\PlayerHealthController.cs" Line="8" Column="35" />
+      <File FileName="Assets\Skripte\GameOverCollider.cs" Line="54" Column="10" />
+      <File FileName="Assets\Skripte\ShowScore.cs" Line="25" Column="19" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

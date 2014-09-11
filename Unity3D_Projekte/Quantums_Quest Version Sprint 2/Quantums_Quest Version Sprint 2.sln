@@ -5,6 +5,8 @@ Project("{5C2B9781-F9A5-2887-3E0D-B5C61981011A}") = "Quantums_Quest Version Spri
 EndProject
 Project("{5C2B9781-F9A5-2887-3E0D-B5C61981011A}") = "Quantums_Quest Version Sprint 2", "Assembly-CSharp.csproj", "{482FE718-997F-3273-6F9D-2ED9CB8DB184}"
 EndProject
+Project("{5C2B9781-F9A5-2887-3E0D-B5C61981011A}") = "Quantums_Quest Version Sprint 2", "Assembly-UnityScript.unityproj", "{09125113-84ED-DE12-AD1F-CA2C3A5233C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,11 +21,21 @@ Global
 		{482FE718-997F-3273-6F9D-2ED9CB8DB184}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{482FE718-997F-3273-6F9D-2ED9CB8DB184}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{482FE718-997F-3273-6F9D-2ED9CB8DB184}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09125113-84ED-DE12-AD1F-CA2C3A5233C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09125113-84ED-DE12-AD1F-CA2C3A5233C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09125113-84ED-DE12-AD1F-CA2C3A5233C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09125113-84ED-DE12-AD1F-CA2C3A5233C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																GlobalSection(MonoDevelopProperties) = preSolution
+																																																									GlobalSection(MonoDevelopProperties) = preSolution
+=======
+																																															GlobalSection(MonoDevelopProperties) = preSolution
+>>>>>>> origin/master
+=======
+																																	GlobalSection(MonoDevelopProperties) = preSolution
+>>>>>>> origin/master
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

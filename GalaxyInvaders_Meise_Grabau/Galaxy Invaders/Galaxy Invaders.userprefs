@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\PlayerHealthController.cs">
+    <Files>
+      <File FileName="Assets\FireProjectile.cs" Line="8" Column="2" />
+      <File FileName="Assets\PlayerHealthController.cs" Line="17" Column="7" />
+      <File FileName="Assets\PlayerMove.cs" Line="60" Column="27" />
+      <File FileName="Assets\EnemySpawn.cs" Line="137" Column="19" />
+      <File FileName="Assets\EnemyControl.cs" Line="38" Column="43" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

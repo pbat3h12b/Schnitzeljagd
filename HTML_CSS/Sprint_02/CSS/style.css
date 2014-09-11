@@ -1,0 +1,75 @@
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/* <General Settings> Erstellt von Martin Dirkmorfeld*/	
+
+	/*Laden der Genutzen Schriftarten über die Google Fonts API*/
+	
+	@import url(https://fonts.googleapis.com/css?family=Sarpanch:400,700);
+	@import url(http://fonts.googleapis.com/css?family=Raleway);
+	@import url(http://fonts.googleapis.com/css?family=Audiowide);
+	@import url(https://fonts.googleapis.com/css?family=Play);
+	
+	/*Die Weiteren CSS Dateien könnten auch mit einem @import url(); geladen werden,
+	jedoch kann es bei zu vielen @import zu fehler kommen, deswegen werden diese im html geladen*/
+	
+	/*Design*/
+
+	body
+	{
+		font-size: 100%; /*default wert*/
+		background-color: #363F48; 
+		line-height: 1.35em; /*Zeilenabstand*/
+		color:#181818;
+	}
+	
+	a
+	{
+		text-decoration: none; /*entfernt den Unterstrich bei Links*/
+		color: rgba(255,140,0,1);
+	}
+	/*Functionality*/
+	
+	body
+	{
+		padding: 0;	
+		width: 100%; /*default wert muss gesetzt werden, denn dies behebt öfters fehler*/
+		height:100%: /*default wert*/
+	}
+
+	/*<Zero Margin>*/
+	
+	h1, body
+	{
+		margin: 0;
+	}
+	
+	/*</Zero Margin>*/
+	
+	.wrapper
+	{
+		width: 80%;  /**/
+		margin: 0 auto; /*Zentriert die Seite*/
+	}
+
+/*</General Settings>*/
+
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+
+
+/*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+/*Testing*/
+
+/*Bereich zum austesten von Design Ideen*/
+	#newtag:hover
+	{
+	color: green;
+	}
+	
+	.shadow
+	{
+	box-shadow:inset 0px 0px 8px 4px rgba(61, 154, 209, .2); 
+	}
+	
+
+	
+
+

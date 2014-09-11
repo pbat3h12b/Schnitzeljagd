@@ -1,0 +1,17 @@
+Datum: 10. September 2014
+Wochenbericht KW 37
+
+Name: Florens Grabau
+Organisationsgruppe: O3 Qualitätsmanagement
+Spezialistengruppe:	S5 GUI/Story
+
+Wochen Arbeitsbericht:
+- FineTuning/Auskommentieren des Codes => 4h
+- Beteiligte Personen: Florens Grabau
+- Testen des Spiels am Android => 1/2h
+- Beteiligte Personen: Florens Grabau, Oliver Noll
+Was werde ich noch tun?
+-
+
+Was hindert mich an meiner Arbeit?
+-
