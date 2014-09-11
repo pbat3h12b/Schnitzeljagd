@@ -25,6 +25,10 @@ public class PlayerInformation : MonoBehaviour {
     private static int timeBetweenUpdates = 5;
     //Das letzte secret was vom Spieler gefunden wurde
     private static string lastFoundSecret = "";
+    // Längengrad des Benutzers
+    private static float userLongitude = 0;
+    // Breitengrad des Benutzers
+    private static float userLatitude = 0;
 
     private List<CacheScript> _caches = new List<CacheScript>();
 
@@ -50,12 +54,15 @@ public class PlayerInformation : MonoBehaviour {
             Input.location.Start();
 
             // Längengrad auslesen
-            float userLongitude = Input.location.lastData.longitude;
+            userLongitude = Input.location.lastData.longitude;
             // Breitengrad festlegen
-            float userLatitude = Input.location.lastData.latitude;
+            userLatitude = Input.location.lastData.latitude;
+
+            // Längen- und Breitengrad an die API schicken
+            updateGeoData(userLongitude, userLatitude);
+
             // Zeitpunkt des nächsten Updates festlegen
             timeOnNextUpdate = Time.time + timeBetweenUpdates;
-            Debug.Log(Time.time);
             // GPS-Service beenden
             Input.location.Stop();
         }
@@ -84,6 +91,18 @@ public class PlayerInformation : MonoBehaviour {
         {
             return false;
         }
+    }
+
+    // gibt Längengrad des Benutzers zurück
+    public float getUserLongitude()
+    {
+        return userLongitude;
+    }
+
+    // gibt Breitengrad des Benutzers zurück
+    public float getUserLatitude()
+    {
+        return userLatitude;
     }
 
     //gibt den Usernamen zurück
@@ -132,18 +151,12 @@ public class PlayerInformation : MonoBehaviour {
     //Updated die Position des Spielers
     public void updateGeoData(float longitude, float latitude)
     {
-        //falls der User eingeloggt ist
-        if (userName != "" && timeSinceUpdate > 5)
+        //gibt der API die warte
+        GameObject.Find("GameController").GetComponent<RESTCommunication>().UpdatePosition(longitude,latitude);
+        //setzt die Zeit wieder auf 0 bis zum nächsten Update
+        if (GameObject.Find("GameController").GetComponent<RESTCommunication>().TestServerConnection().Success == false)
         {
-            //gibt der API die warte
-			GameObject.Find("GameController").GetComponent<RESTCommunication>().UpdatePosition(longitude,latitude);
-            //setzt die Zeit wieder auf 0 bis zum nächsten Update
-            timeSinceUpdate = 0;
-
-            if (GameObject.Find("GameController").GetComponent<RESTCommunication>().TestServerConnection().Success == false)
-            {
-                Application.LoadLevel(11);
-            }
+            Application.LoadLevel(11);
         }
     }
 
