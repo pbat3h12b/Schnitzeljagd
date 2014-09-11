@@ -21,6 +21,9 @@ public class CommandManager : MonoBehaviour {
 
 	void Start()
 	{
+		//Damit das Spiel richtig gedreht ist.
+		Screen.orientation = ScreenOrientation.Portrait;
+		
 		Time.timeScale = 1;
 		ranRange = Commands.Count;	//Der Zufallsbereich wird gesetzt
 		index = Random.Range (0, ranRange);	//Der Index wird ermittelt
