@@ -30,7 +30,7 @@ public class PlayerInformation : MonoBehaviour {
     // Breitengrad des Benutzers
     private static float userLatitude = 0;
 
-    private List<CacheScript> _caches = new List<CacheScript>();
+    private List<CacheScript> _caches;
 
 	// Use this for initialization
 	void Start () {
@@ -126,7 +126,7 @@ public class PlayerInformation : MonoBehaviour {
     {
         //Holt alle Informationen vom Sever ab
         List<Logbookentry> temp = GameObject.Find("GameController").GetComponent<RESTCommunication>().getAllLogBookEntrys();
-
+        
         for (int i = 0; i < temp.Count; i++)
         {
             cacheStatus[i] = true;
@@ -223,6 +223,8 @@ public class PlayerInformation : MonoBehaviour {
     /// </summary>
     void ReadCacheList()
     {
+        _caches = new List<CacheScript>();
+
         // Muss einzeln erstellt werden, da XML-Dateien nicht auf Smartphones gelesen werden können
         _caches.Add(new CacheScript("b.i.b. Eingang", 8.73707f, 51.73075f));
         _caches.Add(new CacheScript("Zukunftsmeile", 8.73807f, 51.73057f));
@@ -236,26 +238,33 @@ public class PlayerInformation : MonoBehaviour {
     /// Methode von Oliver Noll
     /// </summary>
     /// <returns></returns>
-    public CacheScript GetNextCache()
+    public List<CacheScript> GetNextCaches()
     {
         ReadCacheList();
 
         bool foundNextCache = false;
-        CacheScript nextCache = null;
+        List<CacheScript> nextCaches = new List<CacheScript>();
 
-        for (int i = 0; i < _caches.Count; i++)
+        if (!cacheStatus[_caches.Count - 1])
         {
-            if (cacheStatus[i])
-                _caches[i].Founded = true;
-
-            if (!foundNextCache && !cacheStatus[i])
+            for (int i = 0; i < _caches.Count; i++)
             {
-                nextCache = _caches[i];
-                foundNextCache = true;
+                if (cacheStatus[i])
+                    _caches[i].Founded = true;
+
+                if (!foundNextCache && !cacheStatus[i])
+                {
+                    nextCaches.Add(_caches[i]);
+                    foundNextCache = true;
+                }
             }
         }
+        else
+        {
+            nextCaches.AddRange(_caches);
+        }
 
-        return nextCache;
+        return nextCaches;
     }
 }
 

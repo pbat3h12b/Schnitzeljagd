@@ -50,7 +50,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	private float timeOnNextUpdate = 0;
 
     // Cachescript für den nächsten Script
-    private CacheScript _nextCache;
+    private List<CacheScript> _nextCaches = new List<CacheScript>();
 
     // GUI-Skin
     public GUISkin guiSkin;
@@ -82,7 +82,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
         buttonScanTransform.height = buttonScanTransform.width;
 
         // Den nächsten Cache festlegen
-        _nextCache = gameController.GetComponent<PlayerInformation>().GetNextCache();
+        _nextCaches = gameController.GetComponent<PlayerInformation>().GetNextCaches();
 
         // Den Button Hintergrund vom Zurück-Button festlegen
         styleBack.normal.background = backgroundBack;
@@ -113,18 +113,21 @@ public class GameControll_KartenMenue : MonoBehaviour {
         GUI.DrawTexture(userTransform, 
                         imageCurrentUser);
 
-        // Größe & Position vom nächsten Cache im Rechteck
-        Rect nextCacheTransform = new Rect(0, 0, 0, 0);
-        // Position-x vom Cache
-        nextCacheTransform.x = GetLongitudePosition(_nextCache.Longitude);
-        // Position-y vom Cache
-        nextCacheTransform.y = GetLatitudePosition(_nextCache.Latitude);
-        // Höhe und Breite vom Cache
-        nextCacheTransform.width = userTransform.width;
-        nextCacheTransform.height = userTransform.height;
-        // Nächsten Cache auf GUI anzeigen
-        GUI.DrawTexture(nextCacheTransform,
-                        imageCurrentCache);
+        foreach (CacheScript nextCache in _nextCaches)
+        {
+            // Größe & Position vom nächsten Cache im Rechteck
+            Rect nextCacheTransform = new Rect(0, 0, 0, 0);
+            // Position-x vom Cache
+            nextCacheTransform.x = GetLongitudePosition(nextCache.Longitude);
+            // Position-y vom Cache
+            nextCacheTransform.y = GetLatitudePosition(nextCache.Latitude);
+            // Höhe und Breite vom Cache
+            nextCacheTransform.width = userTransform.width;
+            nextCacheTransform.height = userTransform.height;
+            // Nächsten Cache auf GUI anzeigen
+            GUI.DrawTexture(nextCacheTransform,
+                            imageCurrentCache);
+        }
 		
         // Wenn "Scan"-Button geklickt wurde
 		if (GUI.Button(buttonScanTransform,
