@@ -43,13 +43,12 @@ public class HintScript : MonoBehaviour {
 		}
 		
 	}
-	
+
+
+	//isGoal == True => Ende
 	void OnGUI(){
 		if (isGoal == true) {
 			GUI.Label(new Rect(Screen.width /2,Screen.height / 2, Screen.width * 2, Screen.height * 2), "Gewonnen");
-			isGoal = false;
-			isBomb = false;
-			isShear = false;
 			//gcScript.SendMessage("Restart");
 		}
 	}

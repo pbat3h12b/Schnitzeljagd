@@ -50,7 +50,7 @@ public class gameControl : MonoBehaviour {
 		//Die Startpositionen für den Restart
 		startPosition = player.position;
 		Instantiate (Bomb, GameObject.Find ("Waypoint5").transform.position,Quaternion.identity);
-		Instantiate (Hedge,GameObject.Find ("Waypoint11").transform.position - new Vector3(0.5f,0.0f), Quaternion.identity);
+		Instantiate (Hedge,GameObject.Find ("Waypoint11").transform.position - new Vector3(1.7f,0.0f), Quaternion.identity);
 		Instantiate (Shear,GameObject.Find ("Waypoint7").transform.position, Quaternion.identity);
 		Instantiate (Rock,GameObject.Find ("Waypoint3").transform.position + new Vector3(1.0f,0.2f),Quaternion.identity);
 		//Hier werden die Größen des Bildschirms ermittelt
