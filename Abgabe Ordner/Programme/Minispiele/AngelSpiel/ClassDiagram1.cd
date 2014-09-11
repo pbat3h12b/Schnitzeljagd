@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GameOverMenu">
+    <Position X="0.5" Y="13.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAACAAAAACAAAEAAAABAAAAAAABQCAAAAAAAA=</HashCode>
+      <FileName>Assets\Game\Menu\GameOverMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StartMenu">
+    <Position X="2.75" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAACAAAAACAAAkAAAABAAIAAAABQCAAAAAAAA=</HashCode>
+      <FileName>Assets\Game\Menu\StartMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AngelElementControl">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAKABCAAAAAEAAAABAAgAAAAAIAAAgAAAAQA=</HashCode>
+      <FileName>Assets\Game\Scripts\AngelElementControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ElementControl">
+    <Position X="0.5" Y="9.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAKABCAAAAAEAAAABAAAAAAAAIAAAgAAAAAA=</HashCode>
+      <FileName>Assets\Game\Scripts\ElementControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManagement">
+    <Position X="2.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAAAACABAAAAAAAIQAAIAAAAABCAAACAAAACAAA=</HashCode>
+      <FileName>Assets\Game\Scripts\GameManagement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="homeButtonControl">
+    <Position X="3" Y="13.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Game\Scripts\homeButtonControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeileMenu">
+    <Position X="2.75" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACABAAAAAAAgAAAAEAAAAAAAIACIAAASAAA=</HashCode>
+      <FileName>Assets\Game\Scripts\TeileMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="timeLine">
+    <Position X="0.5" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAgEACEAAQAAAAIgAACAAAAIAAAIBBSAAAAAAAA=</HashCode>
+      <FileName>Assets\Game\Scripts\timeLine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
