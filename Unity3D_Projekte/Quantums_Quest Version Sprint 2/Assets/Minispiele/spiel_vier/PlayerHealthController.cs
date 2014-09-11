@@ -84,7 +84,9 @@ public class PlayerHealthController : MonoBehaviour {
 	void GameOver()
 	{
 		//Szenenwechsel
-		Application.LoadLevel(1);
+        int score = GameObject.Find("ScoreDisplay").GetComponent<ShowScore>().score;
+        GameObject.Find("GameController").GetComponent<PlayerInformation>().newScore("HNF", score);
+        Application.LoadLevel(3);
 	}
 	#endregion
 }

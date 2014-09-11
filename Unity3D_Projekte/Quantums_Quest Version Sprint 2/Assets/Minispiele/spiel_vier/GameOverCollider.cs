@@ -52,7 +52,9 @@ public class GameOverCollider : MonoBehaviour {
 		if (other.gameObject.tag == tagName)
 		{
 			//Szenenwechsel	
-			Application.LoadLevel(1);
+            int score = GameObject.Find("ScoreDisplay").GetComponent<ShowScore>().score;
+            GameObject.Find("GameController").GetComponent<PlayerInformation>().newScore("HNF", score);
+            Application.LoadLevel(3);
 		}
 	}
 	#endregion

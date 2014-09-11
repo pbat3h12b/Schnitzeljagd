@@ -50,6 +50,14 @@ public class HintScript : MonoBehaviour {
 		if (isGoal == true) {
 			GUI.Label(new Rect(Screen.width /2,Screen.height / 2, Screen.width * 2, Screen.height * 2), "Gewonnen");
 			//gcScript.SendMessage("Restart");
+
+            //Score Submit
+            if (GUI.Button(new Rect(Screen.width / -150, 0, 200, 100), "Score Abschicken"))
+            {
+                //Funktion Hüppi
+
+            }
+		
 		}
 	}
 }

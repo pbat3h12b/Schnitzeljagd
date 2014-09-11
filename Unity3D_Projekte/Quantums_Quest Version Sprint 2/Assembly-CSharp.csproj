@@ -51,6 +51,7 @@
      <Compile Include="Assets\LogBuchEintrag\LogbuchEintrag.cs" />
      <Compile Include="Assets\LogIn\GameControll_LogIn.cs" />
      <Compile Include="Assets\MainMenue\GameControll_MainMenue.cs" />
+     <Compile Include="Assets\Minispiele\NewBehaviourScript.cs" />
      <Compile Include="Assets\Minispiele\spiel_drei\scripts\pipeControl.cs" />
      <Compile Include="Assets\Minispiele\spiel_drei\scripts\pipeCreator.cs" />
      <Compile Include="Assets\Minispiele\spiel_drei\scripts\plateaway.cs" />

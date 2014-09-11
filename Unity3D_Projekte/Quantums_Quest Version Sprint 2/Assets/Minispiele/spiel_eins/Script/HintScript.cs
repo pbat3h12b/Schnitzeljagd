@@ -43,14 +43,22 @@ public class HintScript : MonoBehaviour {
 		}
 		
 	}
-	
+
+
+	//isGoal == True => Ende
 	void OnGUI(){
 		if (isGoal == true) {
 			GUI.Label(new Rect(Screen.width /2,Screen.height / 2, Screen.width * 2, Screen.height * 2), "Gewonnen");
-			isGoal = false;
-			isBomb = false;
-			isShear = false;
 			//gcScript.SendMessage("Restart");
+
+            //Score Submit
+            if (GUI.Button(new Rect(Screen.width / -150, 0, 200, 100), "Score Abschicken"))
+            {
+                //Funktion Hüppi
+                GameObject.Find("GameController").GetComponent<PlayerInformation>().newScore("Wohnheim", 10000);
+                Application.LoadLevel(3);
+            }
+		
 		}
 	}
 }

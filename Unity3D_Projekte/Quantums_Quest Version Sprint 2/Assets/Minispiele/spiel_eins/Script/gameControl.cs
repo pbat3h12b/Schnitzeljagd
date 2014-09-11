@@ -50,7 +50,7 @@ public class gameControl : MonoBehaviour {
 		//Die Startpositionen für den Restart
 		startPosition = player.position;
 		Instantiate (Bomb, GameObject.Find ("Waypoint5").transform.position,Quaternion.identity);
-		Instantiate (Hedge,GameObject.Find ("Waypoint11").transform.position - new Vector3(0.5f,0.0f), Quaternion.identity);
+		Instantiate (Hedge,GameObject.Find ("Waypoint11").transform.position - new Vector3(1.7f,0.0f), Quaternion.identity);
 		Instantiate (Shear,GameObject.Find ("Waypoint7").transform.position, Quaternion.identity);
 		Instantiate (Rock,GameObject.Find ("Waypoint3").transform.position + new Vector3(1.0f,0.2f),Quaternion.identity);
 		//Hier werden die Größen des Bildschirms ermittelt
@@ -69,10 +69,6 @@ public class gameControl : MonoBehaviour {
 		//Hier wird die größe des GUI-Rechtecks an die Größe des Bildschirms angepasst
 		GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity,new Vector3(rx,ry,1));
 		
-        if ( GUI.Button(GameObject.Find("GameController").GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0,0,20,15)),"kill"))
-        {
-            Application.Quit();
-        }
 		//PFEIL-BUTTONS
 		
 		//Hier werden die Bewegungs-Buttons eingerichtet mit welchen der Spieler sich am Ende bewegt.
@@ -119,7 +115,7 @@ public class gameControl : MonoBehaviour {
 				}
 			}
 		}
-		
+
 	}
 	
 	
