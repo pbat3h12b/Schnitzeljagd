@@ -18,6 +18,11 @@ public class CommandManager : MonoBehaviour {
 	private string text;		//Der auszugebende Text
 	private Switch switch1;		//Die Klasse "Switch" wird hier eingebunden;
 
+	void Awake()
+	{
+		//Damit das Spiel richtig gedreht ist.
+		Screen.orientation = ScreenOrientation.Portrait;	
+	}
 
 	void Start()
 	{
