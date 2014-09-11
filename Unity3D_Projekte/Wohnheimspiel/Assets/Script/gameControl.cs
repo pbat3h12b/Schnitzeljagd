@@ -115,6 +115,12 @@ public class gameControl : MonoBehaviour {
 				}
 			}
 		}
+
+		//Score Submit
+		if (GUI.Button (new Rect (screenWidth / rx - screenWidth / 5, ry, screenWidth / 5, screenHeight / 2), "Score Abschicken")) {
+			//Funktion Hüppi
+
+				}
 		
 	}
 	
