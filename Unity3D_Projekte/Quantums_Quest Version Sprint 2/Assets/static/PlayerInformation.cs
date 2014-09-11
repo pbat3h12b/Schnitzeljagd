@@ -19,8 +19,10 @@ public class PlayerInformation : MonoBehaviour {
     private static bool[] games = { false, false, false, false, false, false };
     //Speichert die besten scores des Angemeldeten Spielers
     private static int[] highscores = new int[5];
-    //Zeit seit des letzten Updates
-    private static float timeSinceUpdate = 0;
+    // Zeit seit des nächsten Updates
+    private static float timeOnNextUpdate = 0;
+    // Zeit zwischen Updates
+    private static int timeBetweenUpdates = 5;
     //Das letzte secret was vom Spieler gefunden wurde
     private static string lastFoundSecret = "";
 
@@ -38,23 +40,51 @@ public class PlayerInformation : MonoBehaviour {
         //{
         //    Application.LoadLevel(1);
         //}
-        timeSinceUpdate += Time.deltaTime;
 
-        if (timeSinceUpdate > 5)
+        /* Ausführen, wenn die Zeit des nächsten Updates erreicht wurde 
+         * und die GPS-Verbindung keine Fehler aufweist
+         */
+        if (Time.time >= timeOnNextUpdate && CheckGeoStatus())
         {
+            // GPS-Service starten
             Input.location.Start();
 
             // Längengrad auslesen
             float userLongitude = Input.location.lastData.longitude;
             // Breitengrad festlegen
             float userLatitude = Input.location.lastData.latitude;
-            //Updated die Spielerposition
-            updateGeoData(userLongitude, userLatitude);
-
+            // Zeitpunkt des nächsten Updates festlegen
+            timeOnNextUpdate = Time.time + timeBetweenUpdates;
+            Debug.Log(Time.time);
             // GPS-Service beenden
             Input.location.Stop();
         }
 	}
+
+    /*
+     * Boolean ob Geo-Status verfügbar ist zurückgeben
+     * und eventuelle Fehlermeldung angeben.
+     */
+    bool CheckGeoStatus()
+    {
+        // Wenn GPS vom Benutzer aktiviert wurde
+        if (Input.location.isEnabledByUser)
+        {
+            // Wenn die GPS-Verbindung keine Fehler aufweist
+            if (Input.location.status != LocationServiceStatus.Failed)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     //gibt den Usernamen zurück
     public string getUsername()

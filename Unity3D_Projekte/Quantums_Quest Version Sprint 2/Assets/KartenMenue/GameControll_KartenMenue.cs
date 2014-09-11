@@ -100,39 +100,14 @@ public class GameControll_KartenMenue : MonoBehaviour {
 		GUI.DrawTexture (mapTransform, 
                             imageMap);
 
-        /* Ausführen, wenn die Zeit des nächsten Updates erreicht wurde 
-         * und die GPS-Verbindung keine Fehler aufweist
-         */
-        if (Time.time >= timeOnNextUpdate && CheckGeoStatus())
-		{
-            // GPS-Service starten
-			Input.location.Start ();
-
-            // Längengrad auslesen
-            float userLongitude = Input.location.lastData.longitude;
-            // x-Position des Benutzers festlegen
-            userTransform.x = GetLongitudePosition(userLongitude);
-            // Breitengrad festlegen
-			float userLatitude = Input.location.lastData.latitude;
-            // y-Position des Benutzers festlegen
-            userTransform.y = GetLatitudePosition(userLatitude);
-            // Zeitpunkt des nächsten Updates festlegen
-            timeOnNextUpdate = Time.time + timeBetweenUpdates;
-
-            // Die GPS-Koordinaten im PlayerScript updaten
-            //gameController.GetComponent<PlayerInformation>().updateGeoData(userLongitude, userLatitude);
-
-            // GPS-Service beenden
-			Input.location.Stop ();
-		}
-            // Ausführen, wenn die GPS-Verbindung fehlschlägt
-        else if (!CheckGeoStatus())
-        {
-            // Setzt neue Fehlermeldung fest
-            PlayerPrefs.SetString("errorMsg", "Keine GPS-Verbindung verfügbar!");
-            // Benutzer zum Hauptmenü zurück schicken
-            Application.LoadLevel(1);
-        }
+        // Längengrad auslesen
+        float userLongitude = gameController.GetComponent<PlayerInformation>().getUserLongitude();
+        // x-Position des Benutzers festlegen
+        userTransform.x = GetLongitudePosition(userLongitude);
+        // Breitengrad festlegen
+        float userLatitude = gameController.GetComponent<PlayerInformation>().getUserLongitude();
+        // y-Position des Benutzers festlegen
+        userTransform.y = GetLatitudePosition(userLatitude);
 
         // Benutzer-Bild auf der GUI anzeigen
         GUI.DrawTexture(userTransform, 
