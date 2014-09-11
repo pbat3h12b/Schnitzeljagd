@@ -50,7 +50,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 	private float timeOnNextUpdate = 0;
 
     // Cachescript für den nächsten Script
-    private CacheScript _nextCache;
+    private List<CacheScript> _nextCaches = new List<CacheScript>();
 
     // GUI-Skin
     public GUISkin guiSkin;
@@ -82,7 +82,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
         buttonScanTransform.height = buttonScanTransform.width;
 
         // Den nächsten Cache festlegen
-        _nextCache = gameController.GetComponent<PlayerInformation>().GetNextCache();
+        _nextCaches = gameController.GetComponent<PlayerInformation>().GetNextCaches();
 
         // Den Button Hintergrund vom Zurück-Button festlegen
         styleBack.normal.background = backgroundBack;
@@ -100,56 +100,35 @@ public class GameControll_KartenMenue : MonoBehaviour {
 		GUI.DrawTexture (mapTransform, 
                             imageMap);
 
-        /* Ausführen, wenn die Zeit des nächsten Updates erreicht wurde 
-         * und die GPS-Verbindung keine Fehler aufweist
-         */
-        if (Time.time >= timeOnNextUpdate && CheckGeoStatus())
-		{
-            // GPS-Service starten
-			Input.location.Start ();
-
-            // Längengrad auslesen
-            float userLongitude = Input.location.lastData.longitude;
-            // x-Position des Benutzers festlegen
-            userTransform.x = GetLongitudePosition(userLongitude);
-            // Breitengrad festlegen
-			float userLatitude = Input.location.lastData.latitude;
-            // y-Position des Benutzers festlegen
-            userTransform.y = GetLatitudePosition(userLatitude);
-            // Zeitpunkt des nächsten Updates festlegen
-            timeOnNextUpdate = Time.time + timeBetweenUpdates;
-
-            // Die GPS-Koordinaten im PlayerScript updaten
-            //gameController.GetComponent<PlayerInformation>().updateGeoData(userLongitude, userLatitude);
-
-            // GPS-Service beenden
-			Input.location.Stop ();
-		}
-            // Ausführen, wenn die GPS-Verbindung fehlschlägt
-        else if (!CheckGeoStatus())
-        {
-            // Setzt neue Fehlermeldung fest
-            PlayerPrefs.SetString("errorMsg", "Keine GPS-Verbindung verfügbar!");
-            // Benutzer zum Hauptmenü zurück schicken
-            Application.LoadLevel(1);
-        }
+        // Längengrad auslesen
+        float userLongitude = gameController.GetComponent<PlayerInformation>().getUserLongitude();
+        // x-Position des Benutzers festlegen
+        userTransform.x = GetLongitudePosition(userLongitude);
+        // Breitengrad festlegen
+        float userLatitude = gameController.GetComponent<PlayerInformation>().getUserLongitude();
+        // y-Position des Benutzers festlegen
+        userTransform.y = GetLatitudePosition(userLatitude);
 
         // Benutzer-Bild auf der GUI anzeigen
         GUI.DrawTexture(userTransform, 
                         imageCurrentUser);
 
-        // Größe & Position vom nächsten Cache im Rechteck
-        Rect nextCacheTransform = new Rect(0, 0, 0, 0);
-        // Position-x vom Cache
-        nextCacheTransform.x = GetLongitudePosition(_nextCache.Longitude);
-        // Position-y vom Cache
-        nextCacheTransform.y = GetLatitudePosition(_nextCache.Latitude);
-        // Höhe und Breite vom Cache
-        nextCacheTransform.width = userTransform.width;
-        nextCacheTransform.height = userTransform.height;
-        // Nächsten Cache auf GUI anzeigen
-        GUI.DrawTexture(nextCacheTransform,
-                        imageCurrentCache);
+        // Nächsten Cache oder alle Cache (wenn letzter freigeschaltet) anzeigen
+        foreach (CacheScript nextCache in _nextCaches)
+        {
+            // Größe & Position vom nächsten Cache im Rechteck
+            Rect nextCacheTransform = new Rect(0, 0, 0, 0);
+            // Position-x vom Cache
+            nextCacheTransform.x = GetLongitudePosition(nextCache.Longitude);
+            // Position-y vom Cache
+            nextCacheTransform.y = GetLatitudePosition(nextCache.Latitude);
+            // Höhe und Breite vom Cache
+            nextCacheTransform.width = userTransform.width;
+            nextCacheTransform.height = userTransform.height;
+            // Nächsten Cache auf GUI anzeigen
+            GUI.DrawTexture(nextCacheTransform,
+                            imageCurrentCache);
+        }
 		
         // Wenn "Scan"-Button geklickt wurde
 		if (GUI.Button(buttonScanTransform,

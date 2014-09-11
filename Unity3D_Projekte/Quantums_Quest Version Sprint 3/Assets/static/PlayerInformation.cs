@@ -19,12 +19,18 @@ public class PlayerInformation : MonoBehaviour {
     private static bool[] games = { false, false, false, false, false, false };
     //Speichert die besten scores des Angemeldeten Spielers
     private static int[] highscores = new int[5];
-    //Zeit seit des letzten Updates
-    private static float timeSinceUpdate = 0;
+    // Zeit seit des nächsten Updates
+    private static float timeOnNextUpdate = 0;
+    // Zeit zwischen Updates
+    private static int timeBetweenUpdates = 5;
     //Das letzte secret was vom Spieler gefunden wurde
     private static string lastFoundSecret = "";
+    // Längengrad des Benutzers
+    private static float userLongitude = 0;
+    // Breitengrad des Benutzers
+    private static float userLatitude = 0;
 
-    private List<CacheScript> _caches = new List<CacheScript>();
+    private List<CacheScript> _caches;
 
 	// Use this for initialization
 	void Start () {
@@ -38,23 +44,54 @@ public class PlayerInformation : MonoBehaviour {
         //{
         //    Application.LoadLevel(1);
         //}
-        timeSinceUpdate += Time.deltaTime;
 
-        if (timeSinceUpdate > 5)
+        /* Ausführen, wenn die Zeit des nächsten Updates erreicht wurde 
+         * und die GPS-Verbindung keine Fehler aufweist
+         */
+        if (Time.time >= timeOnNextUpdate && CheckGeoStatus())
         {
+            // GPS-Service starten
             Input.location.Start();
 
             // Längengrad auslesen
-            float userLongitude = Input.location.lastData.longitude;
+            userLongitude = Input.location.lastData.longitude;
             // Breitengrad festlegen
-            float userLatitude = Input.location.lastData.latitude;
-            //Updated die Spielerposition
+            userLatitude = Input.location.lastData.latitude;
+
+            // Längen- und Breitengrad an die API schicken
             updateGeoData(userLongitude, userLatitude);
 
+            // Zeitpunkt des nächsten Updates festlegen
+            timeOnNextUpdate = Time.time + timeBetweenUpdates;
             // GPS-Service beenden
             Input.location.Stop();
         }
 	}
+
+    /*
+     * Boolean ob Geo-Status verfügbar ist zurückgeben
+     * und eventuelle Fehlermeldung angeben.
+     */
+    bool CheckGeoStatus()
+    {
+        // Wenn GPS vom Benutzer aktiviert wurde
+        if (Input.location.isEnabledByUser)
+        {
+            // Wenn die GPS-Verbindung keine Fehler aufweist
+            if (Input.location.status != LocationServiceStatus.Failed)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     //gibt den Usernamen zurück
     public string getUsername()
@@ -102,18 +139,12 @@ public class PlayerInformation : MonoBehaviour {
     //Updated die Position des Spielers
     public void updateGeoData(float longitude, float latitude)
     {
-        //falls der User eingeloggt ist
-        if (userName != "" && timeSinceUpdate > 5)
-        {
-            //gibt der API die warte
-			GameObject.Find("GameController").GetComponent<RESTCommunication>().UpdatePosition(longitude,latitude);
-            //setzt die Zeit wieder auf 0 bis zum nächsten Update
-            timeSinceUpdate = 0;
+        //gibt der API die warte
+		GameObject.Find("GameController").GetComponent<RESTCommunication>().UpdatePosition(longitude,latitude);
 
-            if (GameObject.Find("GameController").GetComponent<RESTCommunication>().TestServerConnection().Success == false)
-            {
-                Application.LoadLevel(11);
-            }
+        if (GameObject.Find("GameController").GetComponent<RESTCommunication>().TestServerConnection().Success == false)
+        {
+            Application.LoadLevel(11);
         }
     }
 
@@ -180,6 +211,8 @@ public class PlayerInformation : MonoBehaviour {
     /// </summary>
     void ReadCacheList()
     {
+        _caches = new List<CacheScript>();
+
         // Muss einzeln erstellt werden, da XML-Dateien nicht auf Smartphones gelesen werden können
         _caches.Add(new CacheScript("b.i.b. Eingang", 8.73707f, 51.73075f));
         _caches.Add(new CacheScript("Zukunftsmeile", 8.73807f, 51.73057f));
@@ -193,26 +226,44 @@ public class PlayerInformation : MonoBehaviour {
     /// Methode von Oliver Noll
     /// </summary>
     /// <returns></returns>
-    public CacheScript GetNextCache()
+    public List<CacheScript> GetNextCaches()
     {
         ReadCacheList();
 
         bool foundNextCache = false;
-        CacheScript nextCache = null;
+        List<CacheScript> nextCaches = new List<CacheScript>();
 
-        for (int i = 0; i < _caches.Count; i++)
+        if (!cacheStatus[_caches.Count - 1])
         {
-            if (cacheStatus[i])
-                _caches[i].Founded = true;
-
-            if (!foundNextCache && !cacheStatus[i])
+            for (int i = 0; i < _caches.Count; i++)
             {
-                nextCache = _caches[i];
-                foundNextCache = true;
+                if (cacheStatus[i])
+                    _caches[i].Founded = true;
+
+                if (!foundNextCache && !cacheStatus[i])
+                {
+                    nextCaches.Add(_caches[i]);
+                    foundNextCache = true;
+                }
             }
         }
+        else
+        {
+            nextCaches.AddRange(_caches);
+        }
 
-        return nextCache;
+        return nextCaches;
+    }
+
+    // gibt Längengrad des Benutzers zurück
+    public float getUserLongitude()
+    {
+        return userLongitude;
+    }
+
+    // gibt Breitengrad des Benutzers zurück
+    public float getUserLatitude()
+    {
+        return userLatitude;
     }
 }
-
