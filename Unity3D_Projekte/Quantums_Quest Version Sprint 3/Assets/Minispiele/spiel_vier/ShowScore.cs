@@ -37,8 +37,6 @@ public class ShowScore : MonoBehaviour {
 		GUIStyle fontStyle = new GUIStyle();
 		fontStyle.fontSize = 25;
 		GUI.color = Color.red;
-		//Textfeld dass die bereits erreichte Punktzahl des Spielers anzeigt 
-		GUI.Label(new Rect(0+Screen.width/50,0+Screen.height/50, 100,100),"" + score);
 	}
 	#endregion
 }
