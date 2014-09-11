@@ -165,6 +165,7 @@ public class CommandManager : MonoBehaviour {
                 {
                     GameObject.Find("GameController").GetComponent<PlayerInformation>().markPuzzel();
                 }
+                Screen.orientation = ScreenOrientation.Landscape;
                 Application.LoadLevel(3);
             }
         }

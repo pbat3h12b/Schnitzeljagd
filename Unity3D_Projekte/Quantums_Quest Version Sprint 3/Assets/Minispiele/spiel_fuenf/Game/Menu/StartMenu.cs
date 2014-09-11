@@ -71,7 +71,14 @@ public class StartMenu : MonoBehaviour {
         //Button "Ende" bei Interaktion des Benutzers wird das Spiel geschlossen
         if (GUI.Button(new Rect((mainWindow.width / 2) - defaultButton.width / 2, mainWindowHeightPercent * 50, defaultButton.width, defaultButton.height), "Ende"))
         {
-            Application.Quit();
+            //Funktion Hüppi
+            GameObject.Find("GameController").GetComponent<PlayerInformation>().newScore("Fluss", 10000);
+            if (GameObject.Find("GameController").GetComponent<PlayerInformation>().getGames()[4] == true &&
+                GameObject.Find("GameController").GetComponent<PlayerInformation>().getPuzzels()[4] == false)
+            {
+                GameObject.Find("GameController").GetComponent<PlayerInformation>().markPuzzel();
+            }
+            Application.LoadLevel(3);
         }
     }
 

@@ -119,7 +119,7 @@ public class SelectControl : MonoBehaviour {
         if (GUI.Button(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(55, 180, 20, 10)), "", stylePlay) &&
             gameController.GetComponent<PlayerInformation>().getGames()[4])
         {
-            Application.LoadLevel(7);
+            Application.LoadLevel(12);
         }
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 165, 20, 10)), "" + gameNames[3] + "          Score :" + 
             gameController.GetComponent<PlayerInformation>().getHighscores()[3]);
