@@ -38,7 +38,22 @@ public class PlayerInformation : MonoBehaviour {
         //{
         //    Application.LoadLevel(1);
         //}
-        
+        timeSinceUpdate += Time.deltaTime;
+
+        if (timeSinceUpdate > 5)
+        {
+            Input.location.Start();
+
+            // Längengrad auslesen
+            float userLongitude = Input.location.lastData.longitude;
+            // Breitengrad festlegen
+            float userLatitude = Input.location.lastData.latitude;
+            //Updated die Spielerposition
+            updateGeoData(userLongitude, userLatitude);
+
+            // GPS-Service beenden
+            Input.location.Stop();
+        }
 	}
 
     //gibt den Usernamen zurück
@@ -54,18 +69,6 @@ public class PlayerInformation : MonoBehaviour {
         userName = name;
         //Holt alle relevanten Userdaten vom Sever
         getUserData();
-
-        Input.location.Start();
-
-        // Längengrad auslesen
-        float userLongitude = Input.location.lastData.longitude;
-        // Breitengrad festlegen
-        float userLatitude = Input.location.lastData.latitude;
-        //Updated die Spielerposition
-        updateGeoData(userLongitude, userLatitude);
-
-        // GPS-Service beenden
-        Input.location.Stop();
         
     }
 
@@ -75,11 +78,13 @@ public class PlayerInformation : MonoBehaviour {
         //Holt alle Informationen vom Sever ab
         List<Logbookentry> temp = GameObject.Find("GameController").GetComponent<RESTCommunication>().getAllLogBookEntrys();
 
+        for (int i = 0; i < temp.Count; i++)
+        {
+            cacheStatus[i] = true;
+        }
         //läuft die ganze Liste durch
         for (int i = 0; i < temp.Count; i++)
         {
-            //Holt sich den Status der einzelnden Caches ab
-            cacheStatus[i] = temp[i].Puzzlesolved;
             //falls das Puzzle true ist wird auch das Spiel freigeschaltet
             if (temp[i].Puzzlesolved)
             {
@@ -104,6 +109,11 @@ public class PlayerInformation : MonoBehaviour {
 			GameObject.Find("GameController").GetComponent<RESTCommunication>().UpdatePosition(longitude,latitude);
             //setzt die Zeit wieder auf 0 bis zum nächsten Update
             timeSinceUpdate = 0;
+
+            if (GameObject.Find("GameController").GetComponent<RESTCommunication>().TestServerConnection().Success == false)
+            {
+                Application.LoadLevel(11);
+            }
         }
     }
 
@@ -156,6 +166,11 @@ public class PlayerInformation : MonoBehaviour {
 
     //gibt game Sats zurück
     public bool[] getGames()
+    {
+        return cacheStatus;
+    }
+
+    public bool[] getPuzzels()
     {
         return games;
     }

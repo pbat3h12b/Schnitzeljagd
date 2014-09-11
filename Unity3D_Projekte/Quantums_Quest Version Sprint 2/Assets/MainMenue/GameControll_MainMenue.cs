@@ -41,6 +41,7 @@ public class GameControll_MainMenue : MonoBehaviour {
 
         //scaleWidth = screenWidth / 100;
         //scaleHeight = screenHeight / 100;
+        gameController.GetComponent<PlayerInformation>().getUserData();
     }
 	
 	// Update is called once per frame

@@ -37,6 +37,7 @@ public class SelectControl : MonoBehaviour {
         //Hintergrund setzen
         stylePlay.normal.background = playButton;
         styleBack.normal.background = backButton;
+        gameController.GetComponent<PlayerInformation>().getUserData();
 	}
 	
 	// Update is called once per frame
@@ -72,6 +73,10 @@ public class SelectControl : MonoBehaviour {
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(45, 25, 20, 10)),
             getTrueFalseJaNein(gameController.GetComponent<PlayerInformation>().getGames()[1]));
 
+
+
+
+
         //zweites
         GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 60, 70, 35)), "");
         GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 65, 20, 25)), texture2);
@@ -85,6 +90,10 @@ public class SelectControl : MonoBehaviour {
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 75, 10, 10)), "Spielbar :");
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(45, 75, 20, 10)),
             getTrueFalseJaNein(gameController.GetComponent<PlayerInformation>().getGames()[2]));
+
+
+
+
 
         //drites
         GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 110, 70, 35)), "");
@@ -100,6 +109,10 @@ public class SelectControl : MonoBehaviour {
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(45, 125, 20, 10)),
             getTrueFalseJaNein(gameController.GetComponent<PlayerInformation>().getGames()[3]));
 
+
+
+
+
         //virtes
         GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 160, 70, 35)), "");
         GUI.DrawTexture(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(12, 165, 20, 25)), texture4);
@@ -113,6 +126,10 @@ public class SelectControl : MonoBehaviour {
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(35, 175, 10, 10)), "Spielbar :");
         GUI.Label(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(45, 175, 20, 10)),
             getTrueFalseJaNein(gameController.GetComponent<PlayerInformation>().getGames()[4]));
+
+
+
+
 
         //fünftes
         GUI.Box(gameController.GetComponent<GUI_Scale>().GetRelativeRect(new Rect(10, 210, 70, 35)), "");

@@ -35,14 +35,14 @@ class RESTCommunication : MonoBehaviour
 
         //Die Parameter werden mit der url an die Funktion Communication gesendet und die Antwort
         //des Servers wird dann mit der Hilfe von SimpleJSON in die Variable response geschrieben
-        var response = JSON.Parse(Communication("http://81.169.244.213:8080/api/register", GetPostDatafromString(parameter)));
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/register", GetPostDatafromString(parameter)));
 
         //wenn die Registrierung erfolgreich war wird ein True zurück gegeben anderenfalls 
         //ein false
         if (response["success"].AsBool)
             return new Response(response["success"].AsBool, "");
         else
-            return new Response(response["success"].AsBool, response["message"].Value);
+            return new Response(response["success"].AsBool, response["error"].Value);
     }
 
     //Die Funktion LoginUser ermöglicht es dem Benutzer sich am System anzumelden
@@ -56,7 +56,7 @@ class RESTCommunication : MonoBehaviour
 
         //Die Parameter werden mit der Url an die Funktion Communication gesendet und die Antwort
         //des Servers wird dann mit der Hilfe von SimpleJSON in die Variable response geschrieben
-        var response = JSON.Parse(Communication("http://81.169.244.213:8080/api/login", GetPostDatafromString(parameter)));
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/login", GetPostDatafromString(parameter)));
         if (response["success"].AsBool)
         {
             //Wenn sich ein Benutzer anmeldet bekommt er ein sogenanntes session_secret. Das ist
@@ -69,7 +69,7 @@ class RESTCommunication : MonoBehaviour
             return new Response(response["success"].AsBool, "");
         }
         else
-            return new Response(response["success"].AsBool, response["message"].Value);
+            return new Response(response["success"].AsBool, response["error"].Value);
     }
 
 
@@ -89,7 +89,7 @@ class RESTCommunication : MonoBehaviour
 
         //Die Parameter werden mit der Url an die Funktion Communication gesendet und die Antwort
         //des Servers wird dann mit der Hilfe von SimpleJSON in die Variable response geschrieben
-        var response = JSON.Parse(Communication("http://81.169.244.213:8080/api/updatePosition", GetPostDatafromString(parameter)));
+        var response = JSON.Parse(Communication("http://btcwash.de:8080/api/updatePosition", GetPostDatafromString(parameter)));
 
         //Wenn die aktualisierung des Standortes erfolgreich war, wird ein true zurück gegeben, anderen falls ein false
         if (response["success"].AsBool)
@@ -102,7 +102,7 @@ class RESTCommunication : MonoBehaviour
             {
                 LoginUser(username, password);
             }
-            return new Response(response["success"].AsBool, response["message"].Value);
+            return new Response(response["success"].AsBool, response["error"].Value);
         }
     }
 
@@ -211,10 +211,11 @@ class RESTCommunication : MonoBehaviour
         }
         else
         {
-             if(response["message"].Value=="Invalid Authentication Token."){
-                LoginUser(username,password);
+            if (response["message"].Value == "Invalid Authentication Token.")
+            {
+                LoginUser(username, password);
             }
-            return new Response(response["success"].AsBool, response["message"].Value);
+            return new Response(response["success"].AsBool, response["error"].Value);
         }
     }
 
@@ -242,10 +243,11 @@ class RESTCommunication : MonoBehaviour
         }
         else
         {
-            if(response["message"].Value=="Invalid Authentication Token."){
-                LoginUser(username,password);
+            if (response["error"].Value == "Invalid Authentication Token.")
+            {
+                LoginUser(username, password);
             }
-            return new Response(response["success"].AsBool, response["message"].Value);
+            return new Response(response["success"].AsBool, response["error"].Value);
         }
     }
 
@@ -265,10 +267,11 @@ class RESTCommunication : MonoBehaviour
         }
         else
         {
-            if(response["message"].Value=="Invalid Authentication Token."){
-                LoginUser(username,password);
+            if (response["error"].Value == "Invalid Authentication Token.")
+            {
+                LoginUser(username, password);
             }
-            return new Response(response["success"].AsBool, response["message"].Value);
+            return new Response(response["success"].AsBool, response["error"].Value);
         }
     }
     //Die Funktion getAllLogBookEntrys Holt sich alle Logbucheinträge des Users
@@ -312,7 +315,7 @@ class RESTCommunication : MonoBehaviour
         }
         else
         {
-            return new Response(response["success"].AsBool, response["message"].Value);
+            return new Response(response["success"].AsBool, response["error"].Value);
         }
     }
 
@@ -333,14 +336,15 @@ class RESTCommunication : MonoBehaviour
         var response = JSON.Parse(Communication("http://btcwash.de:8080/api/makeLogbookEntry", GetPostDatafromString(parameter)));
         if (response["success"].AsBool)
         {
-            return new Response(response["success"].AsBool, "");
+            return new Response(true, "");
         }
         else
         {
-            if(response["message"].Value=="Invalid Authentication Token."){
-                LoginUser(username,password);
+            if (response["error"].Value == "Invalid Authentication Token.")
+            {
+                LoginUser(username, password);
             }
-            return new Response(response["success"].AsBool, response["message"].Value);
+            return new Response(false, response["error"].Value);
         }
     }
 
@@ -359,6 +363,22 @@ class RESTCommunication : MonoBehaviour
         }
         //wenn der Abruf fehlerhaft war wird ein leerer Score zurück gegeben
         return new Score(username, 0, 0);
+    }
+
+    //Für Niclas ;P
+    public Response TestServerConnection()
+    {
+        byte[] emptyarray = new byte[0];
+        var response = Communication("http://btcwash.de:8080", emptyarray);
+        if (response == "You found the index. There is nothing here. Go, use the API.")
+        {
+            return new Response(true, "All fine");
+        }
+        else
+        {
+            return new Response(false, "meh no connectionz");
+        }
+
     }
 
     //public int[] GetGuestbookIndex()
@@ -474,7 +494,7 @@ class RESTCommunication : MonoBehaviour
         counter++;
 
         return token;
-        
+
     }
 }
 
@@ -490,25 +510,25 @@ public class Parameter
     //Eigenschaftem
     public string Name
     {
-        get 
-        { 
-            return name; 
+        get
+        {
+            return name;
         }
         set
         {
-            name = value; 
+            name = value;
         }
     }
 
     public string Content
     {
-        get 
+        get
         {
-            return content; 
+            return content;
         }
-        set 
-        { 
-            content = value; 
+        set
+        {
+            content = value;
         }
     }
     //Konstruktor
@@ -529,25 +549,25 @@ public class Position
     //Eigenschaften
     public float Latitude
     {
-        get 
-        { 
-            return latitude; 
+        get
+        {
+            return latitude;
         }
     }
 
     public float Longitude
     {
-        get 
-        { 
-            return longitude; 
+        get
+        {
+            return longitude;
         }
     }
 
     public string Userid
     {
-        get 
-        { 
-            return userid; 
+        get
+        {
+            return userid;
         }
     }
     //Konstruktor
@@ -566,17 +586,17 @@ public class Response
     //Eigenschaften
     public bool Success
     {
-        get 
-        { 
-            return success; 
+        get
+        {
+            return success;
         }
     }
 
     public string Message
     {
-        get 
-        { 
-            return message; 
+        get
+        {
+            return message;
         }
     }
     //Konstruktor
@@ -592,20 +612,21 @@ public class GameScoreListResponse
 {
     bool success;
     List<Game> gameslist;
+
     //Eigenschaften
     public bool Success
     {
-        get 
-        { 
-            return success; 
+        get
+        {
+            return success;
         }
     }
 
     public List<Game> GamesList
     {
-        get 
-        { 
-            return gameslist; 
+        get
+        {
+            return gameslist;
         }
     }
     //Konstruktor
@@ -628,17 +649,17 @@ public class Game
     //Eigenschaften
     public string Name
     {
-        get 
-        { 
-            return name; 
+        get
+        {
+            return name;
         }
     }
 
     public List<Score> ToptenScore
     {
-        get 
-        { 
-            return toptenScore; 
+        get
+        {
+            return toptenScore;
         }
     }
     //Konstruktor
@@ -662,23 +683,23 @@ public class Score
     //Eigenschaften
     public string User
     {
-        get 
-        { 
-            return user; 
+        get
+        {
+            return user;
         }
     }
     public int Points
     {
-        get 
-        { 
-            return points; 
+        get
+        {
+            return points;
         }
     }
     public int Time
     {
-        get 
-        { 
-            return time; 
+        get
+        {
+            return time;
         }
     }
     //Konstruktor
@@ -699,30 +720,30 @@ public class GuestbookEntry
     //Eigenschaften
     public int Id
     {
-        get 
-        { 
-            return id; 
+        get
+        {
+            return id;
         }
     }
     public string Author
     {
-        get 
-        { 
-            return author; 
+        get
+        {
+            return author;
         }
     }
     public string Message
     {
-        get 
-        { 
-            return message; 
+        get
+        {
+            return message;
         }
     }
     public int Date
     {
-        get 
-        { 
-            return date; 
+        get
+        {
+            return date;
         }
     }
     //konstruktor
@@ -744,23 +765,23 @@ public class Logbookentry
     //Eigenschaften
     public string Cache
     {
-        get 
-        { 
-            return cache; 
+        get
+        {
+            return cache;
         }
     }
     public string Message
     {
-        get 
+        get
         {
-            return message; 
+            return message;
         }
     }
     public bool Puzzlesolved
     {
-        get 
-        { 
-            return puzzlesolved; 
+        get
+        {
+            return puzzlesolved;
         }
     }
     //Konstruktor

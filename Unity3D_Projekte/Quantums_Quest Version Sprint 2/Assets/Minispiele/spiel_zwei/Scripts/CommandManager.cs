@@ -11,13 +11,19 @@ public class CommandManager : MonoBehaviour {
 	public int counter = 0;		//Counter wie oft eine Anweisung befolgt wurde
 	public GUIStyle guiStyle;	//Formatierung des Textes
 	public GameObject timeline;	//Zeitlinie für das Spiel
-	public float time = 10;		//Die verbliebene Zeit
+	public float time = 20;		//Die verbliebene Zeit
 
 	private int currentIndex;
 	private int ranRange;		//Zufallsbereich des Indexes der Kommandos
 	private string text;		//Der auszugebende Text
 	private Switch switch1;		//Die Klasse "Switch" wird hier eingebunden;
+    private bool isEnd = false;
 
+	void Awake()
+	{
+		//Damit das Spiel richtig gedreht ist.
+		Screen.orientation = ScreenOrientation.Portrait;	
+	}
 
 	void Start()
 	{
@@ -49,18 +55,16 @@ public class CommandManager : MonoBehaviour {
 			} 
 			else 
 			{
-				text = "You won!";
+				text = "Du hast Gewonnen!";
 				Time.timeScale = 0;
-				if (Input.GetKeyDown (KeyCode.Space))
-					Application.LoadLevel (Application.loadedLevel);
+                isEnd = true;
 			}
 		}
 		else
 		{
 			Time.timeScale = 0;
-			text = "You Lost!";
-			if (Input.GetKeyDown (KeyCode.Space))
-				Application.LoadLevel (Application.loadedLevel);
+			text = "Du hast verloren!";
+            isEnd = true;
 		}
 
 	}
@@ -78,7 +82,7 @@ public class CommandManager : MonoBehaviour {
 			time -= Time.deltaTime;
 		}
 
-		timeline.transform.localScale = new Vector3 (time / 2, 0.5f, 1);
+		timeline.transform.localScale = new Vector3 (time / 4, 0.5f, 1);
 	}
 
 	//Diese Methode wird in Script "Button.cs" ausgeführt, sie sorgt bei einem Fall einer 
@@ -98,7 +102,7 @@ public class CommandManager : MonoBehaviour {
 		}
 		else
 		{
-			time -= 0.5f;
+			time -= 1f;
 		}
 	}
 
@@ -119,7 +123,7 @@ public class CommandManager : MonoBehaviour {
 		}
 		else
 		{
-			time -= 0.5f;
+			time -= 1f;
 		}
 	}
 
@@ -146,10 +150,23 @@ public class CommandManager : MonoBehaviour {
 	void OnGUI()
 	{
 		GUI.Label (new Rect((Screen.width-50)/2,Screen.height/15,50,100),text,guiStyle);
-        if (GUI.Button(GameObject.Find("GameController").GetComponent<GUI_Scale>().GetRelativeRect(new Rect(0, 0, 20, 15)), "kill"))
-        {
-            Application.Quit();
-        }
+		if(time == 0)
+			GUI.Label (new Rect((Screen.width-50)/2,Screen.height/15+50,50,100),"Du hast " + counter + " von 10 geschafft",guiStyle);
 
+        if (isEnd)
+        {
+            //Score Submit
+            if (GUI.Button(new Rect(Screen.width / -150, 0, 200, 100), "Score Abschicken", GUI.skin.button))
+            {
+                //Funktion Hüppi
+                GameObject.Find("GameController").GetComponent<PlayerInformation>().newScore("Serverraum", counter * 10);
+                if (GameObject.Find("GameController").GetComponent<PlayerInformation>().getGames()[5] == true &&
+                    GameObject.Find("GameController").GetComponent<PlayerInformation>().getPuzzels()[5] == false)
+                {
+                    GameObject.Find("GameController").GetComponent<PlayerInformation>().markPuzzel();
+                }
+                Application.LoadLevel(3);
+            }
+        }
 	}
 }

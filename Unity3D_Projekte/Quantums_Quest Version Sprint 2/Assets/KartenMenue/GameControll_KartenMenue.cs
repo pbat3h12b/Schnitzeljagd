@@ -86,6 +86,7 @@ public class GameControll_KartenMenue : MonoBehaviour {
 
         // Den Button Hintergrund vom Zurück-Button festlegen
         styleBack.normal.background = backgroundBack;
+        gameController.GetComponent<PlayerInformation>().getUserData();
 	}
 	
 	/*

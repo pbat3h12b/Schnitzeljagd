@@ -29,6 +29,7 @@ public class LogbuchEintrag : MonoBehaviour {
         gameController = GameObject.Find("GameController");
         //Setzt den Hintergrund des buttons
         styleWeiter.normal.background = Weiter;
+        gameController.GetComponent<PlayerInformation>().getUserData();
 	}
 	
 	// Update is called once per frame
@@ -56,15 +57,35 @@ public class LogbuchEintrag : MonoBehaviour {
             //API gibt True zurück
             if (temp.Success == true)
             {
-                Debug.Log("yes");
-                gameController.GetComponent<PlayerInformation>().markPuzzel();
                 gameController.GetComponent<PlayerInformation>().getUserData();
-                Application.LoadLevel(5);
-            }
-            else
-            {
-                Debug.Log("no");
-                Application.LoadLevel(5);
+                if (gameController.GetComponent<PlayerInformation>().getGames()[5] == true)
+                {
+                    Application.LoadLevel(8);
+                }
+                else if (gameController.GetComponent<PlayerInformation>().getGames()[4] == true)
+                {
+                    Application.LoadLevel(12);
+                }
+                else if (gameController.GetComponent<PlayerInformation>().getGames()[3] == true)
+                {
+                    Application.LoadLevel(7);
+                }
+                else if (gameController.GetComponent<PlayerInformation>().getGames()[2] == true)
+                {
+                    Application.LoadLevel(10);
+                }
+                else if (gameController.GetComponent<PlayerInformation>().getGames()[1] == true)
+                {
+                    Application.LoadLevel(9);
+                }
+                else if (gameController.GetComponent<PlayerInformation>().getGames()[0] == true)
+                {
+                    gameController.GetComponent<PlayerInformation>().markPuzzel();
+                    Application.LoadLevel(1);
+                }
+
+
+
             }
         }
         //zeichnet den Hintergrund verlauf

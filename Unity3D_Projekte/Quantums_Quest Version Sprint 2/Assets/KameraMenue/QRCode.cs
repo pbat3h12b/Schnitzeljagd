@@ -40,6 +40,7 @@ public class QRCode : MonoBehaviour
         styleWeiter.normal.background = Weiter;
         //Setzt den Hintergrund des buttons
         styleBack.normal.background = Zurueck;
+        gameController.GetComponent<PlayerInformation>().getUserData();
     }
 
     // Update is called once per frame
