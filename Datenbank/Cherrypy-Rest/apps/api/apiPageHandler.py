@@ -28,8 +28,8 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 
-db_host = '10.0.3.75'
-#	db_host = 'localhost'
+#db_host = '10.0.3.75'
+db_host = 'localhost'
 db_database = 'geo'
 db_user = 'berry_pink'
 db_password = 'mellow_yellow'
@@ -266,7 +266,7 @@ class Api(object):
 
 		message = dict()
 
-		recently = (datetime.datetime.utcnow()-datetime.timedelta(minutes=5)).strftime('%s')
+		recently = (datetime.datetime.utcnow()-datetime.timedelta(minutes=15)).strftime('%s')
 		current_positions_select = """
 		SELECT p.id, p.latitude, p.longitude, p.recorded_date, p.user_id
 		FROM (
@@ -413,7 +413,14 @@ class Api(object):
 			message["success"] = False
 			message["error"]   = "Username doesn't exist."
 			return (json.dumps(message))
-		
+	
+		if self.lastLogbookEntryByUser(username) != None:
+			if self.lastLogbookEntryByUser(username).puzzle_solved == False:
+				message["success"] = False
+				message["error"]   = "Puzzle not yet solved."
+				print(message)
+				return (json.dumps(message))
+
 		next_cache = self.nextCache(username)
 		if next_cache is None:
 			message["success"] = False
@@ -523,6 +530,7 @@ class Api(object):
 			return (json.dumps(message))
 
 	def updatePosition(self, username, token, longitude, latitude):
+		print(longitude, latitude)
 		"""
 		Exposed in API
 		Adds a new position for username in the database.
@@ -535,13 +543,15 @@ class Api(object):
 		if not (self.checkToken(username, token)):
 			message["success"] = False
 			message["error"]   = "Invalid Authentication Token."
+			print(message)
 			return (json.dumps(message))
 
-		accuracy_re = r"^\d+[.]\d{6,}$"
+		accuracy_re = r"^\d+[.]\d{5,}$"
 		if not ( re.match(accuracy_re, longitude) and
 				 re.match(accuracy_re, latitude) ):
 			message["success"] = False
 			message["error"]   = "Wrong Format or Insufficient position accurarcy."
+			print(message)
 			return (json.dumps(message))
 
 		pos = PositionLog()
@@ -552,6 +562,7 @@ class Api(object):
 		pos.save(force_insert=True)
 
 		message["success"] = True
+		print(message)
 		return (json.dumps(message))
 
 	def makeLogbookEntry(self, username, token, secret, message_str):
@@ -587,6 +598,7 @@ class Api(object):
 			if self.lastLogbookEntryByUser(username).puzzle_solved == False:
 				message["success"] = False
 				message["error"]   = "Puzzle not yet solved."
+				print(message)
 				return (json.dumps(message))
 
 
